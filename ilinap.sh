@@ -108,9 +108,13 @@ viminfo_file () {
     done
 }
 
+sudo_execution_history () {
+    sudo journalctl --facility=4,10 > sudo_execution/sudo_execution_hist
+}
+
 if [ $(uname) -eq 'Linux' ]
 then
-    mkdir artifacts bash_files crontab_files services process passwd groups sudoers login_log vim_file
+    mkdir artifacts bash_files crontab_files services process passwd groups sudoers login_log vim_file sudo_execution
     for user in $(awk -F: '{if ($6 ~ /^\/home/ ) print $1}' /etc/passwd)
     do
 	users+=($user)
@@ -128,6 +132,7 @@ then
     sudoers_file
     log_files
     viminfo_file
+    sudo_execution_history
 elif [ $(uname) -eq 'Darwin' ]
 then
     echo "This is MacOS"
