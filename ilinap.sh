@@ -1,6 +1,7 @@
 #!/bin/bash
-# This tool for linux artefact parser
+# This tool for linux and macOS artifact parser
 #
+
 bash_function () {# bashrc and cron output
     for user in "${users[@]}"
     do
@@ -96,9 +97,20 @@ sudo last -f /var/log/btmp > /login_log/btmp
 sudo last -f /var/log/wtmp > /login_log/wmtp
 sudo last -f /var/run/utmp > /login_log/utmp
 }
+
+viminfo_file () {
+    for user in ${users[*]}
+    do
+	if [ -n /home/$user/.viminfo ]
+	then
+	    cp /home/$user/.viminfo vim_file/$user.viminfo 
+	fi
+    done
+}
+
 if [ $(uname) -eq 'Linux' ]
 then
-    mkdir artifacts bash_files crontab_files services process passwd groups sudoers login_log
+    mkdir artifacts bash_files crontab_files services process passwd groups sudoers login_log vim_file
     for user in $(awk -F: '{if ($6 ~ /^\/home/ ) print $1}' /etc/passwd)
     do
 	users+=($user)
@@ -115,6 +127,7 @@ then
     user_group
     sudoers_file
     log_files
+    viminfo_file
 elif [ $(uname) -eq 'Darwin' ]
 then
     echo "This is MacOS"
