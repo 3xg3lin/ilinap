@@ -111,6 +111,61 @@ viminfo_file () {
 sudo_execution_history () {
     sudo journalctl --facility=4,10 > sudo_execution/sudo_execution_hist
 }
+## Until this part contain macOS function
+mac_bash_file () {
+    for user in /Users/*/
+    do
+	basename_user=$(basename $user)
+	if [ -n $user/.bashrc ]
+	then
+	    	    cp $user/.bashrc basename_user.bashrc
+	fi
+	if [ -n $user/.bash_history ]
+	then
+	    cp $user/.bash_history basename_user.bash_history
+	fi
+	if [ -d $user/.bash_sessions/ ]
+	then
+	    mkdir $basename_user.bash_sessions
+	    cp $user/.bash_sessions/* $basename_user.bash_sessions/
+	fi
+	if [ -n $user/.bash_profile ]
+	then
+	    cp $user/.bash_profile $basename_user.bash_profile
+	fi
+	if [ -n $user/.profile ]
+	then
+	    cp $user/.profile $basename_user.profile
+	fi
+	if [ -n $user/.bash_logout ]
+	then
+	    cp $user/.bash_logout $basename_user.bash_logout
+	fi
+    done
+    for puser in /private/var/*/
+    do
+	basename_puser=$(basename $puser)
+	if [ -n $puser/.bash_history ]
+	then
+	    cp $puser/.bash_history $basename_puser.bash_history
+	fi
+	if [ -d $puser/.bash_sessions ]
+	then
+	    mkdir $basename_puser.bash_sessions
+	    cp $puser/.bash_sessions/* $basename_puser.bash_sessions/ 
+	fi
+	if [ -n /private/etc/profile ]
+	then
+	    cp /private/etc/profile private.etc.profile
+	fi
+	if [ -n /private/etc/bashrc* ]
+	then
+	    cp /privat/etc/bashrc* private.etc.bashrc*
+	fi
+    done
+}
+
+
 
 if [ $(uname) -eq 'Linux' ]
 then
