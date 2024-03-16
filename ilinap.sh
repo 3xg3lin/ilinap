@@ -2,7 +2,7 @@
 # This tool for linux and macOS artifact parser
 #
 
-bash_function () {# bashrc and cron output
+bash_function () {          # bashrc and cron output
     for user in "${users[@]}"
     do
 	if [ -n /home/$user/.bashrc ]
@@ -41,28 +41,28 @@ system_service () {
     fi
 }
 
-os_release () {# os-release
+os_release () {            # os-release
     if [ -n /etc/os-release ]
     then
 	echo "/etc/os-release is $(cat /etc/os-release)" > result
     fi
 }
 
-hostname () {# hostname output
+hostname () {            # hostname output
     if [ -n /etc/hostname ]
     then
 	echo "/etc/hostname is $(cat /etc/hostname)" >> result
     fi
 }
 
-location () {# Localtime and timezone
+location () {            # Localtime and timezone
     if [ -n /etc/timezone ]
     then
 	echo "/etc/timezone is $(cat /etc/timezone)" >> result
     fi
 }
 
-ip_address () {# Ip addres and network output
+ip_address () {         # Ip addres and network output
     ip a > /network/ip_command
     cp /etc/network/interfaces.d/* > /network/network_interface/
     netstat -natup > /network/netstat_output
@@ -70,18 +70,18 @@ ip_address () {# Ip addres and network output
     cat /etc/resolv.conf > /network/revolv.conf
 }
 
-process () {# Process output 
+process () {           # Process output 
     ps aux > /process/ps_output
 }
 
-user_group () {# /etc/passwd file
+user_group () {       # /etc/passwd file
     cat /etc/passwd| column -t -s : > /passwd/passwd_output
 
     # /etc/groups output
     cat /etc/group|column -t -s : > /groups/groups_output
 }
 
-sudoers_file () {# sudoers file
+sudoers_file () {        # sudoers file
 if [ -r /etc/sudoers ]
 then
     cp /etc/sudoers /sudoers/sudoers_output 
@@ -92,7 +92,7 @@ else
 fi
 }
 
-log_files () {# login failure and historical data
+log_files () {              # login failure and historical data
 sudo last -f /var/log/btmp > /login_log/btmp
 sudo last -f /var/log/wtmp > /login_log/wmtp
 sudo last -f /var/run/utmp > /login_log/utmp
@@ -167,7 +167,7 @@ mac_bash_file () {
 
 
 
-if [ $(uname) -eq 'Linux' ]
+if [ $(uname) = 'Linux' ]
 then
     mkdir artifacts bash_files crontab_files services process passwd groups sudoers login_log vim_file sudo_execution
     for user in $(awk -F: '{if ($6 ~ /^\/home/ ) print $1}' /etc/passwd)
@@ -188,7 +188,7 @@ then
     log_files
     viminfo_file
     sudo_execution_history
-elif [ $(uname) -eq 'Darwin' ]
+elif [ $(uname) = 'Darwin' ]
 then
     echo "This is MacOS"
 else
