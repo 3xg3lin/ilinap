@@ -65,7 +65,7 @@ ip_address () {         # Ip addres and network output
     done
     if ! $(command -v netstat)
     then
-	apt install net-tool
+	apt install net-tool -y
     fi
     netstat -natup > network/netstat_output
     cat /etc/hosts > network/hosts_output
