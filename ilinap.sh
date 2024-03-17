@@ -61,9 +61,10 @@ ip_address () {         # Ip addres and network output
     ip a > network/ip_command
     for networkd_file in /etc/network/interfaces.d/*
     do
-	cp $networkd_file > network/network_interface/$networkd_file
+	new_networkd_file=$(basename networkd_file)
+	cp $new_networkd_file > network/network_interface/$new_networkd_file
     done
-    if command -v netstat
+    if ! $(command -v netstat &>/dev/null)
     then
 	apt install net-tool -y
     fi
