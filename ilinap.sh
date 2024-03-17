@@ -61,8 +61,12 @@ ip_address () {         # Ip addres and network output
     ip a > network/ip_command
     for networkd_file in /etc/network/interfaces.d/*
     do
-	cp $networkd_file > network/network_interface/
+	cp $networkd_file > network/network_interface/$networkd_file
     done
+    if ! $(command -v netstat)
+    then
+	apt install netstat
+    fi
     netstat -natup > network/netstat_output
     cat /etc/hosts > network/hosts_output
     cat /etc/resolv.conf > network/revolv.conf
