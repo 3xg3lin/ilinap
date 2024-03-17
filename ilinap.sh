@@ -32,11 +32,11 @@ system_service () {
     if [ $(id -u) -ne 0 ]
     then
 	echo "Please login with root account"
-	sudo systemctl list-units --type=service --state=running > /services/service_running
+	sudo systemctl status --type=service > /services/service_running
 	ls -l /lib/systemd/system/ > /services/all_services
     else
-	sudo systemctl list-units --type=service --state=running > /services/service_running
-	ls -l /lib/systemd/system/ > /services/all_services
+	sudo systemctl status --type=service > /services/service_running
+	ls -a /lib/systemd/system/* > /services/all_services
     fi
 }
 
