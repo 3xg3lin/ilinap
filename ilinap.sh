@@ -23,7 +23,7 @@ bash_function () {          # bashrc and cron output
 	fi
 	if [ -n /var/spool/cron/crontabs/$user ]
 	then
-	    sudo cp /var/spool/cron/crontabs/$user /crontab_files/$user.crontab
+	    sudo cp /var/spool/cron/crontabs/$user crontab_files/$user.crontab
 	fi
     done
 }
@@ -31,8 +31,8 @@ bash_function () {          # bashrc and cron output
 system_service () {
     if [ -d /lib/systemd/system ]
     then
-	systemctl status --type=service > /services/service_running
-	ls -a /lib/systemd/system/* > /services/all_services
+	systemctl status --type=service > services/service_running
+	ls -a /lib/systemd/system/* > services/all_services
     fi
 }
 
@@ -58,46 +58,46 @@ location () {            # Localtime and timezone
 }
 
 ip_address () {         # Ip addres and network output
-    ip a > /network/ip_command
-    cp /etc/network/interfaces.d/* > /network/network_interface/
-    netstat -natup > /network/netstat_output
-    cat /etc/hosts > /network/hosts_output
-    cat /etc/resolv.conf > /network/revolv.conf
+    ip a > network/ip_command
+    cp /etc/network/interfaces.d/* > network/network_interface/
+    netstat -natup > network/netstat_output
+    cat /etc/hosts > network/hosts_output
+    cat /etc/resolv.conf > network/revolv.conf
 }
 
 process () {           # Process output 
-    ps aux > /process/ps_output
+    ps aux > process/ps_output
 }
 
 user_group () {       # /etc/passwd file
-    cat /etc/passwd| column -t -s : > /passwd/passwd_output
+    cat /etc/passwd| column -t -s : > passwd/passwd_output
 
     # /etc/groups output
-    cat /etc/group| column -t -s : > /groups/groups_output
+    cat /etc/group| column -t -s : > groups/groups_output
 }
 
 sudoers_file () {        # sudoers file
 if [ -n /etc/sudoers ]
 then
-    cp /etc/sudoers /sudoers/sudoers_output 
+    cp /etc/sudoers sudoers/sudoers_output 
 else
     echo "Please login with root account"
-    cp /etc/sudoers /sudoers/sudoers_output
+    cp /etc/sudoers sudoers/sudoers_output
 fi
 }
 
 log_files () {              # login failure and historical data
     if [ -n /var/log/btmp ]
     then
-	last -f /var/log/btmp > /login_log/btmp
+	last -f /var/log/btmp > login_log/btmp
     fi
     if [ -n /var/log/wtmp ]
     then
-	last -f /var/log/wtmp > /login_log/wmtp
+	last -f /var/log/wtmp > login_log/wmtp
     fi
     if [ -n /var/run/utmp ]
     then
-	last -f /var/run/utmp > /login_log/utmp
+	last -f /var/run/utmp > login_log/utmp
     fi
 }
 
