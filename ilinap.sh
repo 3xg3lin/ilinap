@@ -62,7 +62,7 @@ ip_address () {         # Ip addres and network output
     for networkd_file in /etc/network/interfaces.d/*
     do
 	new_networkd_file=$(basename $networkd_file)
-	cp $new_networkd_file > network/network_interface/$new_networkd_file
+	cp -r $new_networkd_file > network/network_interface/$new_networkd_file
     done
     if ! $(command -v netstat &>/dev/null)
     then
