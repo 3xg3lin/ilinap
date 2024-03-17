@@ -7,23 +7,23 @@ bash_function () {          # bashrc and cron output
     do
 	if [ -n /home/$user/.bashrc ]
 	then
-	    sudo cp /home/$user/.bashrc bash_files/$user.bashrc
+	    sudo cp /home/$user/.bashrc bash_files/$user.bashrc 2>/dev/null
 	fi
 	if [ -n /home/$user/.bash_profile ]
 	then
-	    sudo cp /home/$user/.bash_profile bash_files/$user.bash_profile
+	    sudo cp /home/$user/.bash_profile bash_files/$user.bash_profile 2>/dev/null
 	fi
 	if [ -n /home/$user/.bash_login ]
 	then
-	    sudo cp /home/$user/.bash_login bash_files/$user.bash_login
+	    sudo cp /home/$user/.bash_login bash_files/$user.bash_login 2>/dev/null
 	fi
 	if [ -n /home/$user/.bash_logout ]
 	then 
-	    sudo cp /home/$user/.bash_logout bash_files/$user.bash_logout
+	    sudo cp /home/$user/.bash_logout bash_files/$user.bash_logout 2>/dev/null
 	fi
 	if [ -n /var/spool/cron/crontabs/$user ]
 	then
-	    sudo cp /var/spool/cron/crontabs/$user crontab_files/$user.crontab
+	    sudo cp /var/spool/cron/crontabs/$user crontab_files/$user.crontab 2>/dev/null
 	fi
     done
 }
@@ -59,7 +59,10 @@ location () {            # Localtime and timezone
 
 ip_address () {         # Ip addres and network output
     ip a > network/ip_command
-    cp /etc/network/interfaces.d/* > network/network_interface/
+    for networkd_file in /etc/network/interfaces.d/*
+    do
+	cp $networkd_file > network/network_interface/
+    done
     netstat -natup > network/netstat_output
     cat /etc/hosts > network/hosts_output
     cat /etc/resolv.conf > network/revolv.conf
