@@ -63,7 +63,7 @@ ip_address () {         # Ip addres and network output
     do
 	cp $networkd_file > network/network_interface/$networkd_file
     done
-    if ! $(command -v netstat)
+    if command -v netstat
     then
 	apt install net-tool -y
     fi
