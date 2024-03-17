@@ -3,7 +3,7 @@
 #
 
 bash_function () {          # bashrc and cron output
-    for user in "${users[*]}"
+    for user in ${users[*]}
     do
 	if [ -n /home/$user/.bashrc ]
 	then
@@ -29,13 +29,9 @@ bash_function () {          # bashrc and cron output
 }
 
 system_service () {
-    if [ $(id -u) -ne 0 ]
+    if [ -d /lib/systemd/system ]
     then
-	echo "Please login with root account"
-	sudo systemctl status --type=service > /services/service_running
-	ls -l /lib/systemd/system/ > /services/all_services
-    else
-	sudo systemctl status --type=service > /services/service_running
+	systemctl status --type=service > /services/service_running
 	ls -a /lib/systemd/system/* > /services/all_services
     fi
 }
@@ -62,38 +58,47 @@ location () {            # Localtime and timezone
 }
 
 ip_address () {         # Ip addres and network output
-    sudo ip a > /network/ip_command
-    sudo cp /etc/network/interfaces.d/* > /network/network_interface/
-    sudo netstat -natup > /network/netstat_output
-    sudo cat /etc/hosts > /network/hosts_output
-    sudo cat /etc/resolv.conf > /network/revolv.conf
+    ip a > /network/ip_command
+    cp /etc/network/interfaces.d/* > /network/network_interface/
+    netstat -natup > /network/netstat_output
+    cat /etc/hosts > /network/hosts_output
+    cat /etc/resolv.conf > /network/revolv.conf
 }
 
 process () {           # Process output 
-    sudo ps aux > /process/ps_output
+    ps aux > /process/ps_output
 }
 
 user_group () {       # /etc/passwd file
-    sudo cat /etc/passwd| column -t -s : > /passwd/passwd_output
+    cat /etc/passwd| column -t -s : > /passwd/passwd_output
 
     # /etc/groups output
-    sudo cat /etc/group|column -t -s : > /groups/groups_output
+    cat /etc/group| column -t -s : > /groups/groups_output
 }
 
 sudoers_file () {        # sudoers file
-if [ -r /etc/sudoers ]
+if [ -n /etc/sudoers ]
 then
-    sudo cp /etc/sudoers /sudoers/sudoers_output 
+    cp /etc/sudoers /sudoers/sudoers_output 
 else
     echo "Please login with root account"
-    sudo cp /etc/sudoers /sudoers/sudoers_output
+    cp /etc/sudoers /sudoers/sudoers_output
 fi
 }
 
 log_files () {              # login failure and historical data
-sudo last -f /var/log/btmp > /login_log/btmp
-sudo last -f /var/log/wtmp > /login_log/wmtp
-sudo last -f /var/run/utmp > /login_log/utmp
+    if [ -n /var/log/btmp ]
+    then
+	last -f /var/log/btmp > /login_log/btmp
+    fi
+    if [ -n /var/log/wtmp ]
+    then
+	last -f /var/log/wtmp > /login_log/wmtp
+    fi
+    if [ -n /var/run/utmp ]
+    then
+	last -f /var/run/utmp > /login_log/utmp
+    fi
 }
 
 viminfo_file () {           # viminfo file copy
@@ -107,7 +112,7 @@ viminfo_file () {           # viminfo file copy
 }
 
 sudo_execution_history () {
-    sudo journalctl --facility=4,10 > sudo_execution/sudo_execution_hist
+    journalctl --facility=4,10 > sudo_execution/sudo_execution_hist
 }
 ## Until this part contain macOS function
 mac_bash_file () {
@@ -167,25 +172,32 @@ mac_bash_file () {
 
 if [ $(uname) = 'Linux' ]
 then
-    mkdir artifacts bash_files crontab_files services process passwd groups sudoers login_log vim_file sudo_execution
-    for user in $(awk -F: '{if ($6 ~ /^\/home/ ) print $1}' /etc/passwd)
-    do
-	users+=($user)
-    done
-    touch result
-    mkdir -p network/network_interface
-    bash_function       # working
-    system_service      # not working
-    os_release          # working
-    hostname            # working
-    location            # working
-    ip_address          # not working
-    process             # not working
-    user_group          # not working
-    sudoers_file        # not working
-    log_files           # not working
-    viminfo_file        # working
-    sudo_execution_history  #working
+    if [ "$EUID" -eq 0 ]
+    then
+
+	mkdir artifacts bash_files crontab_files services process passwd groups sudoers login_log vim_file sudo_execution
+	for user in $(awk -F: '{if ($6 ~ /^\/home/ ) print $1}' /etc/passwd)
+	do
+	    users+=($user)
+	done
+	touch result
+	mkdir -p network/network_interface
+	bash_function       # working
+	system_service      # not working
+	os_release          # working
+	hostname            # working
+	location            # working
+	ip_address          # not working
+	process             # not working
+	user_group          # not working
+	sudoers_file        # not working
+	log_files           # not working
+	viminfo_file        # working
+	sudo_execution_history  #working
+    else
+	echo Please run this script with sudo 
+	exit
+    fi
 elif [ $(uname) = 'Darwin' ]
 then
     echo "This is MacOS"
