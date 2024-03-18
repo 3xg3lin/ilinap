@@ -126,99 +126,100 @@ sudo_execution_history () {
 mac_bash_file () {
     for user in /Users/*/
     do
-		basename_user=$(basename $user)
-		if [ -n $user/.bashrc ]
-		then
-	        cp $user/.bashrc mac_bash_files/basename_user.bashrc
-		fi
-		if [ -n $user/.bash_history ]
-		then
-	    	cp $user/.bash_history mac_bash_files/basename_user.bash_history
-		fi
-		if [ -d $user/.bash_sessions/ ]
-		then
-	    	mkdir $basename_user.bash_sessions
-	    	cp $user/.bash_sessions/* mac_bash_files/$basename_user.bash_sessions/
-		fi
-		if [ -n $user/.bash_profile ]
-		then
-	    	cp $user/.bash_profile mac_bash_files/$basename_user.bash_profile
-		fi
-		if [ -n $user/.profile ]
-		then
-	    	cp $user/.profile mac_bash_files/$basename_user.profile
-		fi
-		if [ -n $user/.bash_logout ]
-		then
-	    	cp $user/.bash_logout mac_bash_files/$basename_user.bash_logout
-		fi
+	basename_user=$(basename $user)
+    	if [ -n $user/.bashrc ]
+	then
+            cp $user/.bashrc mac_bash_files/basename_user.bashrc
+	fi
+    	if [ -n $user/.bash_history ]
+	then
+            cp $user/.bash_history mac_bash_files/basename_user.bash_history
+    	fi
+	if [ -d $user/.bash_sessions/ ]
+	then
+	    mkdir $basename_user.bash_sessions
+	    cp $user/.bash_sessions/* mac_bash_files/$basename_user.bash_sessions/
+    	fi
+	if [ -n $user/.bash_profile ]
+    	then
+	    cp $user/.bash_profile mac_bash_files/$basename_user.bash_profile
+    	fi
+	if [ -n $user/.profile ]
+    	then
+	    cp $user/.profile mac_bash_files/$basename_user.profile
+    	fi
+	if [ -n $user/.bash_logout ]
+    	then
+	    cp $user/.bash_logout mac_bash_files/$basename_user.bash_logout
+    	fi
     done
     for puser in /private/var/*/
     do
-		basename_puser=$(basename $puser)
-		if [ -n $puser/.bash_history ]
-		then
-	    	cp $puser/.bash_history mac_bash_files/$basename_puser.bash_history
-		fi
-		if [ -d $puser/.bash_sessions ]
-		then
-	    	mkdir mac_bash_files/$basename_puser.bash_sessions
-	    	cp -r $puser/.bash_sessions/* mac_bash_files/$basename_puser.bash_sessions/ 
-		fi
-		if [ -n /private/etc/profile ]
-		then
-	    	cp /private/etc/profile mac_bash_files/private.etc.profile
-		fi
-		if [ -n /private/etc/bashrc* ]
-		then
-	    	cp /privat/etc/bashrc* mac_bash_files/private.etc.bashrc*
-		fi
+    	basename_puser=$(basename $puser)
+	if [ -n $puser/.bash_history ]
+    	then
+	    cp $puser/.bash_history mac_bash_files/$basename_puser.bash_history
+    	fi
+	if [ -d $puser/.bash_sessions ]
+    	then
+	    mkdir mac_bash_files/$basename_puser.bash_sessions
+	    cp -r $puser/.bash_sessions/* mac_bash_files/$basename_puser.bash_sessions/ 
+    	fi
+	if [ -n /private/etc/profile ]
+    	then
+	    cp /private/etc/profile mac_bash_files/private.etc.profile
+    	fi
+	if [ -n /private/etc/bashrc* ]
+	then
+	    cp /privat/etc/bashrc* mac_bash_files/private.etc.bashrc*
+    	fi
     done
 }
 
 mac_autoruns () {
-	if [ $mac_version -ge 10.10 ]
-	then
-    	if [ -n /private/var/db/com.apple.xpc.launchd/disabled.*.plist ] 
-    	then
-			plutil -p /private/var/db/com.apple.xpc.launchd/disabled.*.plist > mac_autoruns/disabled-*-plist
-    	fi 
-		if [ -n /private/var/at/tabs/* ]     #; crontab
-		then
-			plutil -p /private/var/at/tabs/* > mac_autoruns/*
-		fi
-		if [ -n /System/Library/LaunchAgents/*.plist ]    #; LaunchAgents
-		then
-			plutil -p /System/Library/LaunchAgents/*.plist > mac_autoruns/*-plist
-		fi
-		if [ -n /Library/LaunchAgents/*.plist ]
-		then
-			plutil -p /Library/LaunchAgents/*.plist > mac_autoruns/*-plist
-		fi
-		if [ -n /Users/*/Library/LaunchAgents/*.plist ]
-		then
-			plutil -p /Users/*/Library/LaunchAgents/*.plist > mac_autouns/*-plist
-		fi
-		if [ -n /private/var/*/Library/LaunchAgents/*.plist ]
-		then
-			plutil -p /private/var/*/Library/LaunchAgents/*.plist > mac_autoruns/*-plist
-		fi
-		if [ -n /System/Library/LaunchAgents/.*.plist ]
-		then
-			plutil -p /System/Library/LaunchAgents/.*.plist mac_autoruns/.*-plist
-		fi
-		if [ -n /Library/LaunchAgents/.*.plist ]
-		then
-			plutil -p /Library/LaunchAgents/.*.plist > mac_autoruns/.*-plist
-		fi
-		if [ -n /Users/*/Library/LaunchAgents/.*.plist ]
-		then
-			plutil -p /Users/*/Library/LaunchAgents/.*.plist > mac_autoruns/.*-plist
-		fi
-		if [ -n /private/var/*/Library/LaunchAgents/.*.plist ]
-		then
-			plutil -p /private/var/*/Library/LaunchAgents/.*.plist > mac_autoruns/.*-plist
-		fi
+    if [ $mac_version -ge 10.10 ]
+    then
+       if [ -n /private/var/db/com.apple.xpc.launchd/disabled.*.plist ] 
+       then
+	   plutil -p /private/var/db/com.apple.xpc.launchd/disabled.*.plist > mac_autoruns/disabled-*-plist
+       fi 
+       if [ -n /private/var/at/tabs/* ]     #; crontab
+       then
+	   plutil -p /private/var/at/tabs/* > mac_autoruns/*
+       fi
+       if [ -n /System/Library/LaunchAgents/*.plist ]    #; LaunchAgents
+       then
+	   plutil -p /System/Library/LaunchAgents/*.plist > mac_autoruns/*-plist
+       fi
+       if [ -n /Library/LaunchAgents/*.plist ]
+       then
+	   plutil -p /Library/LaunchAgents/*.plist > mac_autoruns/*-plist
+       fi
+       if [ -n /Users/*/Library/LaunchAgents/*.plist ]
+       then
+	   plutil -p /Users/*/Library/LaunchAgents/*.plist > mac_autouns/*-plist
+       fi
+       if [ -n /private/var/*/Library/LaunchAgents/*.plist ]
+       then
+	   plutil -p /private/var/*/Library/LaunchAgents/*.plist > mac_autoruns/*-plist
+       fi
+       if [ -n /System/Library/LaunchAgents/.*.plist ]
+       then
+	   plutil -p /System/Library/LaunchAgents/.*.plist mac_autoruns/.*-plist
+       fi
+       if [ -n /Library/LaunchAgents/.*.plist ]
+       then
+	   plutil -p /Library/LaunchAgents/.*.plist > mac_autoruns/.*-plist
+       fi
+       if [ -n /Users/*/Library/LaunchAgents/.*.plist ]
+       then
+	   plutil -p /Users/*/Library/LaunchAgents/.*.plist > mac_autoruns/.*-plist
+       fi
+       if [ -n /private/var/*/Library/LaunchAgents/.*.plist ]
+       then
+	   plutil -p /private/var/*/Library/LaunchAgents/.*.plist > mac_autoruns/.*-plist
+       fi
+    fi
 }
 
 
@@ -253,7 +254,7 @@ then
 elif [ $(uname) = 'Darwin' ]
 then
     mac_version=$( sw_vers |awk -F '[ .]' '/ProductVersion/ {print $1"."$2}')
-	mkdir mac_bash_files mac_autoruns
+    mkdir mac_bash_files mac_autoruns
 else
     echo "This is not MacOS or Linux sorry"
 fi
