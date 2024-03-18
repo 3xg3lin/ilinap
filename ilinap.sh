@@ -313,7 +313,6 @@ if [ $(uname) = 'Linux' ]
 then
     if [ "$EUID" -eq 0 ]
     then
-
 	mkdir artifacts bash_files crontab_files services process passwd groups sudoers login_log vim_file sudo_execution
 	for user in $(awk -F: '{if ($6 ~ /^\/home/ ) print $1}' /etc/passwd)
 	do
