@@ -126,53 +126,53 @@ sudo_execution_history () {
 mac_bash_file () {
     for user in /Users/*/
     do
-	basename_user=$(basename $user)
-	if [ -n $user/.bashrc ]
-	then
-	    	    cp $user/.bashrc mac_bash_files/basename_user.bashrc
-	fi
-	if [ -n $user/.bash_history ]
-	then
-	    cp $user/.bash_history mac_bash_files/basename_user.bash_history
-	fi
-	if [ -d $user/.bash_sessions/ ]
-	then
-	    mkdir $basename_user.bash_sessions
-	    cp $user/.bash_sessions/* mac_bash_files/$basename_user.bash_sessions/
-	fi
-	if [ -n $user/.bash_profile ]
-	then
-	    cp $user/.bash_profile mac_bash_files/$basename_user.bash_profile
-	fi
-	if [ -n $user/.profile ]
-	then
-	    cp $user/.profile mac_bash_files/$basename_user.profile
-	fi
-	if [ -n $user/.bash_logout ]
-	then
-	    cp $user/.bash_logout mac_bash_files/$basename_user.bash_logout
-	fi
+		basename_user=$(basename $user)
+		if [ -n $user/.bashrc ]
+		then
+	        cp $user/.bashrc mac_bash_files/basename_user.bashrc
+		fi
+		if [ -n $user/.bash_history ]
+		then
+	    	cp $user/.bash_history mac_bash_files/basename_user.bash_history
+		fi
+		if [ -d $user/.bash_sessions/ ]
+		then
+	    	mkdir $basename_user.bash_sessions
+	    	cp $user/.bash_sessions/* mac_bash_files/$basename_user.bash_sessions/
+		fi
+		if [ -n $user/.bash_profile ]
+		then
+	    	cp $user/.bash_profile mac_bash_files/$basename_user.bash_profile
+		fi
+		if [ -n $user/.profile ]
+		then
+	    	cp $user/.profile mac_bash_files/$basename_user.profile
+		fi
+		if [ -n $user/.bash_logout ]
+		then
+	    	cp $user/.bash_logout mac_bash_files/$basename_user.bash_logout
+		fi
     done
     for puser in /private/var/*/
     do
-	basename_puser=$(basename $puser)
-	if [ -n $puser/.bash_history ]
-	then
-	    cp $puser/.bash_history mac_bash_files/$basename_puser.bash_history
-	fi
-	if [ -d $puser/.bash_sessions ]
-	then
-	    mkdir $basename_puser.bash_sessions
-	    cp -r $puser/.bash_sessions/* mac_bash_files/$basename_puser.bash_sessions/ 
-	fi
-	if [ -n /private/etc/profile ]
-	then
-	    cp /private/etc/profile mac_bash_files/private.etc.profile
-	fi
-	if [ -n /private/etc/bashrc* ]
-	then
-	    cp /privat/etc/bashrc* mac_bash_files/private.etc.bashrc*
-	fi
+		basename_puser=$(basename $puser)
+		if [ -n $puser/.bash_history ]
+		then
+	    	cp $puser/.bash_history mac_bash_files/$basename_puser.bash_history
+		fi
+		if [ -d $puser/.bash_sessions ]
+		then
+	    	mkdir mac_bash_files/$basename_puser.bash_sessions
+	    	cp -r $puser/.bash_sessions/* mac_bash_files/$basename_puser.bash_sessions/ 
+		fi
+		if [ -n /private/etc/profile ]
+		then
+	    	cp /private/etc/profile mac_bash_files/private.etc.profile
+		fi
+		if [ -n /private/etc/bashrc* ]
+		then
+	    	cp /privat/etc/bashrc* mac_bash_files/private.etc.bashrc*
+		fi
     done
 }
 
