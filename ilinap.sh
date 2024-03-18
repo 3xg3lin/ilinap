@@ -235,18 +235,18 @@ then
 	done
 	touch result
 	mkdir -p network/network_interface
-	bash_function       # working
-	system_service      # not working
-	os_release          # working
-	hostname            # working
-	location            # working
-	ip_address          # not working
-	process             # not working
-	user_group          # not working
-	sudoers_file        # not working
-	log_files           # not working
-	viminfo_file        # working
-	sudo_execution_history  #working
+	bash_function       
+	system_service      
+	os_release          
+	hostname            
+	location            
+	ip_address          
+	process             
+	user_group      
+	sudoers_file    
+	log_files           
+	viminfo_file        
+	sudo_execution_history  
     else
 	echo Please run this script with sudo 
 	exit
