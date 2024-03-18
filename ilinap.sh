@@ -163,7 +163,7 @@ mac_bash_file () {
 	if [ -d $puser/.bash_sessions ]
 	then
 	    mkdir $basename_puser.bash_sessions
-	    cp $puser/.bash_sessions/* $basename_puser.bash_sessions/ 
+	    cp -r $puser/.bash_sessions/* $basename_puser.bash_sessions/ 
 	fi
 	if [ -n /private/etc/profile ]
 	then
@@ -176,6 +176,14 @@ mac_bash_file () {
     done
 }
 
+mac_autoruns () {
+    if [ -n /private/var/db/launchd.db/com.apple.launchd/overrides.plist ] 
+    then
+	plutil -p /private/var/db/launchd.db/com.apple.launchd/overrides.plist > autoruns/overrides-plist
+    fi 
+
+
+}
 
 
 if [ $(uname) = 'Linux' ]
