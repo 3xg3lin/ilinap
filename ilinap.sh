@@ -338,7 +338,8 @@ then
     fi
 elif [ $(uname) = 'Darwin' ]
 then
-    mac_version=$( sw_vers |awk -F '[ .]' '/ProductVersion/ {print $1"."$2}')
+    mac_version_first_part=$( sw_vers |awk -F '[ .]' '/ProductVersion/ {print $1}'|sed 's/ProductVersion\://g' )
+    mac_version_second_part=$( sw_vers |awk -F '[ .]' '/ProductVersion/ {print $2}'|sed 's/ProductVersion\://g' ) 
     mkdir mac_bash_files mac_autoruns
 else
     echo "This is not MacOS or Linux sorry"
