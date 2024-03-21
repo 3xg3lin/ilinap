@@ -353,42 +353,68 @@ mac_autoruns () {
 	    cp -r $hl_script_add mac_autoruns/$hl_script_add_main
 	fi
     done
-    if [ -n /System/Library/StartupItems/*/* ]          #; StartupItems
+    for sl_startup in /System/Library/StartupItems/*/*
+    do
+	sl_startup_main=$(basename $sl_startup)
+	if [ -n $sl_startup ]          #; StartupItems
+	then
+	    cp  $sl_startup mac_autoruns/$sl_startup_main
+	fi
+    done
+    for l_startup in /Library/StartupItems/*/* 
+    do
+	l_startup_main=$(basename $l_startup)
+	if [ -n $l_startup ]
+	then
+	   cp $l_startup mac_autoruns/$l_startup_main
+	fi
+    done
+    if [ -n  /private/etc/periodic.conf  ]          #; periodic, rc, emond
     then
-	cp  /System/Library/StartupItems/*/* mac_autoruns/*/*
+	cp  /private/etc/periodic.conf  mac_autoruns/periodic.conf
     fi
-    if [ -n /Library/StartupItems/*/* ]
-    then
-	cp /Library/StartupItems/*/* mac_autoruns/*/*
-    fi
-    if [ -n /private/etc/periodic.conf ]          #; periodic, rc, emond
-    then
-	cp /private/etc/periodic.conf mac_autoruns/periodic.conf
-    fi
-    if [ -n /private/etc/periodic/*/* ]
-    then
-	cp /private/etc/periodic/*/* mac_autoruns/*/*
-    fi
-    if [ -n /private/etc/*.local ]
-    then
-	cp /private/etc/*.local mac_autoruns/*.local
-    fi
+    for periodic_file in /private/etc/periodic/*/*
+    do
+	periodic_file_main=$(basename $periodic_file)
+	if [ -n $periodic_file ]
+	then
+	    cp $periodic_file mac_autoruns/$periodic_file_main
+	fi
+    done
+    for p_local in /private/etc/*.local
+    do
+	p_local_main=$(basename p_local)
+	if [ -n $p_local ]
+	then
+	    cp $p_local mac_autoruns/p_local_main
+	fi
+    done
     if [ -n /private/etc/rc.common ]
     then
 	cp /private/etc/rc.common mac_autoruns/rc.common
     fi
-    if [ -n /private/etc/emond.d/*/* ]
-    then
-	cp /private/etc/emond.d/*/* mac_autoruns/*/*
-    fi
-    if [ -n /Users/*/Library/Preferences/com.apple.loginitems.plist ]      #; user login items
-    then
-	plutil -p /Users/*/Library/Preferences/com.apple.loginitems.plist mac_autoruns/com.apple.loginitems.plist
-    fi
-    if [ -n /private/var/*/Library/Preferences/com.apple.loginitems.plist ]
-    then
-	plutil -p /private/var/*/Library/Preferences/com.apple.loginitems.plist mac_autoruns/com.apple.loginitems.plist
-    fi
+    for p_emon in /private/etc/emond.d/*/*
+    do
+	p_emon_main=$(basename p_emon)
+	if [ -n $p_emon ]
+	then
+	    cp $p_emon mac_autoruns/$p_emon_main
+	fi
+    done
+    for u_loginitems in /Users/*/Library/Preferences/com.apple.loginitems.plist
+    do
+	if [ -n $u_loginitems ]      #; user login items
+	then
+	    plutil -p $u_loginitems mac_autoruns/com.apple.loginitems.plist
+	fi
+    done
+    for p_loginitems in /private/var/*/Library/Preferences/com.apple.loginitems.plist 
+    do
+	if [ -n $p_loginitems ]
+	then
+	    plutil -p $p_loginitems mac_autoruns/com.apple.loginitems.plist
+	fi
+    done
 }
 
 
