@@ -326,7 +326,7 @@ mac_autoruns () {
 	sl_script_add_main=$(basename $sl_script_add)
 	if [ -n $sl_script_add ]        #; ScriptingAdditions
 	then
-	    cp $sl_script_add > mac_autoruns/sl_script_add_main
+	    cp -r $sl_script_add > mac_autoruns/sl_script_add_main
 	fi
     done
     for l_script_add in /Library/ScriptingAdditions/*.osax
@@ -334,7 +334,7 @@ mac_autoruns () {
 	l_script_add_main=$(basename $l_script_add)
 	if [ -n $l_script_add ]
 	then
-	   cp $l_script_add mac_autoruns/$l_script_add_main
+	   cp -r $l_script_add mac_autoruns/$l_script_add_main
 	fi
     done
     for hsl_script_add in /System/Library/ScriptingAdditions/.*.osax 
@@ -342,7 +342,7 @@ mac_autoruns () {
 	hsl_script_add_main=$(basename $hls_script_add)
 	if [ -n $hsl_script_add ]
 	then
-	    cp $hsl_script_add mac_autoruns/$hsl_script_add_main
+	    cp -r $hsl_script_add mac_autoruns/$hsl_script_add_main
 	fi
     done
     for hl_script_add in /Library/ScriptingAdditions/.*.osax 
@@ -350,12 +350,12 @@ mac_autoruns () {
 	hl_script_add_main=$(basename $hl_script_add)
 	if [ -n $hl_script_add ]
 	then
-	    cp $hl_script_add mac_autoruns/$hl_script_add_main
+	    cp -r $hl_script_add mac_autoruns/$hl_script_add_main
 	fi
     done
     if [ -n /System/Library/StartupItems/*/* ]          #; StartupItems
     then
-	cp /System/Library/StartupItems/*/* mac_autoruns/*/*
+	cp  /System/Library/StartupItems/*/* mac_autoruns/*/*
     fi
     if [ -n /Library/StartupItems/*/* ]
     then
