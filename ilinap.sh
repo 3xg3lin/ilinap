@@ -179,63 +179,116 @@ mac_bash_file () {
 mac_autoruns () {
     for disabled in /private/var/db/com.apple.launchd/disabled.*.plist
     do
-	if [ -n /private/var/db/com.apple.xpc.launchd/$disabled ] 
+	disabled_main=$(basename $disabled)
+	if [ -n $disabled ] 
 	then
-	    cat /private/var/db/com.apple.xpc.launchd/$disabled > mac_autoruns/$disabled
+	    plutil -p $disabled > mac_autoruns/$disabled_main
 	fi 
     done
-    if [ -n /private/var/at/tabs/* ]     #; crontab
-    then
-	plutil -p /private/var/at/tabs/* > mac_autoruns/*
-    fi
-    if [ -n /System/Library/LaunchAgents/*.plist ]    #; LaunchAgents
-    then
-	plutil -p /System/Library/LaunchAgents/*.plist > mac_autoruns/*-plist
-    fi
-    if [ -n /Library/LaunchAgents/*.plist ]
-    then
-	plutil -p /Library/LaunchAgents/*.plist > mac_autoruns/*-plist
-    fi
-    if [ -n /Users/*/Library/LaunchAgents/*.plist ]
-    then
-	plutil -p /Users/*/Library/LaunchAgents/*.plist > mac_autouns/*-plist
-    fi
-    if [ -n /private/var/*/Library/LaunchAgents/*.plist ]
-    then
-	plutil -p /private/var/*/Library/LaunchAgents/*.plist > mac_autoruns/*-plist
-    fi
-    if [ -n /System/Library/LaunchAgents/.*.plist ]
-    then
-	plutil -p /System/Library/LaunchAgents/.*.plist mac_autoruns/.*-plist
-    fi
-    if [ -n /Library/LaunchAgents/.*.plist ]
-    then
-	plutil -p /Library/LaunchAgents/.*.plist > mac_autoruns/.*-plist
-    fi
-    if [ -n /Users/*/Library/LaunchAgents/.*.plist ]
-    then
-	plutil -p /Users/*/Library/LaunchAgents/.*.plist > mac_autoruns/.*-plist
-    fi
-    if [ -n /private/var/*/Library/LaunchAgents/.*.plist ]
-    then
-	plutil -p /private/var/*/Library/LaunchAgents/.*.plist > mac_autoruns/.*-plist
-    fi
-    if [ -n /Library/Apple/System/Library/LaunchAgents/*.plist ]
-    then
-	plutil -p /Library/Apple/System/Library/LaunchAgents/*.plist > mac_autoruns/*-plist
-    fi
-    if [ -n /Library/Apple/System/Library/LaunchAgents/.*.plist ]
-    then
-	plutil -p /Library/Apple/System/Library/LaunchAgents/.*.plist > mac_autoruns/*-plist
-    fi
-    if [ -n /System/Library/LaunchDaemons/*.plist ]     #; LaunchDaemons
-    then
-	plutil -p /System/Library/LaunchDaemons/*.plist > mac_autoruns/*-plist
-    fi
-    if [ -n /Library/LaunchDaemons/*.plist ]
-    then
-	plutil -p /Library/LaunchDaemons/*.plist > mac_autoruns/*-plist
-    fi	
+    for at_tabs in /private/var/at/tabs/*
+    do
+	at_tabs_main=$(basename $at_tabs)
+	if [ -n $at_tabs ]     #; crontab
+	then
+	    cp $at_tabs > mac_autoruns/$at_tabs_main
+	fi
+    done
+    for launchagent in /System/Library/LaunchAgents/*.plist
+    do
+	launchagent_main=$(basename $launchagent)
+	if [ -n $launchagent ]    #; LaunchAgents
+	then
+	    plutil -p $launchagent_main > mac_autoruns/$launchagent_main
+	fi
+    done
+    for l_launchagent in /Library/LaunchAgents/*.plist  
+    do
+	l_launchagent_main=$(basename $l_launchagent)
+	if [ -n l_launchagent ]
+	then
+	    plutil -p l_launchagent > mac_autoruns/l_launchagent_main
+	fi
+    done
+    for u_launchagent in /Users/*/Library/LaunchAgents/*.plist 
+    do
+	u_launchagent_main=$(basename $u_launchagent)
+	if [ -n $u_launchagent ]
+	then
+	    plutil -p $u_launchagent > mac_autouns/$u_launchagent_main
+	fi
+    done
+    for p_launchagent in /private/var/*/Library/LaunchAgents/*.plist 
+    do
+	p_launchagent_main=$(basename $p_launchagent)
+	if [ -n $p_launchagent ]
+	then
+	    plutil -p $p_launchagent > mac_autoruns/$p_launchagent_main
+	fi
+    done
+    for s_launchagent in /System/Library/LaunchAgents/.*.plist 
+    do
+	s_launchagent_main=$(basename $s_launchagent)
+	if [ -n $s_launchagent ]
+	then
+	    plutil -p $s_launchagent mac_autoruns/$s_launchagent_main
+	fi
+    done
+    for ll_launchagent in /Library/LaunchAgents/.*.plist 
+    do
+	ll_launchagent_main=$(basename $ll_launchagent)
+	if [ -n $ll_launchagent ]
+	then
+	    plutil -p $ll_launchagent > mac_autoruns/$ll_launchagent_main
+	fi
+    done
+    for ul_launchagent in /Users/*/Library/LaunchAgents/.*.plist
+    do
+	ul_launchagent_main=$(basename $ul_launchagent)
+	if [ -n $ul_launchagent ]
+	then
+	    plutil -p $ul_launchagent > mac_autoruns/$ul_launchagent_main
+	fi
+    done
+    for pl_launchagent in /private/var/*/Library/LaunchAgents/.*.plist 
+    do
+	pl_launchagent_main=$(basename $pl_launchagent)
+	if [ -n $pl_launchagent ]
+	then
+	    plutil -p $pl_launchagent > mac_autoruns/$pl_launchagent_main
+	fi
+    done
+    for ls_launchagent in /Library/Apple/System/Library/LaunchAgents/*.plist  
+    do
+	ls_launchagent_main=$(basename $ls_launchagent)
+	if [ -n $ls_launchagent ]
+	then
+	    plutil -p $ls_launchagent > mac_autoruns/ls_launchagent_main
+	fi
+    done
+    for las_launchagent in /Library/Apple/System/Library/LaunchAgents/.*.plist
+    do
+	las_launchagent_main=$(basename $las_launchagent)
+	if [ -n $las_launchagent ]
+	then
+	    plutil -p $las_launchagent > mac_autoruns/$las_launchagent_main
+	fi
+    done
+    for sl_launchdemon in /System/Library/LaunchDaemons/*.plist
+    do
+	sl_launchdemon_main=$(basename $sl_launchdemon)
+	if [ -n $sl_launchdemon ]     #; LaunchDaemons
+	then
+	    plutil -p $sl_launchdemon > mac_autoruns/$sl_launchdemon_main
+	fi
+    done
+    for l_launchdemon in /Library/LaunchDaemons/*.plist
+    do
+	l_launchdemon_main=$(basename $l_launchdemon)
+	if [ -n $l_launchdemon ]
+	then
+	    plutil -p $l_launchdemon > mac_autoruns/$l_launchdemon_main
+	fi
+    done
     if [ -n /System/Library/LaunchDaemons/.*.plist ]
     then
 	plutil -p /System/Library/LaunchDaemons/.*.plist > mac_autoruns/*-plist
