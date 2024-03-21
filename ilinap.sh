@@ -177,10 +177,13 @@ mac_bash_file () {
 }
 
 mac_autoruns () {
-    if [ -n /private/var/db/com.apple.xpc.launchd/disabled.*.plist ] 
-    then
-	plutil -p /private/var/db/com.apple.xpc.launchd/disabled.*.plist > mac_autoruns/disabled-*-plist
-    fi 
+    for disabled in /private/var/db/com.apple.launchd/disabled.*.plist
+    do
+	if [ -n /private/var/db/com.apple.xpc.launchd/$disabled ] 
+	then
+	    cat /private/var/db/com.apple.xpc.launchd/$disabled > mac_autoruns/$disabled
+	fi 
+    done
     if [ -n /private/var/at/tabs/* ]     #; crontab
     then
 	plutil -p /private/var/at/tabs/* > mac_autoruns/*
