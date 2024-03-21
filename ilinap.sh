@@ -177,134 +177,129 @@ mac_bash_file () {
 }
 
 mac_autoruns () {
-    if [ $mac_version_first_part -ge 10 ]
+    if [ -n /private/var/db/com.apple.xpc.launchd/disabled.*.plist ] 
     then
-       if [ -n /private/var/db/com.apple.xpc.launchd/disabled.*.plist ] 
-       then
-	   plutil -p /private/var/db/com.apple.xpc.launchd/disabled.*.plist > mac_autoruns/disabled-*-plist
-       fi 
-       if [ -n /private/var/at/tabs/* ]     #; crontab
-       then
-	   plutil -p /private/var/at/tabs/* > mac_autoruns/*
-       fi
-       if [ -n /System/Library/LaunchAgents/*.plist ]    #; LaunchAgents
-       then
-	   plutil -p /System/Library/LaunchAgents/*.plist > mac_autoruns/*-plist
-       fi
-       if [ -n /Library/LaunchAgents/*.plist ]
-       then
-	   plutil -p /Library/LaunchAgents/*.plist > mac_autoruns/*-plist
-       fi
-       if [ -n /Users/*/Library/LaunchAgents/*.plist ]
-       then
-	   plutil -p /Users/*/Library/LaunchAgents/*.plist > mac_autouns/*-plist
-       fi
-       if [ -n /private/var/*/Library/LaunchAgents/*.plist ]
-       then
-	   plutil -p /private/var/*/Library/LaunchAgents/*.plist > mac_autoruns/*-plist
-       fi
-       if [ -n /System/Library/LaunchAgents/.*.plist ]
-       then
-	   plutil -p /System/Library/LaunchAgents/.*.plist mac_autoruns/.*-plist
-       fi
-       if [ -n /Library/LaunchAgents/.*.plist ]
-       then
-	   plutil -p /Library/LaunchAgents/.*.plist > mac_autoruns/.*-plist
-       fi
-       if [ -n /Users/*/Library/LaunchAgents/.*.plist ]
-       then
-	   plutil -p /Users/*/Library/LaunchAgents/.*.plist > mac_autoruns/.*-plist
-       fi
-       if [ -n /private/var/*/Library/LaunchAgents/.*.plist ]
-       then
-	   plutil -p /private/var/*/Library/LaunchAgents/.*.plist > mac_autoruns/.*-plist
-       fi
+	plutil -p /private/var/db/com.apple.xpc.launchd/disabled.*.plist > mac_autoruns/disabled-*-plist
+    fi 
+    if [ -n /private/var/at/tabs/* ]     #; crontab
+    then
+	plutil -p /private/var/at/tabs/* > mac_autoruns/*
     fi
-    if [ $mac_version -ge "10.15" ]
+    if [ -n /System/Library/LaunchAgents/*.plist ]    #; LaunchAgents
     then
-	if [ -n /Library/Apple/System/Library/LaunchAgents/*.plist ]
-	then
-	    plutil -p /Library/Apple/System/Library/LaunchAgents/*.plist > mac_autoruns/*-plist
-	fi
-	if [ -n /Library/Apple/System/Library/LaunchAgents/.*.plist ]
-	then
-	    plutil -p /Library/Apple/System/Library/LaunchAgents/.*.plist > mac_autoruns/*-plist
-	fi
-	if [ -n /System/Library/LaunchDaemons/*.plist ]     #; LaunchDaemons
-	then
-	    plutil -p /System/Library/LaunchDaemons/*.plist > mac_autoruns/*-plist
-	fi
-	if [ -n /Library/LaunchDaemons/*.plist ]
-	then
-	    plutil -p /Library/LaunchDaemons/*.plist > mac_autoruns/*-plist
-	fi
-	if [ -n /System/Library/LaunchDaemons/.*.plist ]
-	then
-	    plutil -p /System/Library/LaunchDaemons/.*.plist > mac_autoruns/*-plist
-	fi
-	if [ -n /Library/LaunchDaemons/.*.plist ]
-	then
-	    plutil -p /Library/LaunchDaemons/.*.plist > mac_autoruns/*-plist
-	fi
-	if [ -n /Library/Apple/System/Library/LaunchDaemons/*.plist ]
-	    plutil -p /Library/Apple/System/Library/LaunchDaemons/*.plist > mac_autoruns/*-plist
-	fi
-	if [ -n /Library/Apple/System/Library/LaunchDaemons/.*.plist ]
-	then
-	    plutil -p /Library/Apple/System/Library/LaunchDaemons/.*.plist > mac_autoruns/.*-plist
-	fi
-	if [ -n /System/Library/ScriptingAdditions/*.osax ]        #; ScriptingAdditions
-	then
-	    cp /System/Library/ScriptingAdditions/*.osax > mac_autoruns/*-osax
-	fi
-	if [ -n /Library/ScriptingAdditions/*.osax ]
-	then
-	    cp /Library/ScriptingAdditions/*.osax mac_autoruns/*-osax
-	fi
-	if [ -n /System/Library/ScriptingAdditions/.*.osax ]
-	then
-	    cp /System/Library/ScriptingAdditions/.*.osax mac_autoruns/.*-osax
-	fi
-	if [ -n /Library/ScriptingAdditions/.*.osax ]
-	then
-	    cp /Library/ScriptingAdditions/.*.osax mac_autoruns/.*-osax
-	fi
-	if [ -n /System/Library/StartupItems/*/* ]          #; StartupItems
-	then
-	    cp /System/Library/StartupItems/*/* mac_autoruns/*/*
-	fi
-	if [ -n /Library/StartupItems/*/* ]
-	then
-	    cp /Library/StartupItems/*/* mac_autoruns/*/*
-	fi
-	if [ -n /private/etc/periodic.conf ]          #; periodic, rc, emond
-	then
-	    cp /private/etc/periodic.conf mac_autoruns/periodic.conf
-	fi
-	if [ -n /private/etc/periodic/*/* ]
-	then
-	    cp /private/etc/periodic/*/* mac_autoruns/*/*
-	fi
-	if [ -n /private/etc/*.local ]
-	then
-	    cp /private/etc/*.local mac_autoruns/*.local
-	fi
-	if [ -n /private/etc/rc.common ]
-	then
-	    cp /private/etc/rc.common mac_autoruns/rc.common
-	fi
-	if [ -n /private/etc/emond.d/*/* ]
-	then
-	    cp /private/etc/emond.d/*/* mac_autoruns/*/*
-	fi
-	if [ -n /Users/*/Library/Preferences/com.apple.loginitems.plist ]      #; user login items
-	then
-	    plutil -p /Users/*/Library/Preferences/com.apple.loginitems.plist mac_autoruns/com.apple.loginitems.plist
-	fi
-	if [ -n /private/var/*/Library/Preferences/com.apple.loginitems.plist ]
-	then
-	    plutil -p /private/var/*/Library/Preferences/com.apple.loginitems.plist mac_autoruns/com.apple.loginitems.plist
-	fi
+	plutil -p /System/Library/LaunchAgents/*.plist > mac_autoruns/*-plist
+    fi
+    if [ -n /Library/LaunchAgents/*.plist ]
+    then
+	plutil -p /Library/LaunchAgents/*.plist > mac_autoruns/*-plist
+    fi
+    if [ -n /Users/*/Library/LaunchAgents/*.plist ]
+    then
+	plutil -p /Users/*/Library/LaunchAgents/*.plist > mac_autouns/*-plist
+    fi
+    if [ -n /private/var/*/Library/LaunchAgents/*.plist ]
+    then
+	plutil -p /private/var/*/Library/LaunchAgents/*.plist > mac_autoruns/*-plist
+    fi
+    if [ -n /System/Library/LaunchAgents/.*.plist ]
+    then
+	plutil -p /System/Library/LaunchAgents/.*.plist mac_autoruns/.*-plist
+    fi
+    if [ -n /Library/LaunchAgents/.*.plist ]
+    then
+	plutil -p /Library/LaunchAgents/.*.plist > mac_autoruns/.*-plist
+    fi
+    if [ -n /Users/*/Library/LaunchAgents/.*.plist ]
+    then
+	plutil -p /Users/*/Library/LaunchAgents/.*.plist > mac_autoruns/.*-plist
+    fi
+    if [ -n /private/var/*/Library/LaunchAgents/.*.plist ]
+    then
+	plutil -p /private/var/*/Library/LaunchAgents/.*.plist > mac_autoruns/.*-plist
+    fi
+    if [ -n /Library/Apple/System/Library/LaunchAgents/*.plist ]
+    then
+	plutil -p /Library/Apple/System/Library/LaunchAgents/*.plist > mac_autoruns/*-plist
+    fi
+    if [ -n /Library/Apple/System/Library/LaunchAgents/.*.plist ]
+    then
+	plutil -p /Library/Apple/System/Library/LaunchAgents/.*.plist > mac_autoruns/*-plist
+    fi
+    if [ -n /System/Library/LaunchDaemons/*.plist ]     #; LaunchDaemons
+    then
+	plutil -p /System/Library/LaunchDaemons/*.plist > mac_autoruns/*-plist
+    fi
+    if [ -n /Library/LaunchDaemons/*.plist ]
+    then
+	plutil -p /Library/LaunchDaemons/*.plist > mac_autoruns/*-plist
+    fi	
+    if [ -n /System/Library/LaunchDaemons/.*.plist ]
+    then
+	plutil -p /System/Library/LaunchDaemons/.*.plist > mac_autoruns/*-plist
+    fi
+    if [ -n /Library/LaunchDaemons/.*.plist ]
+    then
+	plutil -p /Library/LaunchDaemons/.*.plist > mac_autoruns/*-plist
+    fi
+    if [ -n /Library/Apple/System/Library/LaunchDaemons/*.plist ]
+    then
+	plutil -p /Library/Apple/System/Library/LaunchDaemons/*.plist > mac_autoruns/*-plist
+    fi
+    if [ -n /Library/Apple/System/Library/LaunchDaemons/.*.plist ]
+    then
+	plutil -p /Library/Apple/System/Library/LaunchDaemons/.*.plist > mac_autoruns/.*-plist
+    fi
+    if [ -n /System/Library/ScriptingAdditions/*.osax ]        #; ScriptingAdditions
+    then
+	cp /System/Library/ScriptingAdditions/*.osax > mac_autoruns/*-osax
+    fi
+    if [ -n /Library/ScriptingAdditions/*.osax ]
+    then
+	cp /Library/ScriptingAdditions/*.osax mac_autoruns/*-osax
+    fi
+    if [ -n /System/Library/ScriptingAdditions/.*.osax ]
+    then
+        cp /System/Library/ScriptingAdditions/.*.osax mac_autoruns/.*-osax
+    fi
+    if [ -n /Library/ScriptingAdditions/.*.osax ]
+    then
+	cp /Library/ScriptingAdditions/.*.osax mac_autoruns/.*-osax
+    fi
+    if [ -n /System/Library/StartupItems/*/* ]          #; StartupItems
+    then
+	cp /System/Library/StartupItems/*/* mac_autoruns/*/*
+    fi
+    if [ -n /Library/StartupItems/*/* ]
+    then
+	cp /Library/StartupItems/*/* mac_autoruns/*/*
+    fi
+    if [ -n /private/etc/periodic.conf ]          #; periodic, rc, emond
+    then
+	cp /private/etc/periodic.conf mac_autoruns/periodic.conf
+    fi
+    if [ -n /private/etc/periodic/*/* ]
+    then
+	cp /private/etc/periodic/*/* mac_autoruns/*/*
+    fi
+    if [ -n /private/etc/*.local ]
+    then
+	cp /private/etc/*.local mac_autoruns/*.local
+    fi
+    if [ -n /private/etc/rc.common ]
+    then
+	cp /private/etc/rc.common mac_autoruns/rc.common
+    fi
+    if [ -n /private/etc/emond.d/*/* ]
+    then
+	cp /private/etc/emond.d/*/* mac_autoruns/*/*
+    fi
+    if [ -n /Users/*/Library/Preferences/com.apple.loginitems.plist ]      #; user login items
+    then
+	plutil -p /Users/*/Library/Preferences/com.apple.loginitems.plist mac_autoruns/com.apple.loginitems.plist
+    fi
+    if [ -n /private/var/*/Library/Preferences/com.apple.loginitems.plist ]
+    then
+	plutil -p /private/var/*/Library/Preferences/com.apple.loginitems.plist mac_autoruns/com.apple.loginitems.plist
     fi
 }
 
