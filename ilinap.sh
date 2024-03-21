@@ -289,26 +289,46 @@ mac_autoruns () {
 	    plutil -p $l_launchdemon > mac_autoruns/$l_launchdemon_main
 	fi
     done
-    if [ -n /System/Library/LaunchDaemons/.*.plist ]
-    then
-	plutil -p /System/Library/LaunchDaemons/.*.plist > mac_autoruns/*-plist
-    fi
-    if [ -n /Library/LaunchDaemons/.*.plist ]
-    then
-	plutil -p /Library/LaunchDaemons/.*.plist > mac_autoruns/*-plist
-    fi
-    if [ -n /Library/Apple/System/Library/LaunchDaemons/*.plist ]
-    then
-	plutil -p /Library/Apple/System/Library/LaunchDaemons/*.plist > mac_autoruns/*-plist
-    fi
-    if [ -n /Library/Apple/System/Library/LaunchDaemons/.*.plist ]
-    then
-	plutil -p /Library/Apple/System/Library/LaunchDaemons/.*.plist > mac_autoruns/.*-plist
-    fi
-    if [ -n /System/Library/ScriptingAdditions/*.osax ]        #; ScriptingAdditions
-    then
-	cp /System/Library/ScriptingAdditions/*.osax > mac_autoruns/*-osax
-    fi
+    for hsl_launchdemon in /System/Library/LaunchDaemons/.*.plist
+    do
+	hsl_launchdemon_main=$(basename $hsl_launchdemon)
+	if [ -n $hsl_launchdemon ]
+	then
+	   plutil -p $hsl_launchdemon > mac_autoruns/$hsl_launchdemon_main
+	fi
+    done
+    for hl_launchdemon in /Library/LaunchDaemons/.*.plist
+    do
+	hl_launchdemon_main=$(basename $hl_launchdemon)
+	if [ -n $hl_launchdemon ]
+	then
+	    plutil -p $hl_launchdemon > mac_autoruns/$hl_launchdemon_main
+	fi
+    done
+    for las_launchdemon in /Library/Apple/System/Library/LaunchDaemons/*.plist
+    do
+	las_launchdemon_main=$(basename $las_launchdemon)
+	if [ -n $las_launchdemon ]
+	then
+	   plutil -p $las_launchdemon > mac_autoruns/$las_launchdemon_main
+	fi
+    done
+    for hlas_launchdemon in /Library/Apple/System/Library/LaunchDaemons/.*.plist 
+    do
+	hlas_launchdemon_main=$(basename $hlas_launchdemon)
+	if [ -n /Library/Apple/System/Library/LaunchDaemons/.*.plist ]
+	then
+	    plutil -p $hlas_launchdemon > mac_autoruns/$hlas_launchdemon_main
+	fi
+    done
+    for sl_script_add in /System/Library/ScriptingAdditions/*.osax
+    do
+	sl_script_add_main=$(basename $sl_script_add)
+	if [ -n $sl_script_add ]        #; ScriptingAdditions
+	then
+	    cp $sl_script_add > mac_autoruns/sl_script_add_main
+	fi
+    done
     if [ -n /Library/ScriptingAdditions/*.osax ]
     then
 	cp /Library/ScriptingAdditions/*.osax mac_autoruns/*-osax
