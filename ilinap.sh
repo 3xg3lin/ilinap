@@ -177,7 +177,7 @@ mac_bash_file () {
 }
 
 mac_autoruns () {
-    if [ $mac_version -ge "10.10" ]
+    if [ $mac_version_first_part -ge 10 ]
     then
        if [ -n /private/var/db/com.apple.xpc.launchd/disabled.*.plist ] 
        then
