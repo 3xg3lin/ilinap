@@ -3,27 +3,35 @@
 #
 
 bash_function () {          # bashrc and cron output
+    if ! [ -d $linux_parser_file/home ]
+    then
+	mkdir $linux_parser_file/home
+    fi
+    if ! [ -d $linux_parser_file/var/spool/cron/crontabs ]
+    then
+	mkdir -p $linux_parser_file/var/spool/cron/crontabs/
+    fi
     for user in ${users[*]}
     do
 	if [ -n /home/$user/.bashrc ]
 	then
-	    sudo cp /home/$user/.bashrc bash_files/$user.bashrc 2>/dev/null
+	    sudo cp /home/$user/.bashrc $linux_parser_file/home/$user/.bashrc 2>/dev/null
 	fi
 	if [ -n /home/$user/.bash_profile ]
 	then
-	    sudo cp /home/$user/.bash_profile bash_files/$user.bash_profile 2>/dev/null
+	    sudo cp /home/$user/.bash_profile $linux_parser_file/home/$user/.bash_profile 2>/dev/null
 	fi
 	if [ -n /home/$user/.bash_login ]
 	then
-	    sudo cp /home/$user/.bash_login bash_files/$user.bash_login 2>/dev/null
+	    sudo cp /home/$user/.bash_login $linux_parser_file/home/$user/.bash_login 2>/dev/null
 	fi
 	if [ -n /home/$user/.bash_logout ]
 	then 
-	    sudo cp /home/$user/.bash_logout bash_files/$user.bash_logout 2>/dev/null
+	    sudo cp /home/$user/.bash_logout $linux_parser_file/home/$user/.bash_logout 2>/dev/null
 	fi
 	if [ -n /var/spool/cron/crontabs/$user ]
 	then
-	    sudo cp /var/spool/cron/crontabs/$user crontab_files/$user.crontab 2>/dev/null
+	    sudo cp /var/spool/cron/crontabs/$user $linux_parser_file/var/spool/cron/crontabs/$user 2>/dev/null
 	fi
     done
 }
@@ -31,22 +39,39 @@ bash_function () {          # bashrc and cron output
 system_service () {
     if [ -d /lib/systemd/system ]
     then
-	systemctl status --type=service > services/service_running
-	ls -a /lib/systemd/system/* > services/all_services
+#	systemctl status --type=service > services/service_running
+	if ! [ -d $linux_parser_file/lib/systemd/system ]
+	then
+	    mkdir $linux_parser_file/lib/systemd/system
+	fi
+	for service_all in /lib/systemd/system/* 
+	do
+	    main_service=$(basename $service_all)
+	    cp -r $service_all > $linux_parser_file/lib/systemd/system/$main_service
+	done
     fi
 }
 
 os_release () {            # os-release
     if [ -n /etc/os-release ]
     then
-	echo "/etc/os-release is $(cat /etc/os-release)" > result
+	if ! [ -d $linux_parser_file/etc/ ]
+	then
+	    mkdir $linux_parser_file/etc
+	fi
+	cp /etc/os-release $linux_parser_file/etc/os-release
+    
     fi
 }
 
 hostname () {            # hostname output
     if [ -n /etc/hostname ]
     then
-	echo "/etc/hostname is $(cat /etc/hostname)" >> result
+	if ! [ -d $linux_parser_file/etc/ ]
+	then
+	    mkdir $linux_parser_file/etc
+	fi
+    cp /etc/hostname $linux_parser_file/etc/hostname
     fi
 }
 
@@ -415,6 +440,14 @@ mac_autoruns () {
 	    plutil -p $p_loginitems mac_autoruns/com.apple.loginitems.plist
 	fi
     done
+    for ul_backgrounditems in /Users/*/Library/Application Support/com.apple.backgroundtaskmanagementagent/backgrounditems.btm
+    do
+	ul_backgrounditems_main=$(basename $ul_backgrounditems)
+	if [ -n $ul_backgrounditems ]
+	then
+	    cp $ul_backgrounditems mac_autoruns/$ul_backgrounditems_main
+	fi
+    done
 }
 
 
@@ -422,13 +455,15 @@ if [ $(uname) = 'Linux' ]
 then
     if [ "$EUID" -eq 0 ]
     then
-	mkdir artifacts bash_files crontab_files services process passwd groups sudoers login_log vim_file sudo_execution
+	whoami=$(whoami)
+	hostname=$(hostname)
+	linux_parser_file=$whoami-$hostname
+	mkdir $linux_parser_file
 	for user in $(awk -F: '{if ($6 ~ /^\/home/ ) print $1}' /etc/passwd)
 	do
 	    users+=($user)
 	done
 	touch result
-	mkdir -p network/network_interface
 	bash_function       
 	system_service      
 	os_release          
