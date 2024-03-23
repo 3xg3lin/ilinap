@@ -192,21 +192,29 @@ sudo_execution_history () {
 }
 ## Until this part contain macOS function
 mac_bash_file () {
+    if ! [ -d $macos_parser_file/home ]
+    then
+	mkdir -p $macos_parser_file/home
+    fi
     for user in /Users/*/
     do
 	basename_user=$(basename $user)
+	if [ -d $macos_parser_file/home/$basename_user ]
+	then
+	    mkdir -p $macos_parser_file/home/$basename_user
+	fi
     	if [ -n $user/.bashrc ]
 	then
-            cp $user/.bashrc mac_bash_files/basename_user.bashrc
+            cp $user/.bashrc $macos_parser_file/home/$basename_user/.bashrc
 	fi
     	if [ -n $user/.bash_history ]
 	then
-            cp $user/.bash_history mac_bash_files/basename_user.bash_history
+            cp $user/.bash_history $macos_parser_file/home/$basename_user/.bash_history
     	fi
 	if [ -d $user/.bash_sessions/ ]
 	then
 	    mkdir $basename_user.bash_sessions
-	    cp $user/.bash_sessions/* mac_bash_files/$basename_user.bash_sessions/
+	    cp $user/.bash_sessions/* $linux_parser_file/home/$user/.bash_sessions/
     	fi
 	if [ -n $user/.bash_profile ]
     	then
