@@ -214,19 +214,19 @@ mac_bash_file () {
 	if [ -d $user/.bash_sessions/ ]
 	then
 	    mkdir $basename_user.bash_sessions
-	    cp $user/.bash_sessions/* $linux_parser_file/home/$user/.bash_sessions/
+	    cp $user/.bash_sessions/* $linux_parser_file/home/$basename_user/.bash_sessions/
     	fi
 	if [ -n $user/.bash_profile ]
     	then
-	    cp $user/.bash_profile mac_bash_files/$basename_user.bash_profile
+	    cp $user/.bash_profile $macos_parser_file/home/$basename_user/.bash_profile
     	fi
 	if [ -n $user/.profile ]
     	then
-	    cp $user/.profile mac_bash_files/$basename_user.profile
+	    cp $user/.profile $macos_parser_file/home/$basename_user/.profile
     	fi
 	if [ -n $user/.bash_logout ]
     	then
-	    cp $user/.bash_logout mac_bash_files/$basename_user.bash_logout
+	    cp $user/.bash_logout $macos_parser_file/home/$basename_user/.bash_logout
     	fi
     done
     for puser in /private/var/*/
