@@ -246,16 +246,16 @@ mac_bash_file () {
     	fi
 	if [ -d $puser/.bash_sessions ]
     	then
-	    mkdir mac_bash_files/$basename_puser.bash_sessions
+	    mkdir $macos_parser_file/private/var/$basename_puser/.bash_sessions
 	    cp -r $puser/.bash_sessions/* mac_bash_files/$basename_puser.bash_sessions/ 
     	fi
 	if [ -n /private/etc/profile ]
     	then
-	    cp /private/etc/profile mac_bash_files/private.etc.profile
+	    cp /private/etc/profile $macos_parser_file/private/etc/profile
     	fi
 	if [ -n /private/etc/bashrc* ]
 	then
-	    cp /privat/etc/bashrc* mac_bash_files/private.etc.bashrc*
+	    cp /privat/etc/bashrc* $macos_parser_file/private/etc/bashrc*
     	fi
     done
 }
