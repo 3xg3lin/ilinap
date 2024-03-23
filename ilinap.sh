@@ -188,7 +188,7 @@ viminfo_file () {           # viminfo file copy
 }
 
 sudo_execution_history () {
-    journalctl --facility=4,10 > $linux_parser_file/sudo_execution_hist
+    journalctl --facility=4,10 > $linux_parser_file/sudo_execution_history
 }
 ## Until this part contain macOS function
 mac_bash_file () {
@@ -525,9 +525,10 @@ then
     fi
 elif [ $(uname) = 'Darwin' ]
 then
-    mac_version_first_part=$( sw_vers |awk -F '[ .]' '/ProductVersion/ {print $1}'|sed 's/ProductVersion\://g' )
-    mac_version_second_part=$( sw_vers |awk -F '[ .]' '/ProductVersion/ {print $2}'|sed 's/ProductVersion\://g' ) 
-    mkdir mac_bash_files mac_autoruns
+    whoami=$(whoami)
+    hostname=$(hostname)
+    macos_parser_file=$whoami-$hostname
+    mkdir $macos_parser_file
 else
     echo "This is not MacOS or Linux sorry"
 fi
