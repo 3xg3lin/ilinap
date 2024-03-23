@@ -78,59 +78,90 @@ hostname () {            # hostname output
 location () {            # Localtime and timezone
     if [ -n /etc/timezone ]
     then
-	echo "/etc/timezone is $(cat /etc/timezone)" >> result
+	if ! [ -d $linux_parser_file/etc/ ]
+	then
+	    mkdir $linux_parser_file/etc
+	fi
+	cp /etc/timezone $linux_parser_file/etc/timezone
     fi
 }
 
 ip_address () {         # Ip addres and network output
-    ip a > network/ip_command
-    for networkd_file in /etc/network/interfaces.d/*
-    do
-	new_networkd_file=$(basename $networkd_file)
-	cp -r $new_networkd_file > network/network_interface/$new_networkd_file
-    done
+    ip a > $linux_parser_file/ip_a_command
+    if [ -d /etc/network/interfaces.d/ ]
+    then
+	if ! [ -d $linux_parser_file/etc ]
+	then
+	    mkdir -p $linux_parser_file/etc
+	fi
+	if ! [ -d $linux_parser_file/etc/network ]
+	then
+	    mkdir -p $linux_parser_file/etc/network
+	fi
+	for networkd_file in /etc/network/interfaces.d/*
+	do
+	    new_networkd_file=$(basename $networkd_file)
+	    cp -r $networkd_file > $linux_parser_file/etc/network/$new_networkd_file
+	done
+    fi
     if ! $(command -v netstat &>/dev/null)
     then
 	apt install net-tools -y &>/dev/null
     fi
-    netstat -natup > network/netstat_output
-    cat /etc/hosts > network/hosts_output
-    cat /etc/resolv.conf > network/revolv.conf
+    netstat -natup > $linux_parser_file/netstat_natup_output
+    cp /etc/hosts > $linux_parser_file/etc/hosts
+    cp /etc/resolv.conf > $linux_parser_file/etc/revolv.conf
 }
 
 process () {           # Process output 
-    ps aux > process/ps_output
+    ps aux > $linux_parser_file/ps_aux_output
 }
 
-user_group () {       # /etc/passwd file
-    cat /etc/passwd| column -t -s : > passwd/passwd_output
+user_group () { 
+    if ! [ -d $linux_parser_file/etc ]
+    then
+	mkdir $linux_parser_file/etc
+    fi
+    cat /etc/passwd| column -t -s : > $linux_parser_file/etc/passwd
 
-    # /etc/groups output
-    cat /etc/group| column -t -s : > groups/groups_output
+    cat /etc/group| column -t -s : > $linux_parser_file/etc/group
 }
 
 sudoers_file () {        # sudoers file
-if [ -n /etc/sudoers ]
-then
-    cp /etc/sudoers sudoers/sudoers_output 
-else
-    echo "Please login with root account"
-    cp /etc/sudoers sudoers/sudoers_output
-fi
+    if ! [ -d $linux_parser_file/etc ]
+    then
+	mkdir -p $linux_parser_file/etc 
+    fi
+    if [ -n /etc/sudoers ]
+    then
+	cp /etc/sudoers $linux_parser_file/etc/sudoers 
+    fi
 }
 
 log_files () {              # login failure and historical data
+    if ! [ -d $linux_parser_file/var ]
+    then
+	mkdir -p $linux_parser_file/var/{log,run}
+    fi
+    if ! [ -d $linux_parser_file/var/log ]
+    then
+	mkdir -p $linux_parser_file/var/log
+    fi
+    if [ -d $linux_parser_file/var/run ]
+    then
+	mkdir -p $linux_parser_file/var/run
+    fi
     if [ -n /var/log/btmp ]
     then
-	last -f /var/log/btmp > login_log/btmp
+	last -f /var/log/btmp > $linux_parser_file/var/log/btmp
     fi
     if [ -n /var/log/wtmp ]
     then
-	last -f /var/log/wtmp > login_log/wmtp
+	last -f /var/log/wtmp > $linux_parser_file/var/log/wmtp
     fi
     if [ -n /var/run/utmp ]
     then
-	last -f /var/run/utmp > login_log/utmp
+	last -f /var/run/utmp > $linux_parser_file/var/run/utmp
     fi
 }
 
