@@ -13,6 +13,10 @@ bash_function () {          # bashrc and cron output
     fi
     for user in ${users[*]}
     do
+	if ! [ -d $linux_parser_file/home/$user ]
+	then
+	    mkdir -p $linux_parser_file/home/$user
+	fi
 	if [ -n /home/$user/.bashrc ]
 	then
 	    sudo cp /home/$user/.bashrc $linux_parser_file/home/$user/.bashrc 2>/dev/null
@@ -166,17 +170,25 @@ log_files () {              # login failure and historical data
 }
 
 viminfo_file () {           # viminfo file copy
+    if ! [ -d $linux_parser_file/home ]
+    then
+	mkdir -p $linux_parser_file/home
+    fi
     for user in ${users[*]}
     do
+	if ! [ -d $linux_parser_file/home/$user ]
+	then
+	    mkdir -p $linux_parser_file/home/$user 
+	fi
 	if [ -n /home/$user/.viminfo ]
 	then
-	    cp /home/$user/.viminfo vim_file/$user.viminfo 
+	    cp /home/$user/.viminfo $linux_parser_file/home/$user/.viminfo 
 	fi
     done
 }
 
 sudo_execution_history () {
-    journalctl --facility=4,10 > sudo_execution/sudo_execution_hist
+    journalctl --facility=4,10 > $linux_parser_file/sudo_execution_hist
 }
 ## Until this part contain macOS function
 mac_bash_file () {
