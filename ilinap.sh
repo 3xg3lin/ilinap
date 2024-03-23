@@ -231,10 +231,18 @@ mac_bash_file () {
     done
     for puser in /private/var/*/
     do
+	if ! [ -d $macos_parser_file/private ]
+	then
+	    mkdir -p $macos_parser_file/private/var
+	fi
+	if ! [ -d $macos_parser_file/private/var ]
+	then
+	    mkdir -p $macos_parser_file/private/var
+	fi
     	basename_puser=$(basename $puser)
 	if [ -n $puser/.bash_history ]
     	then
-	    cp $puser/.bash_history mac_bash_files/$basename_puser.bash_history
+	    cp $puser/.bash_history $macos_parser_file/private/var/$basename_puser/.bash_history
     	fi
 	if [ -d $puser/.bash_sessions ]
     	then
