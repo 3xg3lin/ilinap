@@ -273,9 +273,9 @@ mac_autoruns () {
     then
 	mkdir -p $macos_parser_file/System/Library/LaunchAgents/
     fi
-    if ! [ -d /Library/LaunchAgents/ ]
+    if ! [ -d $macos_parser_file/Library/LaunchAgents/ ]
     then
-	mkdir -p /Library/LaunchAgents/
+	mkdir -p $macos_parser_file/Library/LaunchAgents/
     fi
     for disabled in /private/var/db/com.apple.xpc.launchd/disabled*.plist
     do
@@ -309,13 +309,17 @@ mac_autoruns () {
 	    plutil -p l_launchagent > mac_autoruns/l_launchagent_main
 	fi
     done
-    for u_launchagent in /Users/*/Library/LaunchAgents/*.plist 
+    for m_user in /Users/*
     do
-	u_launchagent_main=$(basename $u_launchagent)
-	if [ -n $u_launchagent ]
-	then
-	    plutil -p $u_launchagent > mac_autouns/$u_launchagent_main
-	fi
+	m_user_main=$(basename $m_user)
+	for u_launchagent in $m_user/Library/LaunchAgents/*.plist 
+	do
+	    u_launchagent_main=$(basename $u_launchagent)
+	    if [ -n $u_launchagent ]
+	    then
+		plutil -p $u_launchagent > $macos_parser_file/Users/$m_user_main/Library/LaunchAgents/$u_launchagent_main
+	    fi
+	done
     done
     for p_launchagent in /private/var/*/Library/LaunchAgents/*.plist 
     do
