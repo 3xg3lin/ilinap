@@ -261,7 +261,19 @@ mac_bash_file () {
 }
 
 mac_autoruns () {
-    for disabled in /private/var/db/com.apple.launchd/disabled.*.plist
+    if ! [ -d $macos_parser_file/var ]
+    then
+	mkdir -p $macos_parser_file/var/db/com.apple.xpc.launchd/
+    fi
+    if ! [ -d $macos_parser_file/var/db ]
+    then
+	mkdir -p $macos_parser_file/var/db/com.apple.xpc.launchd/
+    fi
+    if ! [ -d $macos_parser_file/var/db/com.apple.xpc.launchd ]
+    then
+	mkdir -p $macos_parser_file/var/db/com.apple.xpc.launchd
+    fi
+    for disabled in /private/var/db/com.apple.xpc.launchd/disabled*.plist
     do
 	disabled_main=$(basename $disabled)
 	if [ -n $disabled ] 
