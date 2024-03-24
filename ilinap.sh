@@ -261,27 +261,17 @@ mac_bash_file () {
 }
 
 mac_autoruns () {
-    if ! [ -d $macos_parser_file/private/var ]
-    then
-	mkdir -p $macos_parser_file/private/var/db/com.apple.xpc.launchd/
-	mkdir -p $macos_parser_file/private/var/at/tabs
-    fi
-    if ! [ -d $macos_parser_file/private/var/at ]
-    then
-	mkdir -p $macos_parser_file/private/var/at/tabs
-    fi
     if ! [ -d $macos_parser_file/private/var/at/tabs ]
     then
-	mkdir -p $macos_parser_file/private/var/at/tabs
+	mkdir -p $macos_parser_file/private/var/db/com.apple.xpc.launchd/
     fi
-    if ! [ -d $macos_parser_file/private/var/db ]
+    if ! [ -d $macos_parser_file/private/var/db/com.apple.xpc.launchd/ ]
     then
 	mkdir -p $macos_parser_file/private/var/db/com.apple.xpc.launchd/
     fi
-    if ! [ -d $macos_parser_file/private/var/db/com.apple.xpc.launchd ]
+    if ! [ -d $macos_parser_file/System/Library/LaunchAgents/ ]
     then
-	mkdir -p $macos_parser_file/private/var/db/com.apple.xpc.launchd
-    fi
+	mkdir -p $macos_parser_file/System/Library/LaunchAgents/
     for disabled in /private/var/db/com.apple.xpc.launchd/disabled*.plist
     do
 	disabled_main=$(basename $disabled)
