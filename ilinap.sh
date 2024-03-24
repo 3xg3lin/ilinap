@@ -261,24 +261,33 @@ mac_bash_file () {
 }
 
 mac_autoruns () {
-    if ! [ -d $macos_parser_file/var ]
+    if ! [ -d $macos_parser_file/private/var ]
     then
-	mkdir -p $macos_parser_file/var/db/com.apple.xpc.launchd/
+	mkdir -p $macos_parser_file/private/var/db/com.apple.xpc.launchd/
+	mkdir -p $macos_parser_file/private/var/at/tabs
     fi
-    if ! [ -d $macos_parser_file/var/db ]
+    if ! [ -d $macos_parser_file/private/var/at ]
     then
-	mkdir -p $macos_parser_file/var/db/com.apple.xpc.launchd/
+	mkdir -p $macos_parser_file/private/var/at/tabs
     fi
-    if ! [ -d $macos_parser_file/var/db/com.apple.xpc.launchd ]
+    if ! [ -d $macos_parser_file/private/var/at/tabs ]
     then
-	mkdir -p $macos_parser_file/var/db/com.apple.xpc.launchd
+	mkdir -p $macos_parser_file/private/var/at/tabs
+    fi
+    if ! [ -d $macos_parser_file/private/var/db ]
+    then
+	mkdir -p $macos_parser_file/private/var/db/com.apple.xpc.launchd/
+    fi
+    if ! [ -d $macos_parser_file/private/var/db/com.apple.xpc.launchd ]
+    then
+	mkdir -p $macos_parser_file/private/var/db/com.apple.xpc.launchd
     fi
     for disabled in /private/var/db/com.apple.xpc.launchd/disabled*.plist
     do
 	disabled_main=$(basename $disabled)
 	if [ -n $disabled ] 
 	then
-	    plutil -p $disabled > mac_autoruns/$disabled_main
+	    plutil -p $disabled > $macos_parser_file/private/var/db/com.apple.xpc.launchd/$disabled_main
 	fi 
     done
     for at_tabs in /private/var/at/tabs/*
@@ -286,7 +295,7 @@ mac_autoruns () {
 	at_tabs_main=$(basename $at_tabs)
 	if [ -n $at_tabs ]     #; crontab
 	then
-	    cp $at_tabs > mac_autoruns/$at_tabs_main
+	    cp $at_tabs > $macos_parser_file/private/var/at/tabs/$at_tabs_main
 	fi
     done
     for launchagent in /System/Library/LaunchAgents/*.plist
