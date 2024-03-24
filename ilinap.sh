@@ -321,13 +321,17 @@ mac_autoruns () {
 	    fi
 	done
     done
-    for p_launchagent in /private/var/*/Library/LaunchAgents/*.plist 
+    for p_user in /private/var/*
     do
-	p_launchagent_main=$(basename $p_launchagent)
-	if [ -n $p_launchagent ]
-	then
-	    plutil -p $p_launchagent > mac_autoruns/$p_launchagent_main
-	fi
+	p_user_basename=$(basename $p_user)
+	for p_launchagent in $p_user_basename/Library/LaunchAgents/*.plist 
+	do
+	    p_launchagent_main=$(basename $p_launchagent)
+	    if [ -n $p_launchagent ]
+	    then
+		plutil -p $p_launchagent > $macos_parser_file/private/var/$p_user_basename/Library/LaunchAgents/$p_launchagent_main
+	    fi
+	done
     done
     for s_launchagent in /System/Library/LaunchAgents/.*.plist 
     do
