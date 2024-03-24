@@ -324,7 +324,7 @@ mac_autoruns () {
     for p_user in /private/var/*
     do
 	p_user_basename=$(basename $p_user)
-	for p_launchagent in $p_user_basename/Library/LaunchAgents/*.plist 
+	for p_launchagent in /private/var/$p_user_basename/Library/LaunchAgents/*.plist 
 	do
 	    if ! [ -d $macos_parser_file/private/var/$p_user_basename/Library/LaunchAgents/ ]
 	    then
@@ -358,16 +358,24 @@ mac_autoruns () {
 	fi
 	if [ -n $ll_launchagent ]
 	then
-	    plutil -p $ll_launchagent > mac_autoruns/$ll_launchagent_main
+	    plutil -p $ll_launchagent > $macos_parser_file/Library/LaunchAgents/$ll_launchagent_main
 	fi
     done
-    for ul_launchagent in /Users/*/Library/LaunchAgents/.*.plist
+    for ll_user in /Users/*
     do
-	ul_launchagent_main=$(basename $ul_launchagent)
-	if [ -n $ul_launchagent ]
-	then
-	    plutil -p $ul_launchagent > mac_autoruns/$ul_launchagent_main
-	fi
+	ll_user_basename=$(basename $ll_user)
+	for ul_launchagent in /Users/$ll_user_basename/Library/LaunchAgents/.*.plist
+	do
+	    ul_launchagent_main=$(basename $ul_launchagent)
+	    if ! [ -d /Users/$ll_user_basename/Library/LaunchAgents ]
+	    then
+		mkdir -p $macos_parser_file/Users/$ll_user_basename/Library/LaunchAgents
+	    fi
+	    if [ -n $ul_launchagent ]
+	    then
+		plutil -p $ul_launchagent > $macos_parser_file/Users/$ll_user_basename/Library/LaunchAgents/$ul_launchagent_main
+	    fi
+	done
     done
     for pl_launchagent in /private/var/*/Library/LaunchAgents/.*.plist 
     do
