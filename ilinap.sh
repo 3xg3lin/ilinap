@@ -229,7 +229,7 @@ mac_bash_file () {
 	    cp $user/.bash_logout $macos_parser_file/home/$basename_user/.bash_logout
     	fi
     done
-    for puser in /private/var/*/
+    for puser in /private/var/*
     do
 	if ! [ -d $macos_parser_file/private ]
 	then
@@ -246,8 +246,8 @@ mac_bash_file () {
     	fi
 	if [ -d $puser/.bash_sessions ]
     	then
-	    mkdir $macos_parser_file/private/var/$basename_puser/.bash_sessions
-	    cp -r $puser/.bash_sessions/* mac_bash_files/$basename_puser.bash_sessions/ 
+	    mkdir -p $macos_parser_file/private/var/$basename_puser/.bash_sessions
+	    cp -r $puser/.bash_sessions/* $macos_parser_file/private/var/$basename_puser/.bash_sessions/ 
     	fi
 	if [ -n /private/etc/profile ]
     	then
