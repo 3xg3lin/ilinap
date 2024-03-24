@@ -272,6 +272,11 @@ mac_autoruns () {
     if ! [ -d $macos_parser_file/System/Library/LaunchAgents/ ]
     then
 	mkdir -p $macos_parser_file/System/Library/LaunchAgents/
+    fi
+    if ! [ -d /Library/LaunchAgents/ ]
+    then
+	mkdir -p /Library/LaunchAgents/
+    fi
     for disabled in /private/var/db/com.apple.xpc.launchd/disabled*.plist
     do
 	disabled_main=$(basename $disabled)
