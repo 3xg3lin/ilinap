@@ -589,9 +589,13 @@ mac_autoruns () {
 	    cp $p_local $macos_parser_file/private/etc/$p_local_main
 	fi
     done
+    if ! [ -d $macos_parser_file/private/etc ]
+    then
+	mkdir -p $macos_parser_file/private/etc
+    fi
     if [ -n /private/etc/rc.common ]
     then
-	cp /private/etc/rc.common mac_autoruns/rc.common
+	cp /private/etc/rc.common $macos_parser_file/private/etc/rc.common
     fi
     for p_emon in /private/etc/emond.d/*/*
     do
