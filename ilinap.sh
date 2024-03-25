@@ -567,18 +567,26 @@ mac_autoruns () {
 	for periodic_file in /private/etc/periodic/$p_periodic_file_main/*
 	do
 	    periodic_file_main=$(basename $periodic_file)
+	    if ! [ -d $macos_parser_file/private/etc/periodic/$p_periodic_file_main ]
+	    then
+		mkdir -p $macos_parser_file/private/etc/periodic/$p_periodic_file_main
+	    fi
 	    if [ -n $periodic_file ]
 	    then
-		cp $periodic_file mac_autoruns/$periodic_file_main
+		cp -r $periodic_file $macos_parser_file/private/etc/periodic/$p_peroidic_main/$periodic_file_main
 	    fi
 	done
     done
     for p_local in /private/etc/*.local
     do
 	p_local_main=$(basename p_local)
+	if ! [ -d $macos_parser_file/private/etc/ ]
+	then
+	    mkdir -p $macos_parser_file/private/etc
+	fi
 	if [ -n $p_local ]
 	then
-	    cp $p_local mac_autoruns/p_local_main
+	    cp $p_local $macos_parser_file/private/etc/$p_local_main
 	fi
     done
     if [ -n /private/etc/rc.common ]
