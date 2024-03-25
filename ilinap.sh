@@ -383,6 +383,10 @@ mac_autoruns () {
 	for pl_launchagent in /private/var/$p_var_main/Library/LaunchAgents/.*.plist 
 	do
 	    pl_launchagent_main=$(basename $pl_launchagent)
+	    if ! [ -d $macos_parser_file/private/var/$p_var_main/Library/LaunchAgents/ ]
+	    then
+		mkdir -p $macos_parser_file/private/var/$p_var_main/Library/LaunchAgents
+	    fi
 	    if [ -n $pl_launchagent ]
 	    then
 		plutil -p $pl_launchagent > $macos_parser_file/private/var/$p_var_main/Library/LaunchAgents/$pl_launchagent_main
@@ -392,30 +396,46 @@ mac_autoruns () {
     for ls_launchagent in /Library/Apple/System/Library/LaunchAgents/*.plist  
     do
 	ls_launchagent_main=$(basename $ls_launchagent)
+	if ! [ -d $macos_parser_file/Library/Apple/System/Library/LaunchAgents ]
+	then
+	    mkdir -p $macos_parser_file/Library/Apple/System/Library/LaunchAgents
+	fi
 	if [ -n $ls_launchagent ]
 	then
-	    plutil -p $ls_launchagent > mac_autoruns/ls_launchagent_main
+	    plutil -p $ls_launchagent > $macos_parser_file/Library/Apple/System/Library/LaunchAgents/ls_launchagent_main
 	fi
     done
     for las_launchagent in /Library/Apple/System/Library/LaunchAgents/.*.plist
     do
 	las_launchagent_main=$(basename $las_launchagent)
+	if ! [ -d $macos_parser_file/Library/Apple/System/Library/LaunchAgents ]
+	then
+	    mkdir -p $macos_parser_file/Library/Apple/System/Library/LaunchAgents
+	fi
 	if [ -n $las_launchagent ]
 	then
-	    plutil -p $las_launchagent > mac_autoruns/$las_launchagent_main
+	    plutil -p $las_launchagent > $macos_parser_file/Library/Apple/System/Library/LaunchAgents/$las_launchagent_main
 	fi
     done
     for sl_launchdemon in /System/Library/LaunchDaemons/*.plist
     do
 	sl_launchdemon_main=$(basename $sl_launchdemon)
+	if ! [ -d $macos_parser_file/System/Library/LaunchDaemons ]
+	then
+	    mkdir -p  $macos_parser_file/System/Library/LaunchDaemons
+	fi
 	if [ -n $sl_launchdemon ]     #; LaunchDaemons
 	then
-	    plutil -p $sl_launchdemon > mac_autoruns/$sl_launchdemon_main
+	    plutil -p $sl_launchdemon > $macos_parser_file/System/Library/LaunchDaemons/$sl_launchdemon_main
 	fi
     done
     for l_launchdemon in /Library/LaunchDaemons/*.plist
     do
 	l_launchdemon_main=$(basename $l_launchdemon)
+	if ! [ -d $macos_parser_file/Library/LaunchDaemons ]
+	then
+	    mkdir -p $macos_parser_file/Library/LaunchDaemons
+	fi
 	if [ -n $l_launchdemon ]
 	then
 	    plutil -p $l_launchdemon > mac_autoruns/$l_launchdemon_main
