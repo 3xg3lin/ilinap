@@ -528,7 +528,7 @@ mac_autoruns () {
     for hl_script_add in /Library/ScriptingAdditions/.*.osax 
     do
 	hl_script_add_main=$(basename $hl_script_add)
-	if [ -d $macos_parser_file/Library/ScriptingAdditions ]
+	if ! [ -d $macos_parser_file/Library/ScriptingAdditions ]
 	then
 	    mkdir -p $macos_parser_file/Library/ScriptingAdditions
 	fi
@@ -540,6 +540,10 @@ mac_autoruns () {
     for sl_startup in /System/Library/StartupItems/*/*
     do
 	sl_startup_main=$(basename $sl_startup)
+	if ! [ -d $macos_parser_file/System/Library/StartupItems ]
+	then
+	    mkdir -p $macos_parser_file/System/Library/StartupItems
+	fi
 	if [ -n $sl_startup ]          #; StartupItems
 	then
 	    cp  $sl_startup mac_autoruns/$sl_startup_main
