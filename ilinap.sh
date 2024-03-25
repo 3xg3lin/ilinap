@@ -504,25 +504,37 @@ mac_autoruns () {
     for l_script_add in /Library/ScriptingAdditions/*.osax
     do
 	l_script_add_main=$(basename $l_script_add)
+	if ! [ -d $macos_parser_file/Library/ScriptingAdditions ]
+	then
+	    mkdir -p $macos_parser_file/Library/SCriptingAdditions
+	fi
 	if [ -n $l_script_add ]
 	then
-	   cp -r $l_script_add mac_autoruns/$l_script_add_main
+	   cp -r $l_script_add $macos_parser_file/Library/ScriptingAdditions/$l_script_add_main
 	fi
     done
     for hsl_script_add in /System/Library/ScriptingAdditions/.*.osax 
     do
 	hsl_script_add_main=$(basename $hls_script_add)
+	if ! [ -d $macos_parser_file/System/Library/ScriptingAdditions ]
+	then
+	    mkdir -p $macos_parser_file/System/Library/ScriptingAdditions
+	fi
 	if [ -n $hsl_script_add ]
 	then
-	    cp -r $hsl_script_add mac_autoruns/$hsl_script_add_main
+	    cp -r $hsl_script_add $macos_parser_file/System/Library/ScriptingAdditions/$hsl_script_add_main
 	fi
     done
     for hl_script_add in /Library/ScriptingAdditions/.*.osax 
     do
 	hl_script_add_main=$(basename $hl_script_add)
+	if [ -d $macos_parser_file/Library/ScriptingAdditions ]
+	then
+	    mkdir -p $macos_parser_file/Library/ScriptingAdditions
+	fi
 	if [ -n $hl_script_add ]
 	then
-	    cp -r $hl_script_add mac_autoruns/$hl_script_add_main
+	    cp -r $hl_script_add $macos_parser_file/Library/ScriptingAdditions/$hl_script_add_main
 	fi
     done
     for sl_startup in /System/Library/StartupItems/*/*
