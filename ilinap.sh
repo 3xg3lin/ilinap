@@ -456,33 +456,49 @@ mac_autoruns () {
     for hl_launchdemon in /Library/LaunchDaemons/.*.plist
     do
 	hl_launchdemon_main=$(basename $hl_launchdemon)
+	if ! [ -d $macos_parser_file/Library/LaunchDaemons ]
+	then
+	    mkdir -p $macos_parser_file/Library/LaunchDaemons
+	fi
 	if [ -n $hl_launchdemon ]
 	then
-	    plutil -p $hl_launchdemon > mac_autoruns/$hl_launchdemon_main
+	    plutil -p $hl_launchdemon > $macos_parser_file/Library/LaunchDaemons/$hl_launchdemon_main
 	fi
     done
     for las_launchdemon in /Library/Apple/System/Library/LaunchDaemons/*.plist
     do
 	las_launchdemon_main=$(basename $las_launchdemon)
+	if ! [ -d $macos_parser_file/Library/Apple/System/Library/LaunchDaemons ]
+	then 
+	    mkdir -p $macos_parser_file/Library/Apple/System/Library/LaunchDaemons
+	fi
 	if [ -n $las_launchdemon ]
 	then
-	   plutil -p $las_launchdemon > mac_autoruns/$las_launchdemon_main
+	   plutil -p $las_launchdemon > $macos_parser_file/Library/Apple/System/Library/LaunchDaemons/$las_launchdemon_main
 	fi
     done
     for hlas_launchdemon in /Library/Apple/System/Library/LaunchDaemons/.*.plist 
     do
 	hlas_launchdemon_main=$(basename $hlas_launchdemon)
+	if ! [ -d $macos_parser_file/Library/Apple/System/Library/LaunchDaemons ]
+	then
+	    mkdir -p $macos_parser_file/Library/Apple/System/Library/LaunchDaemons
+	fi
 	if [ -n /Library/Apple/System/Library/LaunchDaemons/.*.plist ]
 	then
-	    plutil -p $hlas_launchdemon > mac_autoruns/$hlas_launchdemon_main
+	    plutil -p $hlas_launchdemon > $macos_parser_file/Library/Apple/System/Library/LaunchDaemons/$hlas_launchdemon_main
 	fi
     done
     for sl_script_add in /System/Library/ScriptingAdditions/*.osax
     do
 	sl_script_add_main=$(basename $sl_script_add)
+	if ! [ -d $macos_parser_file/System/Library/ScriptingAdditions ]
+	then
+	    mkdir -p $macos_parser_file/System/Library/ScriptingAddition
+	fi
 	if [ -n $sl_script_add ]        #; ScriptingAdditions
 	then
-	    cp -r $sl_script_add > mac_autoruns/sl_script_add_main
+	    cp -r $sl_script_add > $macos_parser_file/System/Library/ScriptingAdditions/sl_script_add_main
 	fi
     done
     for l_script_add in /Library/ScriptingAdditions/*.osax
