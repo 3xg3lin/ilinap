@@ -377,13 +377,17 @@ mac_autoruns () {
 	    fi
 	done
     done
-    for pl_launchagent in /private/var/*/Library/LaunchAgents/.*.plist 
+    for p_var in /private/var/*
     do
-	pl_launchagent_main=$(basename $pl_launchagent)
-	if [ -n $pl_launchagent ]
-	then
-	    plutil -p $pl_launchagent > mac_autoruns/$pl_launchagent_main
-	fi
+	ip_var_main=$(basename $p_var)
+	for pl_launchagent in /private/var/$p_var_main/Library/LaunchAgents/.*.plist 
+	do
+	    pl_launchagent_main=$(basename $pl_launchagent)
+	    if [ -n $pl_launchagent ]
+	    then
+		plutil -p $pl_launchagent > $macos_parser_file/private/var/$p_var_main/Library/LaunchAgents/$pl_launchagent_main
+	    fi
+	done
     done
     for ls_launchagent in /Library/Apple/System/Library/LaunchAgents/*.plist  
     do
