@@ -561,13 +561,17 @@ mac_autoruns () {
     then
 	cp  /private/etc/periodic.conf  mac_autoruns/periodic.conf
     fi
-    for periodic_file in /private/etc/periodic/*/*
+    for p_periodic_file in /private/etc/periodic/*
     do
-	periodic_file_main=$(basename $periodic_file)
-	if [ -n $periodic_file ]
-	then
-	    cp $periodic_file mac_autoruns/$periodic_file_main
-	fi
+	p_periodic_file_main=$(basename $p_periodic_file)
+	for periodic_file in /private/etc/periodic/$p_periodic_file_main/*
+	do
+	    periodic_file_main=$(basename $periodic_file)
+	    if [ -n $periodic_file ]
+	    then
+		cp $periodic_file mac_autoruns/$periodic_file_main
+	    fi
+	done
     done
     for p_local in /private/etc/*.local
     do
