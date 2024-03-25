@@ -438,15 +438,19 @@ mac_autoruns () {
 	fi
 	if [ -n $l_launchdemon ]
 	then
-	    plutil -p $l_launchdemon > mac_autoruns/$l_launchdemon_main
+	    plutil -p $l_launchdemon > $macos_parser_file/Library/LaunchDaemons/$l_launchdemon_main
 	fi
     done
     for hsl_launchdemon in /System/Library/LaunchDaemons/.*.plist
     do
 	hsl_launchdemon_main=$(basename $hsl_launchdemon)
+	if ! [ -d $macos_parser_file/System/Library/LaunchDaemons ]
+	then
+	    mkdir -p $macos_parser_file/System/Library/LaunchDaemons
+	fi
 	if [ -n $hsl_launchdemon ]
 	then
-	   plutil -p $hsl_launchdemon > mac_autoruns/$hsl_launchdemon_main
+	   plutil -p $hsl_launchdemon > $macos_parser_file/Sytem/Library/LaunchDaemons/$hsl_launchdemon_main
 	fi
     done
     for hl_launchdemon in /Library/LaunchDaemons/.*.plist
