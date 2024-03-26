@@ -649,6 +649,10 @@ mac_autoruns () {
 	for ul_backgrounditems in /Users/$ful_backgrounditems_main/Library/Application\ Support/com.apple.backgroundtaskmanagementagent/backgrounditems.btm
 	do
 	    ul_backgrounditems_main=$(basename $ul_backgrounditems)
+	    if ! [ -d $macos_parser_file/Users/$ful_backgrounditems_main/Library/Application\ Support/com.apple.backgroundtaskmanagementagent ]
+	    then
+		mkdir -p $macos_parser_file/Users/$ful_backgrounditems_main/Library/Application\ Support/com.apple.backgroundtaskmanagementagent
+	    fi
 	    if [ -n $ul_backgrounditems ]
 	    then
 		cp $ul_backgrounditems $macos_parser_file/Users/$ful_backgrounditems_main/Library/Application\ Support/com.apple/backgrountaskmanagementagent/$ul_backgrounditems_main
