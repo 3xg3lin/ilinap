@@ -673,6 +673,7 @@ mac_activer_directory () {
 	then
 	   cp -r $activedir $macos_parser_file/Library/Preferences/OpenDirectory/Configurations/Active\ Directory/
 	fi
+    done
 }
 
 
