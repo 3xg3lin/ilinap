@@ -597,20 +597,32 @@ mac_autoruns () {
     then
 	cp /private/etc/rc.common $macos_parser_file/private/etc/rc.common
     fi
-    for p_emon in /private/etc/emond.d/*/*
+    for pp_emon in /private/etc/emond.d/*
     do
-	p_emon_main=$(basename p_emon)
-	if [ -n $p_emon ]
-	then
-	    cp $p_emon mac_autoruns/$p_emon_main
-	fi
+	pp_emon_main=$(basename $pp_emon)
+    	for p_emon in /private/etc/emond.d/$pp_emon_main/*
+	do
+	    p_emon_main=$(basename p_emon)
+	    if ! [ -d $macos_parser_file/private/etc/emond.d/$pp_emon_main ]
+	    then
+		mkdir -p $macos_parser_file/private/etc/emond.d/$pp_emon_main
+	    fi
+	    if [ -n $p_emon ]
+	    then
+		cp -r $p_emon $macos_parser_file/private/etc/emond.d/$pp_emon_main/$p_emon_main
+	    fi
+	done
     done
-    for u_loginitems in /Users/*/Library/Preferences/com.apple.loginitems.plist
+    for uu_loginitems in /Users/*
     do
-	if [ -n $u_loginitems ]      #; user login items
-	then
-	    plutil -p $u_loginitems mac_autoruns/com.apple.loginitems.plist
-	fi
+	uu_login_main=$(basename $uu_login_main)
+	for u_loginitems in /Users/*/Library/Preferences/com.apple.loginitems.plist
+	do
+	    if [ -n $u_loginitems ]      #; user login items
+	    then
+		plutil -p $u_loginitems mac_autoruns/com.apple.loginitems.plist
+	    fi
+	done
     done
     for p_loginitems in /private/var/*/Library/Preferences/com.apple.loginitems.plist 
     do
