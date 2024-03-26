@@ -661,6 +661,20 @@ mac_autoruns () {
     done
 }
 
+mac_activer_directory () {
+    for activedir in /Library/Preferences/OpenDirectory/Configurations/Active Directory/*
+    do
+	activedir_main=$(basename $activedir)
+	if ! [ -d $macos_parser_file/Library/Preferences/OpenDirectory/Configurations/Active\ Directory ]
+	then
+	    mkdir -p $macos_parser_file/Library/Preferences/OpenDirectory/Configurations/Active\ Directory
+	fi
+	if [ -n /Library/Preferences/OpenDirectory/Configurations/Active\ Directory/$activedir_main ]
+	then
+	   cp -r $activedir $macos_parser_file/Library/Preferences/OpenDirectory/Configurations/Active\ Directory/
+	fi
+}
+
 
 if [ $(uname) = 'Linux' ]
 then
