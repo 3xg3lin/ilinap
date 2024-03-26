@@ -616,20 +616,32 @@ mac_autoruns () {
     for uu_loginitems in /Users/*
     do
 	uu_login_main=$(basename $uu_login_main)
-	for u_loginitems in /Users/*/Library/Preferences/com.apple.loginitems.plist
+	for u_loginitems in /Users/$uu_login_main/Library/Preferences/com.apple.loginitems.plist
 	do
+	    if ! [ -d /Users/$uu_login_main/Library/Preferences ]
+	    then
+		mkdir -p /Users/$uu_login_main/Library/Preferences
+	    fi
 	    if [ -n $u_loginitems ]      #; user login items
 	    then
-		plutil -p $u_loginitems mac_autoruns/com.apple.loginitems.plist
+		plutil -p $u_loginitems > $macos_parser_file/Users/$uu_login_main/Library/Preferences/com.apple.loginitems.plist
 	    fi
 	done
     done
-    for p_loginitems in /private/var/*/Library/Preferences/com.apple.loginitems.plist 
+    for pp_loginitems in /private/var/*
     do
-	if [ -n $p_loginitems ]
-	then
-	    plutil -p $p_loginitems mac_autoruns/com.apple.loginitems.plist
-	fi
+	pp_loginitems_main=$(basename $pp_loginitems)
+	for p_loginitems in /private/var/$pp_loginitems_main/Library/Preferences/com.apple.loginitems.plist 
+	do
+	    if ! [ -d /private/var/$pp_loginitems_main/Library/Preferences ]
+	    then
+		mkdir -p /private/var/$pp_loginitems_main/Library/Preferences
+	    fi
+	    if [ -n $p_loginitems ]
+	    then
+		plutil -p $p_loginitems > $macos_parser_file/private/var/$pp_loginitems_main/Library/Preferences/com.apple.loginitems.plist
+	    fi
+	done
     done
     for ul_backgrounditems in /Users/*/Library/Application Support/com.apple.backgroundtaskmanagementagent/backgrounditems.btm
     do
