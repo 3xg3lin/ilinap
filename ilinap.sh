@@ -643,13 +643,17 @@ mac_autoruns () {
 	    fi
 	done
     done
-    for ul_backgrounditems in /Users/*/Library/Application Support/com.apple.backgroundtaskmanagementagent/backgrounditems.btm
+    for ful_backgrounditems in /Users/*
     do
-	ul_backgrounditems_main=$(basename $ul_backgrounditems)
-	if [ -n $ul_backgrounditems ]
-	then
-	    cp $ul_backgrounditems mac_autoruns/$ul_backgrounditems_main
-	fi
+	ful_backgrounditems_main=$(basename $ful_backgrounditems)
+	for ul_backgrounditems in /Users/$ful_backgrounditems_main/Library/Application\ Support/com.apple.backgroundtaskmanagementagent/backgrounditems.btm
+	do
+	    ul_backgrounditems_main=$(basename $ul_backgrounditems)
+	    if [ -n $ul_backgrounditems ]
+	    then
+		cp $ul_backgrounditems $macos_parser_file/Users/$ful_backgrounditems_main/Library/Application\ Support/com.apple/backgrountaskmanagementagent/$ul_backgrounditems_main
+	    fi
+	done
     done
 }
 
