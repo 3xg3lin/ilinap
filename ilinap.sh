@@ -676,6 +676,21 @@ mac_activer_directory () {
     done
 }
 
+mac_applist () {
+    for app_user in /Users/*
+    do
+	app_user_main=$(basename $app_user)
+	for app_user_s in /Users/$app_user_main/Library/Application\ Support/com.apple.stoplight/appList.dat
+	do
+	    if ! [ -d $macos_parser_file/Users/$app_user_main/Library/Application\ Support/com.apple.stoplight/appList.dat ]
+	    then
+		mkdir -p $macos_parser_file/Users/$app_user_main/Library/Application\ Support/com.apple.stoplight
+	    fi
+	    cp -r $app_user_s $macos_parser_file/Users/$app_user_main/Library/Application\ Support/com.apple.stoplight
+	done
+    done
+}
+
 
 if [ $(uname) = 'Linux' ]
 then
