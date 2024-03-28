@@ -863,6 +863,15 @@ then
     hostname=$(hostname)
     macos_parser_file=$whoami-$hostname
     mkdir $macos_parser_file
+    mac_autoruns
+    mac_ard
+    mac_asl
+    mac_applist
+    mac_cmdhistory
+    mac_coreanalytics
+    mac_cfurl_cache
+    mac_activer_directory
+    mac_bluetooth
 else
     echo "This is not MacOS or Linux sorry"
 fi
