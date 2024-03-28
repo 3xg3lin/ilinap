@@ -726,6 +726,16 @@ mac_ard () {
 }
 
 mac_asl () {
+    for asl in /private/var/log/asl/*.asl
+    do
+	asl_main=$(basename $asl)
+	if ! [ -d $macos_parser_file/private/var/log/asl ]
+	then
+	    mkdir -p $macos_parser_file/private/var/log/asl
+	fi
+	cp -r $asl $macos_parser_file/private/var/log/asl/$asl_main
+    done
+}
 
 
 if [ $(uname) = 'Linux' ]
