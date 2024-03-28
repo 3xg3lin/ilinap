@@ -760,6 +760,9 @@ mac_cfurl_cache () {
 		    mkdir -p  $macos_parser_file/Users/$cfuser_main/Library/Caches
 		fi
 		cp -r $cfcache $macos_parser_file/Users/$cfuser_main/Library/Caches/$cflib_main/$cflib_main
+	    done
+	done
+    done
 }
 
 if [ $(uname) = 'Linux' ]
