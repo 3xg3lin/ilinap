@@ -691,6 +691,17 @@ mac_applist () {
     done
 }
 
+mac_ard () {
+    for ard in /private/var/db/RemoteManagement/caches/*
+    do
+	if ! [ -d $macos_parser_files/private/var/db/RemoteManagement/caches ]
+	then
+	    mkdir -p $macos_parser_files/private/var/db/RemoteManagement/caches 
+	fi
+	ard_main=$(basename $ard)
+	cp -r $ard $macos_parser_file/private/var/db/RemoteManagement/caches/$ard_main
+    done
+}
 
 if [ $(uname) = 'Linux' ]
 then
