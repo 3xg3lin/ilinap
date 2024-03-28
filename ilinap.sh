@@ -737,6 +737,13 @@ mac_asl () {
     done
 }
 
+mac_bluetooth () {
+    if ! [ -d $macos_parser_file/Library/Preference ]
+    then
+	mkdir -p $macos_parser_file/Library/Preference
+    fi
+    plutil -p /Library/Preferences/com.apple.Bluetooth.plist > $macos_parser_file/Library/Preferences/com.apple.Bluetooth.plist
+}
 
 if [ $(uname) = 'Linux' ]
 then
