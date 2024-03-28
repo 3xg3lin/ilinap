@@ -706,8 +706,14 @@ mac_ard () {
 	ard_cache_main=$(basename $ard_cache)
 	for ard_sec_cache in /private/var/db/RemoteManagement/ClientCaches/$ard_cache_main/*
 	do
+	    if ! [ -d $macos_parser_file/private/var/db/RemoteManagement/ClientCaches/$ard_cache_main ]
+	    then
+		mkdir -p $macos_parser_file/private/var/db/RemoteManagement/ClientCaches/$ard_cache_main
+	    fi
 	    ard_sec_cache_main=$(basename $ard_sec_cache)
-	    cp -r $ard_sec_cache $macos_parser_file
+	    cp -r $ard_sec_cache $macos_parser_file/private/var/db/RemoteManagement/ClientCaches/$ard_cache_main/$ard_sec_cache_main
+	done
+    done
 }
 
 
