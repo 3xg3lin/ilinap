@@ -793,6 +793,15 @@ mac_cmdhistory () {
     done
 }
 
+mac_coreanalytics () {
+    if ! [ -d /Library/Logs/DiagnosticReports ]
+    then
+	mkdir -p /Library/Logs/DiagnosticReports
+    fi
+    cp -r /Library/Logs/DiagnosticReports/Analytics*.core_analytics $macos_parser_file/Library/Logs/DiagnosticReports/
+
+}
+
 if [ $(uname) = 'Linux' ]
 then
     if [ "$EUID" -eq 0 ]
