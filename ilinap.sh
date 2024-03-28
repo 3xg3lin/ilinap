@@ -745,6 +745,23 @@ mac_bluetooth () {
     plutil -p /Library/Preferences/com.apple.Bluetooth.plist > $macos_parser_file/Library/Preferences/com.apple.Bluetooth.plist
 }
 
+mac_cfurl_cache () {
+    for cfuser in /Users/*
+    do
+	cfuser_main=$(basename $cfuser)
+	for cflib in /Users/$cfuser_main/Library/Caches/*
+	do
+	    cflib_main=$(basename $cflib)
+	    for cfcache in /Users/$cfuser_main/Library/Caches/$cflib_main/Cache.db*
+	    do
+		cfcache_main=$(basename $cfcache)
+		if ! [ -d  $macos_parser_file/Users/$cfuser_main/Library/Caches ]
+		then
+		    mkdir -p  $macos_parser_file/Users/$cfuser_main/Library/Caches
+		fi
+		cp -r $cfcache $macos_parser_file/Users/$cfuser_main/Library/Caches/$cflib_main/$cflib_main
+}
+
 if [ $(uname) = 'Linux' ]
 then
     if [ "$EUID" -eq 0 ]
