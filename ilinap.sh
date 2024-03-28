@@ -725,6 +725,7 @@ mac_ard () {
     done
 }
 
+mac_asl () {
 
 
 if [ $(uname) = 'Linux' ]
