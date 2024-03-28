@@ -809,6 +809,19 @@ mac_coreanalytics () {
 	mkdir -p $macos_parser_file/private/var/db/analyticsd/aggregates
     fi
     cp -r /private/var/db/analyticsd/aggregates/* $macos_parser_file/private/var/db/analyticsd/aggregates/
+    for agg in /private/var/db/analyticsd/aggregates/*
+    do
+	agg_main=$(basename $agg)
+	for agg_file in /private/var/db/analyticsd/aggregates/$agg_main/*
+	do
+	    agg_file_main=$(basename $agg_file)
+	    if ! [ -d $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main ]
+	    then
+		mkdir -p $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main 
+	    fi
+	    cp -r $agg_file $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main/$agg_file_main
+	done
+    done
 }
 
 if [ $(uname) = 'Linux' ]
