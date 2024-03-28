@@ -231,15 +231,11 @@ mac_bash_file () {
     done
     for puser in /private/var/*
     do
-	if ! [ -d $macos_parser_file/private ]
+	basename_puser=$(basename $puser)
+	if ! [ -d $macos_parser_file/private/var/$basename_puser/ ]
 	then
-	    mkdir -p $macos_parser_file/private/var
+	    mkdir -p $macos_parser_file/private/var/$basename_puser
 	fi
-	if ! [ -d $macos_parser_file/private/var ]
-	then
-	    mkdir -p $macos_parser_file/private/var
-	fi
-    	basename_puser=$(basename $puser)
 	if [ -n $puser/.bash_history ]
     	then
 	    cp $puser/.bash_history $macos_parser_file/private/var/$basename_puser/.bash_history
@@ -255,24 +251,12 @@ mac_bash_file () {
     	fi
 	if [ -n /private/etc/bashrc* ]
 	then
-	    cp /privat/etc/bashrc* $macos_parser_file/private/etc/bashrc*
+	    cp /privat/etc/bashrc* $macos_parser_file/private/etc/
     	fi
     done
 }
 
 mac_autoruns () {
-    if ! [ -d $macos_parser_file/private/var/at/tabs ]
-    then
-	mkdir -p $macos_parser_file/private/var/db/com.apple.xpc.launchd/
-    fi
-    if ! [ -d $macos_parser_file/private/var/db/com.apple.xpc.launchd/ ]
-    then
-	mkdir -p $macos_parser_file/private/var/db/com.apple.xpc.launchd/
-    fi
-    if ! [ -d $macos_parser_file/System/Library/LaunchAgents/ ]
-    then
-	mkdir -p $macos_parser_file/System/Library/LaunchAgents/
-    fi
     if ! [ -d $macos_parser_file/Library/LaunchAgents/ ]
     then
 	mkdir -p $macos_parser_file/Library/LaunchAgents/
@@ -280,6 +264,10 @@ mac_autoruns () {
     for disabled in /private/var/db/com.apple.xpc.launchd/disabled*.plist
     do
 	disabled_main=$(basename $disabled)
+	if ! [ -d $macos_parser_file/private/var/db/com.apple.xpc.launchd ]
+	then
+	    mkdir -p $macos_parser_file/private/var/db/com.apple.xpc.launchd/
+	fi
 	if [ -n $disabled ] 
 	then
 	    plutil -p $disabled > $macos_parser_file/private/var/db/com.apple.xpc.launchd/$disabled_main
@@ -288,6 +276,10 @@ mac_autoruns () {
     for at_tabs in /private/var/at/tabs/*
     do
 	at_tabs_main=$(basename $at_tabs)
+	if ! [ -d $macos_parser_file/private/var/at/tabs ]
+	then
+	    mkdir -p $macos_parser_file/private/var/at/tabs
+	fi
 	if [ -n $at_tabs ]     #; crontab
 	then
 	    cp $at_tabs > $macos_parser_file/private/var/at/tabs/$at_tabs_main
@@ -296,6 +288,10 @@ mac_autoruns () {
     for launchagent in /System/Library/LaunchAgents/*.plist
     do
 	launchagent_main=$(basename $launchagent)
+	if ! [ -d $macos_parser_file/System/Library/LaunchAgents/ ]
+	then
+	    mkdir -p $macos_parser_file/System/Library/LaunchAgents/
+	fi
 	if [ -n $launchagent ]    #; LaunchAgents
 	then
 	    plutil -p $launchagent_main > mac_autoruns/$launchagent_main
@@ -304,6 +300,10 @@ mac_autoruns () {
     for l_launchagent in /Library/LaunchAgents/*.plist  
     do
 	l_launchagent_main=$(basename $l_launchagent)
+	if ! [ -d $macos_parser_file/Library/LaunchAgents/ ]
+	then
+	    mkdir -p $macos_parser_file/Library/LaunchAgents/
+	fi
 	if [ -n l_launchagent ]
 	then
 	    plutil -p l_launchagent > mac_autoruns/l_launchagent_main
@@ -315,6 +315,10 @@ mac_autoruns () {
 	for u_launchagent in $m_user/Library/LaunchAgents/*.plist 
 	do
 	    u_launchagent_main=$(basename $u_launchagent)
+	    if ! [ -d $macos_parser_file/Users/$m_user_main/Library/LaunchAgents ]
+	    then
+		mkdir -p $macos_parser_file/Users/$m_user_main/Library/LaunchAgents 
+	    fi
 	    if [ -n $u_launchagent ]
 	    then
 		plutil -p $u_launchagent > $macos_parser_file/Users/$m_user_main/Library/LaunchAgents/$u_launchagent_main
