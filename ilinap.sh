@@ -834,7 +834,7 @@ then
     then
 	whoami=$(whoami)
 	hostname=$(hostname)
-	linux_parser_file=$whoami-$hostname
+	linux_parser_file=( $whoami-$hostname )
 	mkdir $linux_parser_file
 	for user in $(awk -F: '{if ($6 ~ /^\/home/ ) print $1}' /etc/passwd)
 	do
@@ -863,7 +863,7 @@ then
     then
 	whoami=$(whoami)
 	hostname=$(hostname)
-	macos_parser_file=$whoami-$hostname
+	macos_parser_file=( $whoami-$hostname )
 	mkdir $macos_parser_file
 	mac_autoruns
 	mac_ard
