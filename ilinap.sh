@@ -794,12 +794,21 @@ mac_cmdhistory () {
 }
 
 mac_coreanalytics () {
-    if ! [ -d /Library/Logs/DiagnosticReports ]
+    if ! [ -d $macos_parser_file/Library/Logs/DiagnosticReports ]
     then
-	mkdir -p /Library/Logs/DiagnosticReports
+	mkdir -p $macos_parser_file/Library/Logs/DiagnosticReports
     fi
     cp -r /Library/Logs/DiagnosticReports/Analytics*.core_analytics $macos_parser_file/Library/Logs/DiagnosticReports/
-
+    if ! [ -d $macos_parser_file/Library/Logs/DiagnosticReports/Retired ]
+    then
+	mkdir -p $macos_parser_file/Library/Logs/DiagnosticReports/Retired
+    fi
+    cp -r /Library/Logs/DiagnosticReports/Retired/Analytics*.core_analytics $macos_parser_file/Library/Logs/DiagnosticReports/Retired/
+    if ! [ -d $macos_parser_file/private/var/db/analyticsd/aggregates ]
+    then
+	mkdir -p $macos_parser_file/private/var/db/analyticsd/aggregates
+    fi
+    cp -r /private/var/db/analyticsd/aggregates/* $macos_parser_file/private/var/db/analyticsd/aggregates/
 }
 
 if [ $(uname) = 'Linux' ]
