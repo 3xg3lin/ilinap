@@ -859,19 +859,22 @@ then
     fi
 elif [ $(uname) = 'Darwin' ]
 then
-    whoami=$(whoami)
-    hostname=$(hostname)
-    macos_parser_file=$whoami-$hostname
-    mkdir $macos_parser_file
-    mac_autoruns
-    mac_ard
-    mac_asl
-    mac_applist
-    mac_cmdhistory
-    mac_coreanalytics
-    mac_cfurl_cache
-    mac_activer_directory
-    mac_bluetooth
+    if [ "$EUID" -eq 0 ]
+    then
+	whoami=$(whoami)
+	hostname=$(hostname)
+	macos_parser_file=$whoami-$hostname
+	mkdir $macos_parser_file
+	mac_autoruns
+	mac_ard
+	mac_asl
+	mac_applist
+	mac_cmdhistory
+	mac_coreanalytics
+	mac_cfurl_cache
+	mac_activer_directory
+	mac_bluetooth
+    fi
 else
     echo "This is not MacOS or Linux sorry"
 fi
