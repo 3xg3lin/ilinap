@@ -777,6 +777,22 @@ mac_cfurl_cache () {
     done
 }
 
+mac_cmdhistory () {
+    for user_cmd in /Users/*
+    do
+	user_cmd_main=$(basename $user_cmd)
+	for cmd_history in /Users/$user_cmd_main/.*_history
+	do
+	    cmd_history_main=$(basename $cmd_history)
+	    if ! [ -d $macos_parser_file/Users/$user_cmd_main ]
+	    then
+		mkdir -p $macos_parser_file/Users/$user_cmd_main 
+	    fi
+	    cp -r $cmd_history $macos_parser_file/Users/$user_cmd_main/$cmd_history_main
+	done
+    done
+}
+
 if [ $(uname) = 'Linux' ]
 then
     if [ "$EUID" -eq 0 ]
