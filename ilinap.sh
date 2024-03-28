@@ -694,7 +694,7 @@ mac_applist () {
 mac_ard () {
     for ard in /private/var/db/RemoteManagement/caches/*
     do
-	if ! [ -d $macos_parser_files/private/var/db/RemoteManagement/caches ]
+	if ! [ -d $macos_parser_file/private/var/db/RemoteManagement/caches ]
 	then
 	    mkdir -p $macos_parser_file/private/var/db/RemoteManagement/caches 
 	fi
@@ -713,6 +713,15 @@ mac_ard () {
 	    ard_sec_cache_main=$(basename $ard_sec_cache)
 	    cp -r $ard_sec_cache $macos_parser_file/private/var/db/RemoteManagement/ClientCaches/$ard_cache_main/$ard_sec_cache_main
 	done
+    done
+    for rmdb in /private/var/db/RemoteManagement/RMDB/*
+    do
+	rmdb_main=$(basename $rmdb)
+	if ! [ -d $macos_parser_file/var/db/RemoteManagement/RMDB ]
+	then
+	    mkdir -p $macos_parser_file/var/db/RemoteManagement/RMDB
+	fi
+	cp -r $rmdb $macos_parser_file/private/var/db/RemoteManagement/RMDB/$rmdb_main
     done
 }
 
