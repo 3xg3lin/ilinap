@@ -752,6 +752,18 @@ mac_cfurl_cache () {
 	for cflib in /Users/$cfuser_main/Library/Caches/*
 	do
 	    cflib_main=$(basename $cflib)
+	    if [ -d /Users/$cfuser_main/Library/Caches/$cflib_main/fsCachedData ]
+	    then
+		for fscache in /Users/$cfuser_main/Library/Caches/$cflib_main/fsCachedData/*
+		do
+		    fscache_main=$(basename $fscache)
+		    if ! [ -d $macos_parser_file/Users/$cfuser_main/Library/Caches/$cflib_main/fsCachedData ]
+		    then
+			mkdir -p $macos_parser_file/Users/$cfuser_main/Library/Caches/$cflib_main/fsCachedData
+		    fi
+		    cp -r $fscache $macos_parser_file/Users/$cfuser_main/Library/Caches/$cflib_main/fsCachedData/$fscache_main
+		done
+	    fi
 	    for cfcache in /Users/$cfuser_main/Library/Caches/$cflib_main/Cache.db*
 	    do
 		cfcache_main=$(basename $cfcache)
