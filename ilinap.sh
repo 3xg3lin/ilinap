@@ -696,12 +696,21 @@ mac_ard () {
     do
 	if ! [ -d $macos_parser_files/private/var/db/RemoteManagement/caches ]
 	then
-	    mkdir -p $macos_parser_files/private/var/db/RemoteManagement/caches 
+	    mkdir -p $macos_parser_file/private/var/db/RemoteManagement/caches 
 	fi
 	ard_main=$(basename $ard)
 	cp -r $ard $macos_parser_file/private/var/db/RemoteManagement/caches/$ard_main
     done
+    for ard_cache in /private/var/db/RemoteManagement/ClientCaches/*
+    do
+	ard_cache_main=$(basename $ard_cache)
+	for ard_sec_cache in /private/var/db/RemoteManagement/ClientCaches/$ard_cache_main/*
+	do
+	    ard_sec_cache_main=$(basename $ard_sec_cache)
+	    cp -r $ard_sec_cache $macos_parser_file
 }
+
+
 
 if [ $(uname) = 'Linux' ]
 then
