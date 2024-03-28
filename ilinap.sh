@@ -820,7 +820,7 @@ mac_coreanalytics () {
 		agg_file_3_main=$(basename $agg_file_3)
 		if ! [ -d $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main/$agg_file_main ]
 		then
-		   mkdir -p $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main/$agg_file_3_main 
+		   mkdir -p $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main/$agg_file_main 
 		fi
 		cp -r $agg_file $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main/$agg_file_main/$agg_file_3_main
 	    done
