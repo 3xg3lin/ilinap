@@ -422,7 +422,7 @@ mac_autoruns () {
 	fi
 	if [ -n $ls_launchagent ]
 	then
-	    plutil -p $ls_launchagent > $macos_parser_file/Library/Apple/System/Library/LaunchAgents/ls_launchagent_main
+	    plutil -p $ls_launchagent > $macos_parser_file/Library/Apple/System/Library/LaunchAgents/$ls_launchagent_main
 	fi
     done
     for las_launchagent in /Library/Apple/System/Library/LaunchAgents/.*.plist
