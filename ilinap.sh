@@ -603,11 +603,23 @@ mac_autoruns () {
     done
     if [ -n  /private/etc/periodic.conf  ]          #; periodic, rc, emond
     then
-	cp  /private/etc/periodic.conf  mac_autoruns/periodic.conf
+	if ! [ -d $macos_parser_file/private/etc ]
+	then
+	    mkdir -p $macos_parser_file/private/etc
+	fi
+	cp  /private/etc/periodic.conf $macos_parser_file/private/etc/periodic.conf
     fi
     for p_periodic_file in /private/etc/periodic/*
     do
 	p_periodic_file_main=$(basename $p_periodic_file)
+	if [ -f $p_periodic_file ]
+	then
+	    if ! [ -d $macos_parser_file/private/etc/periodic ]
+	    then
+		mkdir -p $macos_parser_file/private/etc/periodic
+	    fi
+	    cp -r $p_periodic_file $macos_parser_file/private/etc/periodic/$p_periodic_file_main
+	fi
 	for periodic_file in /private/etc/periodic/$p_periodic_file_main/*
 	do
 	    periodic_file_main=$(basename $periodic_file)
