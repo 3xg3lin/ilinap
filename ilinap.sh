@@ -629,7 +629,7 @@ mac_autoruns () {
 	    fi
 	    if [ -n $periodic_file ]
 	    then
-		cp -r $periodic_file $macos_parser_file/private/etc/periodic/$p_peroidic_main/$periodic_file_main
+		cp -r $periodic_file $macos_parser_file/private/etc/periodic/$p_peroidic_file_main/$periodic_file_main
 	    fi
 	done
     done
