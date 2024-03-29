@@ -557,25 +557,49 @@ mac_autoruns () {
 	    cp -r $hl_script_add $macos_parser_file/Library/ScriptingAdditions/$hl_script_add_main
 	fi
     done
-    for sl_startup in /System/Library/StartupItems/*/*
+    for sl_startup in /System/Library/StartupItems/*
     do
 	sl_startup_main=$(basename $sl_startup)
-	if ! [ -d $macos_parser_file/System/Library/StartupItems ]
+	if [ -f $sl_startup ]
 	then
-	    mkdir -p $macos_parser_file/System/Library/StartupItems
+	    if ! [ -d $macos_parser_file/System/Library/StartupItems ]
+	    then
+		mkdir -p $macos_parser_file/System/Library/StartupItems
+	    fi
+	    cp -r $sl_startup $macos_parser_file/System/Library/StartupItems/$sl_startup_main
 	fi
-	if [ -n $sl_startup ]          #; StartupItems
-	then
-	    cp  $sl_startup mac_autoruns/$sl_startup_main
-	fi
+	for usl_startup in /System/Library/StartupItems/$sl_startup_main/*
+	do
+	    usl_startup_main=$(basename $usl_startup)
+	    if ! [ -d $macos_parser_file/System/Library/StartupItems/$sl_startup_main ]
+	    then
+		mkdir -p $macos_parser_file/System/Library/StartupItems/$sl_startup_main
+	    fi
+	    if [ -n $sl_startup ]          #; StartupItems
+	    then
+		cp  $usl_startup $macos_parser_file/System/Library/StartupItems/$sl_startup_main/$usl_startup_main
+	    fi
+	done
     done
-    for l_startup in /Library/StartupItems/*/* 
+    for l_startup in /Library/StartupItems/* 
     do
 	l_startup_main=$(basename $l_startup)
-	if [ -n $l_startup ]
+	if [ -f $l_startup ]
 	then
-	   cp $l_startup mac_autoruns/$l_startup_main
+	    if ! [ -d $macos_parser_file/Library/StartupItems ]
+	    then
+		mkdir -p $macos_parser_file/Library/StartupItems
+	    fi
+	    cp -r $l_startup $macos_parser_file/Library/StartupItems/$l_startup_main
 	fi
+	for ul_startup in /Library/StartupItems/$l_startup_main
+	do
+	    ul_startup_main=$(basename $ul_startup)
+	    if [ -n $ul_startup ]
+	    then
+		cp -r $ul_startup $macos_parser_file/Library/StartupItems/$l_startup_main/$ul_startup_main
+	    fi
+	done
     done
     if [ -n  /private/etc/periodic.conf  ]          #; periodic, rc, emond
     then
