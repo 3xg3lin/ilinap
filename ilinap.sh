@@ -328,6 +328,14 @@ mac_autoruns () {
     for p_user in /private/var/*
     do
 	p_user_basename=$(basename $p_user)
+	if [ -f $p_user ]
+	then
+	    if ! [ -d $macos_parser_file/private/var ]
+	    then
+		mkdir -p $macos_parser_file/private/var
+	    fi
+	    cp -r $app_user $macos_parser_file/private/var/$p_user_basename
+	fi
 	for p_launchagent in /private/var/$p_user_basename/Library/LaunchAgents/*.plist 
 	do
 	    if ! [ -d $macos_parser_file/private/var/$p_user_basename/Library/LaunchAgents/ ]
@@ -383,7 +391,15 @@ mac_autoruns () {
     done
     for p_var in /private/var/*
     do
-	ip_var_main=$(basename $p_var)
+	p_var_main=$(basename $p_var)
+	if ! [ -d $macos_parser_file/private/var ] 
+	then
+	    mkdir -p $macos_parser_file/private/var
+	fi
+	if [ -f $p_var ]
+	then
+	    cp -r $p_var $macos_parser_file/private/var/$ip_var_main
+	fi
 	for pl_launchagent in /private/var/$p_var_main/Library/LaunchAgents/.*.plist 
 	do
 	    pl_launchagent_main=$(basename $pl_launchagent)
