@@ -518,7 +518,7 @@ mac_autoruns () {
 	fi
 	if [ -n $sl_script_add ]        #; ScriptingAdditions
 	then
-	    cp -r $sl_script_add  $macos_parser_file/System/Library/ScriptingAdditions/$sl_script_add_main
+	    cp -r $sl_script_add $macos_parser_file/System/Library/ScriptingAdditions/$sl_script_add_main
 	fi
     done
     for l_script_add in /Library/ScriptingAdditions/*.osax
