@@ -973,6 +973,34 @@ mac_filesharing () {
     cp -r /private/var/db/dslocal/nodes/Default/sharepoints/* $macos_parser_file/private/var/db/dslocal/nodes/Default/sharepoints/
 }
 
+mac_firefox () {
+    for fire_user in /Users/*
+    do
+	fire_user_main=$(basename $fire_user)
+	for firefox_file in /Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles/*
+	do
+	    firefox_file_main=$(basename $firefox_file)
+	    if [ -f $firefox_file ]
+	    then
+		if ! [ -d $macos_parser_file/Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles ]
+		then
+		    mkdir -p $macos_parser_file/Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles 
+		fi
+		cp -r $firefox_file $macos_parser_file/Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles/$firefox_file_main 
+	    fi
+	    for ffirefox_file in /Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles/$firefox_file_main/*
+	    do
+		ffirefox_file_main=$(basename $ffirefox_file)
+		if ! [ -d $macos_parser_file/Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles/$firefox_file_main ]
+		then
+		    mkdir -p $macos_parser_file/Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles/$firefox_file_main
+		fi
+		cp -r $firefox_file $macos_parser_file/Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles/$firefox_file_main/$ffirefox_file_main
+	    done
+	done
+    done
+}
+
 
 if [ $(uname) = 'Linux' ]
 then
@@ -1025,6 +1053,7 @@ then
 	mac_documentrevisions
 	mac_dynamictext
 	mac_filesharing
+	mac_firefox
     fi
 else
     echo "This is not MacOS or Linux sorry"
