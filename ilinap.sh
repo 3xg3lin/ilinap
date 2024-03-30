@@ -924,6 +924,48 @@ mac_coreanalytics () {
     done
 }
 
+mac_dock_items () {
+    for dock_user in /Users/*
+    do
+	dock_user_main=$(basename $dock_user)
+	if ! [ -d $macos_parser_file/Users/$dock_user_main/Library/Preferences ]
+	then
+	    mkdir -p $macos_parser_file/Users/$dock_user_main/Library/Preferences
+	fi
+	plutil -p /Users/$dock_user_main/Library/Preferences/com.apple.dock.plist > $macos_parser_file/Users/$dock_user_main/Library/Preferences/com.apple.dock.plist
+    done
+}
+
+mac_documentrevisions () {
+    if ! [ -d $macos_parser_file/.DocumentRevisions-V100/db-V1 ]
+    then
+	mkdir -p $macos_parser_file/.DocumentRevisions-V100/db-V1
+    fi
+    cp -r /.DocumentRevisions-V100/db-V1/db.sqlite* $macos_parser_file/.DocumentRevisions-V100/db-V1/
+    if ! [ -d $macos_parser_file/System/Volumes/Data/.DocumentRevisions-V100/db-V1 ]
+    then
+	mkdir -p $macos_parser_file/System/Volumes/Data/.DocumentRevisions-V100/db-V1
+    fi
+    cp -r /System/Volumes/Data/.DocumentRevisions-V100/db-V1/db.sqlite* $macos_parser_file/System/Volumes/Data/.DocumentRevisions-V100/db-V1
+}
+
+mac_dynamictext () {
+    for dy_user in /Users/*
+    do
+	dy_user_main=$(basename $dy_user)
+	for dytext in /Users/$dy_user_main/Library/Spelling/*
+	do
+	    dytext_main=$(basename $dytext)
+	    if ! [ -d $macos_parser_file/$dy_user_main/Library/Spelling ]
+	    then
+		mkdir -p $macos_parser_file/$dy_user_main/Library/Spelling
+	    fi
+	    cp -r $dytext $macos_parser_file/$dy_user_main/Library/Spelling/$dytext_main
+	done
+    done
+}
+
+
 if [ $(uname) = 'Linux' ]
 then
     if [ "$EUID" -eq 0 ]
@@ -971,6 +1013,9 @@ then
 	mac_activer_directory
 	mac_bluetooth
 	mac_bash_file
+	mac_dock_items 
+	mac_documentrevisions
+	mac_dynamictext
     fi
 else
     echo "This is not MacOS or Linux sorry"
