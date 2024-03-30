@@ -656,9 +656,17 @@ mac_autoruns () {
     for pp_emon in /private/etc/emond.d/*
     do
 	pp_emon_main=$(basename $pp_emon)
+	if [ -f $pp_emon ]
+	then
+	    if ! [ -d $macos_parser_file/private/etc/emond.d ]
+	    then
+		mkdir -p $macos_parser_file/private/etc/emond.d
+	    fi
+	    cp -r $pp_emon $macos_parser_file/private/etc/emond.d/$pp_emon_main
+	fi
     	for p_emon in /private/etc/emond.d/$pp_emon_main/*
 	do
-	    p_emon_main=$(basename p_emon)
+	    p_emon_main=$(basename $p_emon)
 	    if ! [ -d $macos_parser_file/private/etc/emond.d/$pp_emon_main ]
 	    then
 		mkdir -p $macos_parser_file/private/etc/emond.d/$pp_emon_main
@@ -699,26 +707,26 @@ mac_autoruns () {
 	    fi
 	done
     done
-    for ful_backgrounditems in /Users/*
+    for ful_bkgrounditems in /Users/*
     do
-	ful_backgrounditems_main=$(basename $ful_backgrounditems)
-	for ul_backgrounditems in /Users/$ful_backgrounditems_main/Library/Application\ Support/com.apple.backgroundtaskmanagementagent/backgrounditems.btm
+	ful_bkgrounditems_main=$(basename $ful_bkgrounditems)
+	for ul_bkgrounditems in /Users/$ful_bkgrounditems_main/Library/Application\ Support/com.apple.backgroundtaskmanagementagent/backgrounditems.btm
 	do
-	    ul_backgrounditems_main=$(basename $ul_backgrounditems)
-	    if ! [ -d $macos_parser_file/Users/$ful_backgrounditems_main/Library/Application\ Support/com.apple.backgroundtaskmanagementagent ]
+	    ul_bkgrounditems_main=$(basename $ul_bkgrounditems)
+	    if ! [ -d $macos_parser_file/Users/$ful_bkgrounditems_main/Library/Application\ Support/com.apple.backgroundtaskmanagementagent ]
 	    then
-		mkdir -p $macos_parser_file/Users/$ful_backgrounditems_main/Library/Application\ Support/com.apple.backgroundtaskmanagementagent
+		mkdir -p $macos_parser_file/Users/$ful_bkgrounditems_main/Library/Application\ Support/com.apple.backgroundtaskmanagementagent
 	    fi
-	    if [ -n $ul_backgrounditems ]
+	    if [ -n $ul_bkgrounditems ]
 	    then
-		cp $ul_backgrounditems $macos_parser_file/Users/$ful_backgrounditems_main/Library/Application\ Support/com.apple/backgrountaskmanagementagent/$ul_backgrounditems_main
+		cp $ul_bkgrounditems $macos_parser_file/Users/$ful_bkgrounditems_main/Library/Application\ Support/com.apple/backgrountaskmanagementagent/$ul_bkgrounditems_main
 	    fi
 	done
     done
 }
 
 mac_activer_directory () {
-    for activedir in /Library/Preferences/OpenDirectory/Configurations/Active Directory/*
+    for activedir in /Library/Preferences/OpenDirectory/Configurations/Active\ Directory/*
     do
 	activedir_main=$(basename $activedir)
 	if ! [ -d $macos_parser_file/Library/Preferences/OpenDirectory/Configurations/Active\ Directory ]
@@ -738,7 +746,7 @@ mac_applist () {
 	app_user_main=$(basename $app_user)
 	for app_user_s in /Users/$app_user_main/Library/Application\ Support/com.apple.stoplight/appList.dat
 	do
-	    if ! [ -d $macos_parser_file/Users/$app_user_main/Library/Application\ Support/com.apple.stoplight/appList.dat ]
+	    if ! [ -d $macos_parser_file/Users/$app_user_main/Library/Application\ Support/com.apple.stoplight ]
 	    then
 		mkdir -p $macos_parser_file/Users/$app_user_main/Library/Application\ Support/com.apple.stoplight
 	    fi
@@ -760,6 +768,14 @@ mac_ard () {
     for ard_cache in /private/var/db/RemoteManagement/ClientCaches/*
     do
 	ard_cache_main=$(basename $ard_cache)
+	if [ -f $ard_cache ]
+	then
+	    if ! [ -d $macos_parser_file/private/var/db/RemoteManagement/ClientCaches ]
+	    then
+		mkdir -p $macos_parser_file/private/var/db/RemoteManagement/ClientCaches
+	    fi
+	    cp -r $ard_cache $macos_parser_file/private/var/db/RemoteManagement/ClientCaches/$ard_cache_main
+	fi
 	for ard_sec_cache in /private/var/db/RemoteManagement/ClientCaches/$ard_cache_main/*
 	do
 	    if ! [ -d $macos_parser_file/private/var/db/RemoteManagement/ClientCaches/$ard_cache_main ]
@@ -808,6 +824,14 @@ mac_cfurl_cache () {
 	for cflib in /Users/$cfuser_main/Library/Caches/*
 	do
 	    cflib_main=$(basename $cflib)
+	    if [ -f $cflib ]
+	    then
+		if ! [ -d $macos_parser_file/Users/$cfuser_main/Library/Caches ]
+		then
+		    mkdir -p $macos_parser_file/Users/$cfuser_main/Library/Caches
+		fi
+		cp -r $cflib $macos_parser_file/Users/$cfuser_main/Library/Caches/$cflib_main
+	    fi
 	    if [ -d /Users/$cfuser_main/Library/Caches/$cflib_main/fsCachedData ]
 	    then
 		for fscache in /Users/$cfuser_main/Library/Caches/$cflib_main/fsCachedData/*
@@ -823,9 +847,9 @@ mac_cfurl_cache () {
 	    for cfcache in /Users/$cfuser_main/Library/Caches/$cflib_main/Cache.db*
 	    do
 		cfcache_main=$(basename $cfcache)
-		if ! [ -d  $macos_parser_file/Users/$cfuser_main/Library/Caches ]
+		if ! [ -d  $macos_parser_file/Users/$cfuser_main/Library/Caches/$cflib_main ]
 		then
-		    mkdir -p  $macos_parser_file/Users/$cfuser_main/Library/Caches
+		    mkdir -p  $macos_parser_file/Users/$cfuser_main/Library/Caches/$cflib_main
 		fi
 		cp -r $cfcache $macos_parser_file/Users/$cfuser_main/Library/Caches/$cflib_main/$cflib_main
 	    done
@@ -868,9 +892,25 @@ mac_coreanalytics () {
     for agg in /private/var/db/analyticsd/aggregates/*
     do
 	agg_main=$(basename $agg)
+	if [ -f $agg ]
+	then
+	    if ! [ -d $macos_parser_file/private/var/db/analyticsd/aggregates ]
+	    then
+		mkdir -p $macos_parser_file/private/var/db/analyticsd/aggregates 
+	    fi
+	    cp -r $agg $macos_parser_file/private/var/db/analyticsd/aggregates
+	fi
 	for agg_file in /private/var/db/analyticsd/aggregates/$agg_main/*
 	do
 	    agg_file_main=$(basename $agg_file)
+	    if [ -f $agg_file ]
+	    then
+		if ! [ -d $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main ]
+		then
+		    mkdir -p $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main  
+		fi
+		cp -r $agg_file $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main/$agg_file_main
+	    fi
 	    for agg_file_3 in /private/var/db/analyticsd/aggregates/$agg_main/$agg_file_main/*
 	    do
 		agg_file_3_main=$(basename $agg_file_3)
@@ -930,6 +970,7 @@ then
 	mac_cfurl_cache
 	mac_activer_directory
 	mac_bluetooth
+	mac_bash_file
     fi
 else
     echo "This is not MacOS or Linux sorry"
