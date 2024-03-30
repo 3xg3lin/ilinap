@@ -965,6 +965,14 @@ mac_dynamictext () {
     done
 }
 
+mac_filesharing () {
+    if ! [ -d $macos_parser_file/private/var/db/dslocal/nodes/Default/sharepoints ]
+    then
+	mkdir -p $macos_parser_file/private/var/db/dslocal/nodes/Default/sharepoints
+    fi
+    cp -r /private/var/db/dslocal/nodes/Default/sharepoints/* $macos_parser_file/private/var/db/dslocal/nodes/Default/sharepoints/
+}
+
 
 if [ $(uname) = 'Linux' ]
 then
@@ -1016,6 +1024,7 @@ then
 	mac_dock_items 
 	mac_documentrevisions
 	mac_dynamictext
+	mac_filesharing
     fi
 else
     echo "This is not MacOS or Linux sorry"
