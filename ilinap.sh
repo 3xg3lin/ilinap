@@ -232,9 +232,12 @@ mac_bash_file () {
     for puser in /private/var/*
     do
 	basename_puser=$(basename $puser)
-	if ! [ -d $macos_parser_file/private/var/$basename_puser/ ]
+	if ! [ -d $macos_parser_file/private/var/$basename_puser ]
 	then
-	    mkdir -p $macos_parser_file/private/var/$basename_puser
+	    if [ -d /private/var/$basename_puser ]
+	    then	
+		mkdir -p $macos_parser_file/private/var/$basename_puser
+	    fi
 	fi
 	if [ -n $puser/.bash_history ]
     	then
@@ -257,16 +260,15 @@ mac_bash_file () {
 }
 
 mac_autoruns () {
-    if ! [ -d $macos_parser_file/Library/LaunchAgents/ ]
-    then
-	mkdir -p $macos_parser_file/Library/LaunchAgents/
-    fi
     for disabled in /private/var/db/com.apple.xpc.launchd/disabled*.plist
     do
 	disabled_main=$(basename $disabled)
 	if ! [ -d $macos_parser_file/private/var/db/com.apple.xpc.launchd ]
 	then
-	    mkdir -p $macos_parser_file/private/var/db/com.apple.xpc.launchd/
+	    if [ -d /private/var/db/com.apple.xpc.launchd ]
+	    then
+		mkdir -p $macos_parser_file/private/var/db/com.apple.xpc.launchd/
+	    fi
 	fi
 	if [ -n $disabled ] 
 	then
@@ -278,7 +280,10 @@ mac_autoruns () {
 	at_tabs_main=$(basename $at_tabs)
 	if ! [ -d $macos_parser_file/private/var/at/tabs ]
 	then
-	    mkdir -p $macos_parser_file/private/var/at/tabs
+	    if [ -d /private/var/at/tabs ]
+	    then
+		mkdir -p $macos_parser_file/private/var/at/tabs
+	    fi
 	fi
 	if [ -n $at_tabs ]     #; crontab
 	then
@@ -290,7 +295,10 @@ mac_autoruns () {
 	launchagent_main=$(basename $launchagent)
 	if ! [ -d $macos_parser_file/System/Library/LaunchAgents/ ]
 	then
-	    mkdir -p $macos_parser_file/System/Library/LaunchAgents/
+	    if [ -d /System/Library/LaunchAgents ]
+	    then
+		mkdir -p $macos_parser_file/System/Library/LaunchAgents/
+	    fi
 	fi
 	if [ -n $launchagent ]    #; LaunchAgents
 	then
@@ -312,12 +320,15 @@ mac_autoruns () {
     for m_user in /Users/*
     do
 	m_user_main=$(basename $m_user)
-	for u_launchagent in $m_user/Library/LaunchAgents/*.plist 
+	for u_launchagent in /Users/$m_user/Library/LaunchAgents/*.plist 
 	do
 	    u_launchagent_main=$(basename $u_launchagent)
 	    if ! [ -d $macos_parser_file/Users/$m_user_main/Library/LaunchAgents ]
 	    then
-		mkdir -p $macos_parser_file/Users/$m_user_main/Library/LaunchAgents 
+		if [ -d /Users/$m_user_main ]
+		then
+		    mkdir -p $macos_parser_file/Users/$m_user_main/Library/LaunchAgents 
+		fi
 	    fi
 	    if [ -n $u_launchagent ]
 	    then
@@ -332,15 +343,21 @@ mac_autoruns () {
 	then
 	    if ! [ -d $macos_parser_file/private/var ]
 	    then
-		mkdir -p $macos_parser_file/private/var
+		if [ -d /private/var/ ]
+		then
+		    mkdir -p $macos_parser_file/private/var
+		fi
 	    fi
-	    cp -r $app_user $macos_parser_file/private/var/$p_user_basename
+	    cp -r $p_user $macos_parser_file/private/var/$p_user_basename
 	fi
 	for p_launchagent in /private/var/$p_user_basename/Library/LaunchAgents/*.plist 
 	do
 	    if ! [ -d $macos_parser_file/private/var/$p_user_basename/Library/LaunchAgents/ ]
 	    then
-		mkdir -p $macos_parser_file/private/var/$p_user_basename/Library/LaunchAgents
+		if [ -d /private/var/$p_user_basename/Library/LaunchAgents/ ]
+		then
+		    mkdir -p $macos_parser_file/private/var/$p_user_basename/Library/LaunchAgents
+		fi
 	    fi
 	    p_launchagent_main=$(basename $p_launchagent)
 	    if [ -n $p_launchagent ]
@@ -354,7 +371,10 @@ mac_autoruns () {
 	s_launchagent_main=$(basename $s_launchagent)
 	if ! [ -d $macos_parser_file/System/Library/LaunchAgents ]
 	then
-	    mkdir -p $macos_parser_file/System/Library/LaunchAgents
+	    if [ -d /System/Library/LaunchAgents ]
+	    then
+		mkdir -p $macos_parser_file/System/Library/LaunchAgents
+	    fi
 	fi
 	if [ -n $s_launchagent ]
 	then
