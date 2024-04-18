@@ -203,11 +203,11 @@ mac_bash_file () {
 	then
 	    mkdir -p $macos_parser_file/home/$basename_user
 	fi
-    	if [ -n $user/.bashrc ]
+    	if [ -f $user/.bashrc ]
 	then
             cp $user/.bashrc $macos_parser_file/home/$basename_user/.bashrc
 	fi
-    	if [ -n $user/.bash_history ]
+    	if [ -f $user/.bash_history ]
 	then
             cp $user/.bash_history $macos_parser_file/home/$basename_user/.bash_history
     	fi
@@ -216,15 +216,15 @@ mac_bash_file () {
 	    mkdir $basename_user.bash_sessions
 	    cp $user/.bash_sessions/* $linux_parser_file/home/$basename_user/.bash_sessions/
     	fi
-	if [ -n $user/.bash_profile ]
+	if [ -f $user/.bash_profile ]
     	then
 	    cp $user/.bash_profile $macos_parser_file/home/$basename_user/.bash_profile
     	fi
-	if [ -n $user/.profile ]
+	if [ -f $user/.profile ]
     	then
 	    cp $user/.profile $macos_parser_file/home/$basename_user/.profile
     	fi
-	if [ -n $user/.bash_logout ]
+	if [ -f $user/.bash_logout ]
     	then
 	    cp $user/.bash_logout $macos_parser_file/home/$basename_user/.bash_logout
     	fi
@@ -302,7 +302,7 @@ mac_autoruns () {
 	fi
 	if [ -n $launchagent ]    #; LaunchAgents
 	then
-	    plutil -p $launchagent_main > mac_autoruns/$launchagent_main
+	    plutil -p $launchagent_main > $macos_parser_file/System/Library/LaunchAgents/$launchagent_main
 	fi
     done
     for l_launchagent in /Library/LaunchAgents/*.plist  
@@ -314,13 +314,13 @@ mac_autoruns () {
 	fi
 	if [ -n l_launchagent ]
 	then
-	    plutil -p l_launchagent > mac_autoruns/l_launchagent_main
+	    plutil -p l_launchagent > $macos_parser_file/Library/LaunchAgents/$l_launchagent_main
 	fi
     done
     for m_user in /Users/*
     do
 	m_user_main=$(basename $m_user)
-	for u_launchagent in /Users/$m_user/Library/LaunchAgents/*.plist 
+	for u_launchagent in /Users/$m_user_main/Library/LaunchAgents/*.plist 
 	do
 	    u_launchagent_main=$(basename $u_launchagent)
 	    if ! [ -d $macos_parser_file/Users/$m_user_main/Library/LaunchAgents ]
@@ -339,32 +339,27 @@ mac_autoruns () {
     for p_user in /private/var/*
     do
 	p_user_basename=$(basename $p_user)
+	if [ -d $p_user ]
+	then
+	    if ! [ -d $macos_parser_file/private/var/$p_user_basename ]
+	    then
+		mkdir -p $macos_parser_file/private/var
+	    fi
+	    for p_user_cont in /private/var/$p_user_basename/Library/LaunchAgents/*
+	    do
+		p_user_cont_main=$(basename $p_user_cont)
+		if ! [ -d $macos_parser_file/private/var/$p_user_basename/Library/LaunchAgents/ ]
+		then
+		    mkdir -p $macos_parser_file/private/var/$p_user_basename/Library/LaunchAgents/
+		    cp -r $p_user_cont  $macos_parser_file/private/var/$p_user_basename/Library/LaunchAgents/$p_user_cont_main
+		fi
+	    done
+	fi
 	if [ -f $p_user ]
 	then
-	    if ! [ -d $macos_parser_file/private/var ]
-	    then
-		if [ -d /private/var/ ]
-		then
-		    mkdir -p $macos_parser_file/private/var
-		fi
-	    fi
+	    mkdir -p $macos_parser_file/private/var
 	    cp -r $p_user $macos_parser_file/private/var/$p_user_basename
 	fi
-	for p_launchagent in /private/var/$p_user_basename/Library/LaunchAgents/*.plist 
-	do
-	    if ! [ -d $macos_parser_file/private/var/$p_user_basename/Library/LaunchAgents/ ]
-	    then
-		if [ -d /private/var/$p_user_basename/Library/LaunchAgents/ ]
-		then
-		    mkdir -p $macos_parser_file/private/var/$p_user_basename/Library/LaunchAgents
-		fi
-	    fi
-	    p_launchagent_main=$(basename $p_launchagent)
-	    if [ -n $p_launchagent ]
-	    then
-		plutil -p $p_launchagent > $macos_parser_file/private/var/$p_user_basename/Library/LaunchAgents/$p_launchagent_main
-	    fi
-	done
     done
     for s_launchagent in /System/Library/LaunchAgents/.*.plist 
     do
