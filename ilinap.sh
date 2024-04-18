@@ -341,10 +341,6 @@ mac_autoruns () {
 	p_user_basename=$(basename $p_user)
 	if [ -d $p_user ]
 	then
-	    if ! [ -d $macos_parser_file/private/var/$p_user_basename ]
-	    then
-		mkdir -p $macos_parser_file/private/var
-	    fi
 	    for p_user_cont in /private/var/$p_user_basename/Library/LaunchAgents/*
 	    do
 		p_user_cont_main=$(basename $p_user_cont)
@@ -379,7 +375,7 @@ mac_autoruns () {
     for ll_launchagent in /Library/LaunchAgents/.*.plist 
     do
 	ll_launchagent_main=$(basename $ll_launchagent)
-	if [ -d $macos_parser_file/Library/LaunchAgents ]
+	if ! [ -d $macos_parser_file/Library/LaunchAgents ]
 	then
 	    mkdir -p $macos_parser_file/Library/LaunchAgents
 	fi
@@ -394,7 +390,7 @@ mac_autoruns () {
 	for ul_launchagent in /Users/$ll_user_basename/Library/LaunchAgents/.*.plist
 	do
 	    ul_launchagent_main=$(basename $ul_launchagent)
-	    if ! [ -d /Users/$ll_user_basename/Library/LaunchAgents ]
+	    if ! [ -d /$macos_parser_file/Users/$ll_user_basename/Library/LaunchAgents ]
 	    then
 		mkdir -p $macos_parser_file/Users/$ll_user_basename/Library/LaunchAgents
 	    fi
@@ -407,20 +403,22 @@ mac_autoruns () {
     for p_var in /private/var/*
     do
 	p_var_main=$(basename $p_var)
-	if ! [ -d $macos_parser_file/private/var ] 
-	then
-	    mkdir -p $macos_parser_file/private/var
-	fi
 	if [ -f $p_var ]
 	then
-	    cp -r $p_var $macos_parser_file/private/var/$ip_var_main
+	    if ! [ -d $macos_parser_file/private/var ] 
+	    then
+		mkdir -p $macos_parser_file/private/var
+	    fi
+	    cp -r $p_var $macos_parser_file/private/var/$p_var_main
 	fi
 	for pl_launchagent in /private/var/$p_var_main/Library/LaunchAgents/.*.plist 
 	do
 	    pl_launchagent_main=$(basename $pl_launchagent)
 	    if ! [ -d $macos_parser_file/private/var/$p_var_main/Library/LaunchAgents/ ]
 	    then
-		mkdir -p $macos_parser_file/private/var/$p_var_main/Library/LaunchAgents
+		if [ -d /private/var/$p_var_main/Library/LaunchAgents ]
+		    mkdir -p $macos_parser_file/private/var/$p_var_main/Library/LaunchAgents
+		fi
 	    fi
 	    if [ -n $pl_launchagent ]
 	    then
@@ -428,6 +426,7 @@ mac_autoruns () {
 	    fi
 	done
     done
+
     for ls_launchagent in /Library/Apple/System/Library/LaunchAgents/*.plist  
     do
 	ls_launchagent_main=$(basename $ls_launchagent)
