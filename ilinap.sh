@@ -901,27 +901,33 @@ mac_coreanalytics () {
 			fi
 			cp -r $agg $macos_parser_file/private/var/db/analyticsd/aggregates
 		fi
-		for agg_file in /private/var/db/analyticsd/aggregates/$agg_main/*
-		do
-			agg_file_main=$(basename $agg_file)
-			if [ -f $agg_file ]
-			then
-				if ! [ -d $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main ]
-				then
-					mkdir -p $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main
-				fi
-				cp -r $agg_file $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main/$agg_file_main
-			fi
-			for agg_file_3 in /private/var/db/analyticsd/aggregates/$agg_main/$agg_file_main/*
+		if [ -d $agg ]
+		then
+			for agg_file in /private/var/db/analyticsd/aggregates/$agg_main/*
 			do
-				agg_file_3_main=$(basename $agg_file_3)
-				if ! [ -d $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main/$agg_file_main ]
+				agg_file_main=$(basename $agg_file)
+				if [ -f $agg_file ]
 				then
-					mkdir -p $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main/$agg_file_main
+					if ! [ -d $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main ]
+					then
+						mkdir -p $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main
+					fi
+					cp -r $agg_file $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main/$agg_file_main
 				fi
-				cp -r $agg_file $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main/$agg_file_main/$agg_file_3_main
+				if [ -d $agg_file ]
+				then
+					for agg_file_3 in /private/var/db/analyticsd/aggregates/$agg_main/$agg_file_main/*
+					do
+						agg_file_3_main=$(basename $agg_file_3)
+						if ! [ -d $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main/$agg_file_main ]
+						then
+							mkdir -p $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main/$agg_file_main
+						fi
+						cp -r $agg_file $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main/$agg_file_main/$agg_file_3_main
+					done
+				fi
 			done
-		done
+		fi
     done
 }
 
@@ -983,21 +989,24 @@ mac_firefox () {
 			firefox_file_main=$(basename $firefox_file)
 			if [ -f $firefox_file ]
 			then
-			if ! [ -d $macos_parser_file/Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles ]
+				if ! [ -d $macos_parser_file/Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles ]
+				then
+					mkdir -p $macos_parser_file/Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles
+				fi
+				cp -r $firefox_file $macos_parser_file/Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles/$firefox_file_main
+			fi
+			if [ -d $firefox_file ]
 			then
-				mkdir -p $macos_parser_file/Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles
+				for ffirefox_file in /Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles/$firefox_file_main/*
+				do
+					ffirefox_file_main=$(basename $ffirefox_file)
+					if ! [ -d $macos_parser_file/Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles/$firefox_file_main ]
+					then
+						mkdir -p $macos_parser_file/Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles/$firefox_file_main
+					fi
+					cp -r $ffirefox_file $macos_parser_file/Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles/$firefox_file_main/$ffirefox_file_main
+				done
 			fi
-			cp -r $firefox_file $macos_parser_file/Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles/$firefox_file_main
-			fi
-			for ffirefox_file in /Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles/$firefox_file_main/*
-			do
-			ffirefox_file_main=$(basename $ffirefox_file)
-			if ! [ -d $macos_parser_file/Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles/$firefox_file_main ]
-			then
-				mkdir -p $macos_parser_file/Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles/$firefox_file_main
-			fi
-			cp -r $firefox_file $macos_parser_file/Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles/$firefox_file_main/$ffirefox_file_main
-			done
 		done
     done
 }
