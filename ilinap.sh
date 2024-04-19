@@ -1011,6 +1011,26 @@ mac_firefox () {
     done
 }
 
+mac_fsevents () {
+	for fsevent in /.fseventsd/*
+	do
+		fseventd_main=$(basename $fsevent)
+		if ! [ -d $macos_parser_file/.fseventsd ]
+		then
+			mkdir -p $macos_parser_file/.fseventsd
+		fi
+		cp -r $fsevent $macos_parser_file/.fseventsd/$fseventd_main
+	done
+	for s_fsevent in /System/Volumes/Data/.fseventsd/*
+	do
+		s_fsevent_main=$(basename $s_fsevent)
+		if ! [ -d $macos_parser_file/System/Volumes/Data/.fseventsd/ ]
+		then
+			mkdir -p $macos_parser_file/System/Volumes/Data/.fseventsd/
+		fi
+		cp -r $s_fsevent $macos_parser_file/System/Volumes/Data/.fseventsd/$s_fsevent_main
+	done
+}
 
 if [ $(uname) = 'Linux' ]
 then
@@ -1064,6 +1084,7 @@ then
 	mac_dynamictext
 	mac_filesharing
 	mac_firefox
+	mac_fsevents
     fi
 else
     echo "This is not MacOS or Linux sorry"
