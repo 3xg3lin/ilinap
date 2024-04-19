@@ -801,19 +801,19 @@ mac_ard () {
 mac_asl () {
     for asl in /private/var/log/asl/*.asl
     do
-	asl_main=$(basename $asl)
-	if ! [ -d $macos_parser_file/private/var/log/asl ]
-	then
-	    mkdir -p $macos_parser_file/private/var/log/asl
-	fi
-	cp -r $asl $macos_parser_file/private/var/log/asl/$asl_main
+		asl_main=$(basename $asl)
+		if ! [ -d $macos_parser_file/private/var/log/asl ]
+		then
+			mkdir -p $macos_parser_file/private/var/log/asl
+		fi
+		cp -r $asl $macos_parser_file/private/var/log/asl/$asl_main
     done
 }
 
 mac_bluetooth () {
     if ! [ -d $macos_parser_file/Library/Preference ]
     then
-	mkdir -p $macos_parser_file/Library/Preference
+		mkdir -p $macos_parser_file/Library/Preference
     fi
     plutil -p /Library/Preferences/com.apple.Bluetooth.plist > $macos_parser_file/Library/Preferences/com.apple.Bluetooth.plist
 }
@@ -821,131 +821,131 @@ mac_bluetooth () {
 mac_cfurl_cache () {
     for cfuser in /Users/*
     do
-	cfuser_main=$(basename $cfuser)
-	for cflib in /Users/$cfuser_main/Library/Caches/*
-	do
-	    cflib_main=$(basename $cflib)
-	    if [ -f $cflib ]
-	    then
-		if ! [ -d $macos_parser_file/Users/$cfuser_main/Library/Caches ]
-		then
-		    mkdir -p $macos_parser_file/Users/$cfuser_main/Library/Caches
-		fi
-		cp -r $cflib $macos_parser_file/Users/$cfuser_main/Library/Caches/$cflib_main
-	    fi
-	    if [ -d /Users/$cfuser_main/Library/Caches/$cflib_main/fsCachedData ]
-	    then
-		for fscache in /Users/$cfuser_main/Library/Caches/$cflib_main/fsCachedData/*
+		cfuser_main=$(basename $cfuser)
+		for cflib in /Users/$cfuser_main/Library/Caches/*
 		do
-		    fscache_main=$(basename $fscache)
-		    if ! [ -d $macos_parser_file/Users/$cfuser_main/Library/Caches/$cflib_main/fsCachedData ]
-		    then
-			mkdir -p $macos_parser_file/Users/$cfuser_main/Library/Caches/$cflib_main/fsCachedData
-		    fi
-		    cp -r $fscache $macos_parser_file/Users/$cfuser_main/Library/Caches/$cflib_main/fsCachedData/$fscache_main
+			cflib_main=$(basename $cflib)
+			if [ -f $cflib ]
+			then
+				if ! [ -d $macos_parser_file/Users/$cfuser_main/Library/Caches ]
+				then
+					mkdir -p $macos_parser_file/Users/$cfuser_main/Library/Caches
+				fi
+				cp -r $cflib $macos_parser_file/Users/$cfuser_main/Library/Caches/$cflib_main
+			fi
+			if [ -d /Users/$cfuser_main/Library/Caches/$cflib_main/fsCachedData ]
+			then
+				for fscache in /Users/$cfuser_main/Library/Caches/$cflib_main/fsCachedData/*
+				do
+					fscache_main=$(basename $fscache)
+					if ! [ -d $macos_parser_file/Users/$cfuser_main/Library/Caches/$cflib_main/fsCachedData ]
+					then
+						mkdir -p $macos_parser_file/Users/$cfuser_main/Library/Caches/$cflib_main/fsCachedData
+					fi
+					cp -r $fscache $macos_parser_file/Users/$cfuser_main/Library/Caches/$cflib_main/fsCachedData/$fscache_main
+				done
+			fi
+			for cfcache in /Users/$cfuser_main/Library/Caches/$cflib_main/Cache.db*
+			do
+				cfcache_main=$(basename $cfcache)
+				if ! [ -d  $macos_parser_file/Users/$cfuser_main/Library/Caches/$cflib_main ]
+				then
+					mkdir -p  $macos_parser_file/Users/$cfuser_main/Library/Caches/$cflib_main
+				fi
+				cp -r $cfcache $macos_parser_file/Users/$cfuser_main/Library/Caches/$cflib_main/$cfcache_main
+			done
 		done
-	    fi
-	    for cfcache in /Users/$cfuser_main/Library/Caches/$cflib_main/Cache.db*
-	    do
-		cfcache_main=$(basename $cfcache)
-		if ! [ -d  $macos_parser_file/Users/$cfuser_main/Library/Caches/$cflib_main ]
-		then
-		    mkdir -p  $macos_parser_file/Users/$cfuser_main/Library/Caches/$cflib_main
-		fi
-		cp -r $cfcache $macos_parser_file/Users/$cfuser_main/Library/Caches/$cflib_main/$cflib_main
-	    done
-	done
     done
 }
 
 mac_cmdhistory () {
     for user_cmd in /Users/*
     do
-	user_cmd_main=$(basename $user_cmd)
-	for cmd_history in /Users/$user_cmd_main/.*_history
-	do
-	    cmd_history_main=$(basename $cmd_history)
-	    if ! [ -d $macos_parser_file/Users/$user_cmd_main ]
-	    then
-		mkdir -p $macos_parser_file/Users/$user_cmd_main
-	    fi
-	    cp -r $cmd_history $macos_parser_file/Users/$user_cmd_main/$cmd_history_main
-	done
+		user_cmd_main=$(basename $user_cmd)
+		for cmd_history in /Users/$user_cmd_main/.*_history
+		do
+			cmd_history_main=$(basename $cmd_history)
+			if ! [ -d $macos_parser_file/Users/$user_cmd_main ]
+			then
+				mkdir -p $macos_parser_file/Users/$user_cmd_main
+			fi
+			cp -r $cmd_history $macos_parser_file/Users/$user_cmd_main/$cmd_history_main
+		done
     done
 }
 
 mac_coreanalytics () {
     if ! [ -d $macos_parser_file/Library/Logs/DiagnosticReports ]
     then
-	mkdir -p $macos_parser_file/Library/Logs/DiagnosticReports
+		mkdir -p $macos_parser_file/Library/Logs/DiagnosticReports
     fi
     cp -r /Library/Logs/DiagnosticReports/Analytics*.core_analytics $macos_parser_file/Library/Logs/DiagnosticReports/
     if ! [ -d $macos_parser_file/Library/Logs/DiagnosticReports/Retired ]
     then
-	mkdir -p $macos_parser_file/Library/Logs/DiagnosticReports/Retired
+		mkdir -p $macos_parser_file/Library/Logs/DiagnosticReports/Retired
     fi
     cp -r /Library/Logs/DiagnosticReports/Retired/Analytics*.core_analytics $macos_parser_file/Library/Logs/DiagnosticReports/Retired/
     if ! [ -d $macos_parser_file/private/var/db/analyticsd/aggregates ]
     then
-	mkdir -p $macos_parser_file/private/var/db/analyticsd/aggregates
+		mkdir -p $macos_parser_file/private/var/db/analyticsd/aggregates
     fi
     cp -r /private/var/db/analyticsd/aggregates/* $macos_parser_file/private/var/db/analyticsd/aggregates/
     for agg in /private/var/db/analyticsd/aggregates/*
     do
-	agg_main=$(basename $agg)
-	if [ -f $agg ]
-	then
-	    if ! [ -d $macos_parser_file/private/var/db/analyticsd/aggregates ]
-	    then
-		mkdir -p $macos_parser_file/private/var/db/analyticsd/aggregates
-	    fi
-	    cp -r $agg $macos_parser_file/private/var/db/analyticsd/aggregates
-	fi
-	for agg_file in /private/var/db/analyticsd/aggregates/$agg_main/*
-	do
-	    agg_file_main=$(basename $agg_file)
-	    if [ -f $agg_file ]
-	    then
-		if ! [ -d $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main ]
+		agg_main=$(basename $agg)
+		if [ -f $agg ]
 		then
-		    mkdir -p $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main
+			if ! [ -d $macos_parser_file/private/var/db/analyticsd/aggregates ]
+			then
+				mkdir -p $macos_parser_file/private/var/db/analyticsd/aggregates
+			fi
+			cp -r $agg $macos_parser_file/private/var/db/analyticsd/aggregates
 		fi
-		cp -r $agg_file $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main/$agg_file_main
-	    fi
-	    for agg_file_3 in /private/var/db/analyticsd/aggregates/$agg_main/$agg_file_main/*
-	    do
-		agg_file_3_main=$(basename $agg_file_3)
-		if ! [ -d $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main/$agg_file_main ]
-		then
-		   mkdir -p $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main/$agg_file_main
-		fi
-		cp -r $agg_file $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main/$agg_file_main/$agg_file_3_main
-	    done
-	done
+		for agg_file in /private/var/db/analyticsd/aggregates/$agg_main/*
+		do
+			agg_file_main=$(basename $agg_file)
+			if [ -f $agg_file ]
+			then
+				if ! [ -d $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main ]
+				then
+					mkdir -p $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main
+				fi
+				cp -r $agg_file $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main/$agg_file_main
+			fi
+			for agg_file_3 in /private/var/db/analyticsd/aggregates/$agg_main/$agg_file_main/*
+			do
+				agg_file_3_main=$(basename $agg_file_3)
+				if ! [ -d $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main/$agg_file_main ]
+				then
+					mkdir -p $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main/$agg_file_main
+				fi
+				cp -r $agg_file $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main/$agg_file_main/$agg_file_3_main
+			done
+		done
     done
 }
 
 mac_dock_items () {
     for dock_user in /Users/*
     do
-	dock_user_main=$(basename $dock_user)
-	if ! [ -d $macos_parser_file/Users/$dock_user_main/Library/Preferences ]
-	then
-	    mkdir -p $macos_parser_file/Users/$dock_user_main/Library/Preferences
-	fi
-	plutil -p /Users/$dock_user_main/Library/Preferences/com.apple.dock.plist > $macos_parser_file/Users/$dock_user_main/Library/Preferences/com.apple.dock.plist
+		dock_user_main=$(basename $dock_user)
+		if ! [ -d $macos_parser_file/Users/$dock_user_main/Library/Preferences ]
+		then
+			mkdir -p $macos_parser_file/Users/$dock_user_main/Library/Preferences
+		fi
+		plutil -p /Users/$dock_user_main/Library/Preferences/com.apple.dock.plist > $macos_parser_file/Users/$dock_user_main/Library/Preferences/com.apple.dock.plist
     done
 }
 
 mac_documentrevisions () {
     if ! [ -d $macos_parser_file/.DocumentRevisions-V100/db-V1 ]
     then
-	mkdir -p $macos_parser_file/.DocumentRevisions-V100/db-V1
+		mkdir -p $macos_parser_file/.DocumentRevisions-V100/db-V1
     fi
     cp -r /.DocumentRevisions-V100/db-V1/db.sqlite* $macos_parser_file/.DocumentRevisions-V100/db-V1/
     if ! [ -d $macos_parser_file/System/Volumes/Data/.DocumentRevisions-V100/db-V1 ]
     then
-	mkdir -p $macos_parser_file/System/Volumes/Data/.DocumentRevisions-V100/db-V1
+		mkdir -p $macos_parser_file/System/Volumes/Data/.DocumentRevisions-V100/db-V1
     fi
     cp -r /System/Volumes/Data/.DocumentRevisions-V100/db-V1/db.sqlite* $macos_parser_file/System/Volumes/Data/.DocumentRevisions-V100/db-V1
 }
@@ -953,23 +953,23 @@ mac_documentrevisions () {
 mac_dynamictext () {
     for dy_user in /Users/*
     do
-	dy_user_main=$(basename $dy_user)
-	for dytext in /Users/$dy_user_main/Library/Spelling/*
-	do
-	    dytext_main=$(basename $dytext)
-	    if ! [ -d $macos_parser_file/$dy_user_main/Library/Spelling ]
-	    then
-		mkdir -p $macos_parser_file/$dy_user_main/Library/Spelling
-	    fi
-	    cp -r $dytext $macos_parser_file/$dy_user_main/Library/Spelling/$dytext_main
-	done
+		dy_user_main=$(basename $dy_user)
+		for dytext in /Users/$dy_user_main/Library/Spelling/*
+		do
+			dytext_main=$(basename $dytext)
+			if ! [ -d $macos_parser_file/$dy_user_main/Library/Spelling ]
+			then
+			mkdir -p $macos_parser_file/$dy_user_main/Library/Spelling
+			fi
+			cp -r $dytext $macos_parser_file/$dy_user_main/Library/Spelling/$dytext_main
+		done
     done
 }
 
 mac_filesharing () {
     if ! [ -d $macos_parser_file/private/var/db/dslocal/nodes/Default/sharepoints ]
     then
-	mkdir -p $macos_parser_file/private/var/db/dslocal/nodes/Default/sharepoints
+		mkdir -p $macos_parser_file/private/var/db/dslocal/nodes/Default/sharepoints
     fi
     cp -r /private/var/db/dslocal/nodes/Default/sharepoints/* $macos_parser_file/private/var/db/dslocal/nodes/Default/sharepoints/
 }
@@ -977,28 +977,28 @@ mac_filesharing () {
 mac_firefox () {
     for fire_user in /Users/*
     do
-	fire_user_main=$(basename $fire_user)
-	for firefox_file in /Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles/*
-	do
-	    firefox_file_main=$(basename $firefox_file)
-	    if [ -f $firefox_file ]
-	    then
-		if ! [ -d $macos_parser_file/Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles ]
-		then
-		    mkdir -p $macos_parser_file/Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles
-		fi
-		cp -r $firefox_file $macos_parser_file/Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles/$firefox_file_main
-	    fi
-	    for ffirefox_file in /Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles/$firefox_file_main/*
-	    do
-		ffirefox_file_main=$(basename $ffirefox_file)
-		if ! [ -d $macos_parser_file/Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles/$firefox_file_main ]
-		then
-		    mkdir -p $macos_parser_file/Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles/$firefox_file_main
-		fi
-		cp -r $firefox_file $macos_parser_file/Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles/$firefox_file_main/$ffirefox_file_main
-	    done
-	done
+		fire_user_main=$(basename $fire_user)
+		for firefox_file in /Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles/*
+		do
+			firefox_file_main=$(basename $firefox_file)
+			if [ -f $firefox_file ]
+			then
+			if ! [ -d $macos_parser_file/Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles ]
+			then
+				mkdir -p $macos_parser_file/Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles
+			fi
+			cp -r $firefox_file $macos_parser_file/Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles/$firefox_file_main
+			fi
+			for ffirefox_file in /Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles/$firefox_file_main/*
+			do
+			ffirefox_file_main=$(basename $ffirefox_file)
+			if ! [ -d $macos_parser_file/Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles/$firefox_file_main ]
+			then
+				mkdir -p $macos_parser_file/Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles/$firefox_file_main
+			fi
+			cp -r $firefox_file $macos_parser_file/Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles/$firefox_file_main/$ffirefox_file_main
+			done
+		done
     done
 }
 
