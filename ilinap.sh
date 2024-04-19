@@ -30,7 +30,7 @@ bash_function () {          # bashrc and cron output
 	    sudo cp /home/$user/.bash_login $linux_parser_file/home/$user/.bash_login 2>/dev/null
 	fi
 	if [ -n /home/$user/.bash_logout ]
-	then 
+	then
 	    sudo cp /home/$user/.bash_logout $linux_parser_file/home/$user/.bash_logout 2>/dev/null
 	fi
 	if [ -n /var/spool/cron/crontabs/$user ]
@@ -48,7 +48,7 @@ system_service () {
 	then
 	    mkdir $linux_parser_file/lib/systemd/system
 	fi
-	for service_all in /lib/systemd/system/* 
+	for service_all in /lib/systemd/system/*
 	do
 	    main_service=$(basename $service_all)
 	    cp -r $service_all > $linux_parser_file/lib/systemd/system/$main_service
@@ -57,19 +57,19 @@ system_service () {
 }
 
 os_release () {            # os-release
-    if [ -n /etc/os-release ]
+    if [ -f /etc/os-release ]
     then
 	if ! [ -d $linux_parser_file/etc/ ]
 	then
 	    mkdir $linux_parser_file/etc
 	fi
 	cp /etc/os-release $linux_parser_file/etc/os-release
-    
+
     fi
 }
 
 hostname () {            # hostname output
-    if [ -n /etc/hostname ]
+    if [ -f /etc/hostname ]
     then
 	if ! [ -d $linux_parser_file/etc/ ]
 	then
@@ -80,7 +80,7 @@ hostname () {            # hostname output
 }
 
 location () {            # Localtime and timezone
-    if [ -n /etc/timezone ]
+    if [ -f /etc/timezone ]
     then
 	if ! [ -d $linux_parser_file/etc/ ]
 	then
@@ -117,11 +117,11 @@ ip_address () {         # Ip addres and network output
     cp /etc/resolv.conf > $linux_parser_file/etc/revolv.conf
 }
 
-process () {           # Process output 
+process () {           # Process output
     ps aux > $linux_parser_file/ps_aux_output
 }
 
-user_group () { 
+user_group () {
     if ! [ -d $linux_parser_file/etc ]
     then
 	mkdir $linux_parser_file/etc
@@ -134,11 +134,11 @@ user_group () {
 sudoers_file () {        # sudoers file
     if ! [ -d $linux_parser_file/etc ]
     then
-	mkdir -p $linux_parser_file/etc 
+	mkdir -p $linux_parser_file/etc
     fi
     if [ -n /etc/sudoers ]
     then
-	cp /etc/sudoers $linux_parser_file/etc/sudoers 
+	cp /etc/sudoers $linux_parser_file/etc/sudoers
     fi
 }
 
@@ -178,11 +178,11 @@ viminfo_file () {           # viminfo file copy
     do
 	if ! [ -d $linux_parser_file/home/$user ]
 	then
-	    mkdir -p $linux_parser_file/home/$user 
+	    mkdir -p $linux_parser_file/home/$user
 	fi
 	if [ -n /home/$user/.viminfo ]
 	then
-	    cp /home/$user/.viminfo $linux_parser_file/home/$user/.viminfo 
+	    cp /home/$user/.viminfo $linux_parser_file/home/$user/.viminfo
 	fi
     done
 }
@@ -232,11 +232,11 @@ mac_bash_file () {
     for puser in /private/var/*
     do
 	basename_puser=$(basename $puser)
-	if ! [ -d $macos_parser_file/private/var/$basename_puser ]
+	if [ -d /private/var/$basename_puser ]
 	then
-	    if [ -d /private/var/$basename_puser ]
-	    then	
-		mkdir -p $macos_parser_file/private/var/$basename_puser
+	    if ! [ -d $macos_parser_file/private/var/$basename_puser ]
+	    then
+	        mkdir -p $macos_parser_file/private/var/$basename_puser
 	    fi
 	fi
 	if [ -n $puser/.bash_history ]
@@ -246,7 +246,7 @@ mac_bash_file () {
 	if [ -d $puser/.bash_sessions ]
     	then
 	    mkdir -p $macos_parser_file/private/var/$basename_puser/.bash_sessions
-	    cp -r $puser/.bash_sessions/* $macos_parser_file/private/var/$basename_puser/.bash_sessions/ 
+	    cp -r $puser/.bash_sessions/* $macos_parser_file/private/var/$basename_puser/.bash_sessions/
     	fi
 	if [ -n /private/etc/profile ]
     	then
@@ -262,50 +262,44 @@ mac_bash_file () {
 mac_autoruns () {
     for disabled in /private/var/db/com.apple.xpc.launchd/disabled*.plist
     do
-	disabled_main=$(basename $disabled)
-	if ! [ -d $macos_parser_file/private/var/db/com.apple.xpc.launchd ]
-	then
-	    if [ -d /private/var/db/com.apple.xpc.launchd ]
+	    disabled_main=$(basename $disabled)
+	    if ! [ -d $macos_parser_file/private/var/db/com.apple.xpc.launchd ]
 	    then
-		mkdir -p $macos_parser_file/private/var/db/com.apple.xpc.launchd/
+		    mkdir -p $macos_parser_file/private/var/db/com.apple.xpc.launchd/
 	    fi
-	fi
-	if [ -n $disabled ] 
-	then
-	    plutil -p $disabled > $macos_parser_file/private/var/db/com.apple.xpc.launchd/$disabled_main
-	fi 
+	    if [ -n $disabled ]
+	    then
+	        plutil -p $disabled > $macos_parser_file/private/var/db/com.apple.xpc.launchd/$disabled_main
+	    fi
     done
     for at_tabs in /private/var/at/tabs/*
     do
-	at_tabs_main=$(basename $at_tabs)
-	if ! [ -d $macos_parser_file/private/var/at/tabs ]
-	then
-	    if [ -d /private/var/at/tabs ]
+	    at_tabs_main=$(basename $at_tabs)
+	    if ! [ -d $macos_parser_file/private/var/at/tabs ]
 	    then
-		mkdir -p $macos_parser_file/private/var/at/tabs
+	        mkdir -p $macos_parser_file/private/var/at/tabs
 	    fi
-	fi
-	if [ -n $at_tabs ]     #; crontab
-	then
-	    cp $at_tabs > $macos_parser_file/private/var/at/tabs/$at_tabs_main
-	fi
+	    if [ -f $at_tabs ]     #; crontab
+	    then
+	        cp $at_tabs > $macos_parser_file/private/var/at/tabs/$at_tabs_main
+	    fi
     done
     for launchagent in /System/Library/LaunchAgents/*.plist
     do
-	launchagent_main=$(basename $launchagent)
-	if ! [ -d $macos_parser_file/System/Library/LaunchAgents/ ]
-	then
-	    if [ -d /System/Library/LaunchAgents ]
+	    launchagent_main=$(basename $launchagent)
+	    if ! [ -d $macos_parser_file/System/Library/LaunchAgents/ ]
 	    then
-		mkdir -p $macos_parser_file/System/Library/LaunchAgents/
+	        if [ -d /System/Library/LaunchAgents ]
+	        then
+		        mkdir -p $macos_parser_file/System/Library/LaunchAgents/
+	        fi
 	    fi
-	fi
-	if [ -n $launchagent ]    #; LaunchAgents
-	then
-	    plutil -p $launchagent_main > $macos_parser_file/System/Library/LaunchAgents/$launchagent_main
-	fi
+	    if [ -n $launchagent ]    #; LaunchAgents
+	    then
+	        plutil -p $launchagent_main > $macos_parser_file/System/Library/LaunchAgents/$launchagent_main
+    	fi
     done
-    for l_launchagent in /Library/LaunchAgents/*.plist  
+    for l_launchagent in /Library/LaunchAgents/*.plist
     do
 	l_launchagent_main=$(basename $l_launchagent)
 	if ! [ -d $macos_parser_file/Library/LaunchAgents/ ]
@@ -320,14 +314,14 @@ mac_autoruns () {
     for m_user in /Users/*
     do
 	m_user_main=$(basename $m_user)
-	for u_launchagent in /Users/$m_user_main/Library/LaunchAgents/*.plist 
+	for u_launchagent in /Users/$m_user_main/Library/LaunchAgents/*.plist
 	do
 	    u_launchagent_main=$(basename $u_launchagent)
 	    if ! [ -d $macos_parser_file/Users/$m_user_main/Library/LaunchAgents ]
 	    then
 		if [ -d /Users/$m_user_main ]
 		then
-		    mkdir -p $macos_parser_file/Users/$m_user_main/Library/LaunchAgents 
+		    mkdir -p $macos_parser_file/Users/$m_user_main/Library/LaunchAgents
 		fi
 	    fi
 	    if [ -n $u_launchagent ]
@@ -357,7 +351,7 @@ mac_autoruns () {
 	    cp -r $p_user $macos_parser_file/private/var/$p_user_basename
 	fi
     done
-    for s_launchagent in /System/Library/LaunchAgents/.*.plist 
+    for s_launchagent in /System/Library/LaunchAgents/.*.plist
     do
 	s_launchagent_main=$(basename $s_launchagent)
 	if ! [ -d $macos_parser_file/System/Library/LaunchAgents ]
@@ -372,7 +366,7 @@ mac_autoruns () {
 	    plutil -p $s_launchagent > $macos_parser_file/System/Library/LaunchAgents/$s_launchagent_main
 	fi
     done
-    for ll_launchagent in /Library/LaunchAgents/.*.plist 
+    for ll_launchagent in /Library/LaunchAgents/.*.plist
     do
 	ll_launchagent_main=$(basename $ll_launchagent)
 	if ! [ -d $macos_parser_file/Library/LaunchAgents ]
@@ -405,13 +399,13 @@ mac_autoruns () {
 	p_var_main=$(basename $p_var)
 	if [ -f $p_var ]
 	then
-	    if ! [ -d $macos_parser_file/private/var ] 
+	    if ! [ -d $macos_parser_file/private/var ]
 	    then
 		mkdir -p $macos_parser_file/private/var
 	    fi
 	    cp -r $p_var $macos_parser_file/private/var/$p_var_main
 	fi
-	for pl_launchagent in /private/var/$p_var_main/Library/LaunchAgents/.*.plist 
+	for pl_launchagent in /private/var/$p_var_main/Library/LaunchAgents/.*.plist
 	do
 	    pl_launchagent_main=$(basename $pl_launchagent)
 	    if ! [ -d $macos_parser_file/private/var/$p_var_main/Library/LaunchAgents/ ]
@@ -427,7 +421,7 @@ mac_autoruns () {
 	done
     done
 
-    for ls_launchagent in /Library/Apple/System/Library/LaunchAgents/*.plist  
+    for ls_launchagent in /Library/Apple/System/Library/LaunchAgents/*.plist
     do
 	ls_launchagent_main=$(basename $ls_launchagent)
 	if ! [ -d $macos_parser_file/Library/Apple/System/Library/LaunchAgents ]
@@ -503,7 +497,7 @@ mac_autoruns () {
     do
 	las_launchdemon_main=$(basename $las_launchdemon)
 	if ! [ -d $macos_parser_file/Library/Apple/System/Library/LaunchDaemons ]
-	then 
+	then
 	    mkdir -p $macos_parser_file/Library/Apple/System/Library/LaunchDaemons
 	fi
 	if [ -n $las_launchdemon ]
@@ -511,7 +505,7 @@ mac_autoruns () {
 	   plutil -p $las_launchdemon > $macos_parser_file/Library/Apple/System/Library/LaunchDaemons/$las_launchdemon_main
 	fi
     done
-    for hlas_launchdemon in /Library/Apple/System/Library/LaunchDaemons/.*.plist 
+    for hlas_launchdemon in /Library/Apple/System/Library/LaunchDaemons/.*.plist
     do
 	hlas_launchdemon_main=$(basename $hlas_launchdemon)
 	if ! [ -d $macos_parser_file/Library/Apple/System/Library/LaunchDaemons ]
@@ -547,7 +541,7 @@ mac_autoruns () {
 	   cp -r $l_script_add $macos_parser_file/Library/ScriptingAdditions/$l_script_add_main
 	fi
     done
-    for hsl_script_add in /System/Library/ScriptingAdditions/.*.osax 
+    for hsl_script_add in /System/Library/ScriptingAdditions/.*.osax
     do
 	hsl_script_add_main=$(basename $hls_script_add)
 	if ! [ -d $macos_parser_file/System/Library/ScriptingAdditions ]
@@ -559,7 +553,7 @@ mac_autoruns () {
 	    cp -r $hsl_script_add $macos_parser_file/System/Library/ScriptingAdditions/$hsl_script_add_main
 	fi
     done
-    for hl_script_add in /Library/ScriptingAdditions/.*.osax 
+    for hl_script_add in /Library/ScriptingAdditions/.*.osax
     do
 	hl_script_add_main=$(basename $hl_script_add)
 	if ! [ -d $macos_parser_file/Library/ScriptingAdditions ]
@@ -595,7 +589,7 @@ mac_autoruns () {
 	    fi
 	done
     done
-    for l_startup in /Library/StartupItems/* 
+    for l_startup in /Library/StartupItems/*
     do
 	l_startup_main=$(basename $l_startup)
 	if [ -f $l_startup ]
@@ -709,7 +703,7 @@ mac_autoruns () {
     for pp_loginitems in /private/var/*
     do
 	pp_loginitems_main=$(basename $pp_loginitems)
-	for p_loginitems in /private/var/$pp_loginitems_main/Library/Preferences/com.apple.loginitems.plist 
+	for p_loginitems in /private/var/$pp_loginitems_main/Library/Preferences/com.apple.loginitems.plist
 	do
 	    if ! [ -d /private/var/$pp_loginitems_main/Library/Preferences ]
 	    then
@@ -774,7 +768,7 @@ mac_ard () {
     do
 	if ! [ -d $macos_parser_file/private/var/db/RemoteManagement/caches ]
 	then
-	    mkdir -p $macos_parser_file/private/var/db/RemoteManagement/caches 
+	    mkdir -p $macos_parser_file/private/var/db/RemoteManagement/caches
 	fi
 	ard_main=$(basename $ard)
 	cp -r $ard $macos_parser_file/private/var/db/RemoteManagement/caches/$ard_main
@@ -880,7 +874,7 @@ mac_cmdhistory () {
 	    cmd_history_main=$(basename $cmd_history)
 	    if ! [ -d $macos_parser_file/Users/$user_cmd_main ]
 	    then
-		mkdir -p $macos_parser_file/Users/$user_cmd_main 
+		mkdir -p $macos_parser_file/Users/$user_cmd_main
 	    fi
 	    cp -r $cmd_history $macos_parser_file/Users/$user_cmd_main/$cmd_history_main
 	done
@@ -910,7 +904,7 @@ mac_coreanalytics () {
 	then
 	    if ! [ -d $macos_parser_file/private/var/db/analyticsd/aggregates ]
 	    then
-		mkdir -p $macos_parser_file/private/var/db/analyticsd/aggregates 
+		mkdir -p $macos_parser_file/private/var/db/analyticsd/aggregates
 	    fi
 	    cp -r $agg $macos_parser_file/private/var/db/analyticsd/aggregates
 	fi
@@ -921,7 +915,7 @@ mac_coreanalytics () {
 	    then
 		if ! [ -d $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main ]
 		then
-		    mkdir -p $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main  
+		    mkdir -p $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main
 		fi
 		cp -r $agg_file $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main/$agg_file_main
 	    fi
@@ -930,7 +924,7 @@ mac_coreanalytics () {
 		agg_file_3_main=$(basename $agg_file_3)
 		if ! [ -d $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main/$agg_file_main ]
 		then
-		   mkdir -p $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main/$agg_file_main 
+		   mkdir -p $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main/$agg_file_main
 		fi
 		cp -r $agg_file $macos_parser_file/private/var/db/analyticsd/aggregates/$agg_main/$agg_file_main/$agg_file_3_main
 	    done
@@ -998,9 +992,9 @@ mac_firefox () {
 	    then
 		if ! [ -d $macos_parser_file/Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles ]
 		then
-		    mkdir -p $macos_parser_file/Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles 
+		    mkdir -p $macos_parser_file/Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles
 		fi
-		cp -r $firefox_file $macos_parser_file/Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles/$firefox_file_main 
+		cp -r $firefox_file $macos_parser_file/Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles/$firefox_file_main
 	    fi
 	    for ffirefox_file in /Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles/$firefox_file_main/*
 	    do
@@ -1029,20 +1023,20 @@ then
 	    users+=($user)
 	done
 	touch result
-	bash_function       
-	system_service      
-	os_release          
-	hostname            
-	location            
-	ip_address          
-	process             
-	user_group      
-	sudoers_file    
-	log_files           
-	viminfo_file        
-	sudo_execution_history  
+	bash_function
+	system_service
+	os_release
+	hostname
+	location
+	ip_address
+	process
+	user_group
+	sudoers_file
+	log_files
+	viminfo_file
+	sudo_execution_history
     else
-	echo Please run this script with sudo 
+	echo Please run this script with sudo
 	exit
     fi
 elif [ $(uname) = 'Darwin' ]
@@ -1063,7 +1057,7 @@ then
 	mac_activer_directory
 	mac_bluetooth
 	mac_bash_file
-	mac_dock_items 
+	mac_dock_items
 	mac_documentrevisions
 	mac_dynamictext
 	mac_filesharing
