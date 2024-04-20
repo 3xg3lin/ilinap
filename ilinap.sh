@@ -1336,7 +1336,59 @@ mac_mru () {
 			fi
 		done
 	done
-	
+	for pppvar in /private/var/*
+	do
+		pppvar_main=$(basename $pppvar)
+		for pppvar_1 in /private/var/$pppvar_main/Library/Preferences/com.apple.finder.plist
+		do
+			if ! [ -d $macos_parser_file/private/var/$pppvar_main/Library/Preferences ]
+			then
+				mkdir -p $macos_parser_file/private/var/$pppvar_main/Library/Preferences
+			fi
+			plutil -p $pppvar_1 > $macos_parser_file/private/var/$pppvar_main/Library/Preferences/com.apple.finder.plist
+		done
+		for pppvar_2 in /private/var/$pppvar_main/Library/Preferences/com.apple.sidebarlists.plist
+		do
+			if ! [ -d $macos_parser_file/private/var/$pppvar_main/Library/Preferences ]
+			then
+				mkdir -p $macos_parser_file/private/var/$pppvar_main/Library/Preferences
+			fi
+			plutil -p $pppvar_2 > $macos_parser_file/private/var/$pppvar_main/Library/Preferences/com.apple.sidebarlists.plist
+		done
+		for pppvar_3 in /private/var/$pppvar_main/Library/Application\ Support/com.apple.sharedfilelist/*
+		do
+			pppvar_3_main=$(basename $pppvar_3)
+			if [ -d $pppvar_3 ]
+			then
+				for pppvar_3_nest in /private/var/$pppvar_main/Library/Application\ Support/com.apple.sharedfilelist/$pppvar_3_main/*.sfl*
+				do
+					pppvar_3_nest_main=$(basename $pppvar_3_nest)
+					if ! [ -d $macos_parser_file/private/var/$pppvar_main/Library/Application\ Support/com.apple.sharedfilelist/$pppvar_3_main ]
+					then
+						mkdir -p $macos_parser_file/private/var/$pppvar_main/Library/Application\ Support/com.apple.sharedfilelist/$pppvar_3_main
+					fi
+					cp -r $pppvar_3_nest $macos_parser_file/private/var/$pppvar_main/Library/Application\ Support/com.apple.sharedfilelist/$pppvar_3_main/$pppvar_3_nest_main
+				done
+			fi
+		done
+		for pppvar_4 in /private/var/$pppvar_main/Library/Containers/com.microsoft.*
+		do
+			pppvar_4_main=$(basename $pppvar_4)
+			if [ -d $pppvar_4 ]
+			then
+				for pppvar_4_nest in /private/var/$pppvar_main/Library/Containers/$pppvar_4_main/Data/Library/Preferences/com.microsoft.*.securebookmarks.plist
+				do
+					pppvar_4_nest_main=$(basename $pppvar_4_nest)
+					if ! [ -d $macos_parser_file/private/var/$pppvar_main/Library/Containers/$pppvar_4_main/Data/Library/Preferences ]
+					then
+						mkdir -p $macos_parser_file/private/var/$pppvar_main/Library/Containers/$pppvar_4_main/Data/Library/Preferences
+					fi
+					plutil -p $pppvar_4_nest > $macos_parser_file/private/var/$pppvar_main/Library/Containers/$pppvar_4_main/Data/Library/Preferences/$pppvar_4_nest_main
+				done
+			fi
+		done
+	done
+
 }
 
 if [ $(uname) = 'Linux' ]
