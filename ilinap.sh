@@ -1065,7 +1065,7 @@ mac_idevice () {
 			then
 				mkdir -p $macos_parser_file/Users/$idev_user_main/Library/Preferences
 			fi
-			cp -r $dev_info $macos_parser_file/Users/$idev_user_main/Library/Preferences/com.apple.iPod.plist
+			plutil -p $dev_info ? $macos_parser_file/Users/$idev_user_main/Library/Preferences/com.apple.iPod.plist
 		done
 	done
 }
@@ -1145,7 +1145,7 @@ mac_installhistory () {
 	then
 		mkdir -p $macos_parser_file/Library/Receipts
 	fi
-	cp -r /Library/Receipts/InstallHistory.plist $macos_parser_file/Library/Receipts/InstallHistory.plist
+	plutil -p /Library/Receipts/InstallHistory.plist > $macos_parser_file/Library/Receipts/InstallHistory.plist
 }
 
 mac_knowledgec_db () {
@@ -1234,7 +1234,109 @@ mac_keychain () {
 }
 
 mac_mru () {
-
+	for mru_user in /Users/*
+	do
+		mru_user_main=$(basename $mru_user)
+		for mru in /Users/$mru_user_main/Library/Preferences/com.apple.finder.plist
+		do
+			if ! [ -d $macos_parser_file/Users/$mru_user_main/Library/Preferences ]
+			then
+				mkdir -p $macos_parser_file/Users/$mru_user_main/Library/Preferences
+			fi
+			plutil -p $mru > $macos_parser_file/Users/$mru_user_main/Library/Preferences/com.apple.finder.plist
+		done
+		for mru_2 in /Users/$mru_user_main/Library/Preferences/.GlobalPreferences.plist
+		do
+			if ! [ -d $macos_parser_file/Users/$mru_user_main/Library/Preferences ]
+			then
+				mkdir -p $macos_parser_file/Users/$mru_user_main/Library/Preferences
+			fi
+			plutil -p $mru_2 > $macos_parser_file/Users/$mru_user_main/Library/Preferences/com.apple.finder.plist
+		done
+		for mru_3 in /Users/$mru_user_main/.ssh/known_hosts
+		do
+			if ! [ -d $macos_parser_file/Users/$mru_user_main/.ssh ]
+			then
+				mkdir -p $macos_parser_file/Users/$mru_user_main/.ssh
+			fi
+			cp -r $mru_3 $macos_parser_file/Users/$mru_user_main/.ssh/known_hosts
+		done
+		for mru_4 in /Users/$mru_user_main/Library/Preferences/*.LSSharedFileList.plist
+		do
+			mru_4_main=$(basename $mru_4)
+			if ! [ -d $macos_parser_file/Users/$mru_user_main/Library/Preferences ]
+			then
+				mkdir -p $macos_parser_file/Users/$mru_user_main/Library/Preferences 
+			fi
+			plutil -p $mru_4 > $macos_parser_file/Users/$mru_user_main/Library/Preferences/$mru_4_main
+		done
+		for mru_5 in /Users/$mru_user_main/Library/Preferences/com.apple.recentitems.plist
+		do
+			if ! [ -d $macos_parser_file/Users/$mru_user_main/Library/Preferences ]
+			then
+				mkdir -p $macos_parser_file/Users/$mru_user_main/Library/Preferences
+			fi
+			plutil -p $mru_5 > $macos_parser_file/Users/$mru_user_main/Library/Preferences/com.apple.recentitems.plist
+		done
+		for mru_6 in /Users/$mru_user_main/Library/Preferences/com.apple.sidebarlists.plist
+		do
+			if ! [ -d $macos_parser_file/Users/$mru_user_main/Library/Preferences ]
+			then
+				mkdir -p $macos_parser_file/Users/$mru_user_main/Library/Preferences
+			fi
+			plutil -p $mru_6 > $macos_parser_file/Users/$mru_user_main/Library/Preferences/com.apple.sidebarlists.plist
+		done
+		for mru_7 in /Users/$mru_user_main/Library/Application\ Support/com.apple.sharedfilelist/*.sfl*
+		do
+			mru_7_main=$(basename $mru_7)
+			if ! [ -d $macos_parser_file/Users/$mru_user_main/Library/Application\ Support/com.apple.sharedfilelist ]
+			then
+				mkdir -p $macos_parser_file/Users/$mru_user_main/Library/Application\ Support/com.apple.sharedfilelist
+			fi
+			cp -r $mru_7 $macos_parser_file/Users/$mru_user_main/Library/Application\ Support/com.apple.sharedfilelist/$mru_7_main
+		done
+		for mru_8 in /Users/$mru_user_main/Library/Application\ Support/com.apple.sharedfilelist/*
+		do
+			mru_8_main=$(basename $mru_8)
+			if [ -d $mru_8 ]
+			then
+				for mru_8_nest in /Users/$mru_user_main//Library/Application\ Support/com.apple.sharedfilelist/$mru_8_main/*.sfl*
+				do
+					mru_8_nest_main=$(basename $mru_8)
+					if ! [ -d $macos_parser_file/Users/$mru_user_main//Library/Application\ Support/com.apple.sharedfilelist/$mru_8_main ]
+					then
+						mkdir -p $macos_parser_file/Users/$mru_user_main//Library/Application\ Support/com.apple.sharedfilelist/$mru_8_main
+					fi
+					cp -r $mru_8_nest $macos_parser_file/Users/$mru_user_main//Library/Application\ Support/com.apple.sharedfilelist/$mru_8_main/$mru_8_nest_main
+				done
+			fi
+		done
+		for mru_9 in /Users/$mru_user_main/Library/Preferences/com.microsoft.office.plist
+		do
+			if ! [ -d $macos_parser_file/Users/$mru_user_main/Library/Preferences ]
+			then
+				mkdir -p $macos_parser_file/Users/$mru_user_main/Library/Preferences
+			fi
+			cp -r $mru_9 $macos_parser_file/Users/$mru_user_main/Library/Preferences/com.microsoft.office.plist
+		done
+		for mru_10 in /Users/$mru_user_main/Library/Containers/com.microsoft.*
+		do
+			mru_10_main=$(basename $mru_10)
+			if [ -d $mru_10 ]
+			then
+				for mru_10_nest in /Users/$mru_user_main/Library/Containers/$mru_10_main/Data/Library/Preferences/com.microsoft.*.securebookmarks.plist
+				do
+					mru_10_nest_main=$(basename $mru_10_nest)
+					if ! [ -d $macos_parser_file/Users/$mru_user_main/Library/Containers/$mru_10_main/Data/Library/Preferences/ ]
+					then
+						mkdir -p $macos_parser_file/Users/$mru_user_main/Library/Containers/$mru_10_main/Data/Library/Preferences/
+					fi
+					plutil -p $mru_10_nest > $macos_parser_file/Users/$mru_user_main/Library/Containers/$mru_10_main/Data/Library/Preferences/$mru_10_nest_main
+				done
+			fi
+		done
+	done
+	
 }
 
 if [ $(uname) = 'Linux' ]
