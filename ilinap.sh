@@ -1119,11 +1119,11 @@ mac_inetaccounts () {
 		for inet_ff in /Users/$inet_user_main/Library/Accounts/VerifiedBackup/Accounts*.*
 		do
 			inet_ff_main=$(basename $inet_ff)
-			if ! [ -d $macos_parser_file/Library/Accounts/VerifiedBackup ]
+			if ! [ -d $macos_parser_file/Users/$inet_user_main/Library/Accounts/VerifiedBackup ]
 			then
-				mkdir -p $macos_parser_file/Library/Accounts/VerifiedBackup
+				mkdir -p $macos_parser_file/Users/$inet_user_main/Library/Accounts/VerifiedBackup
 			fi
-			cp -r $inet_ff $macos_parser_file/Library/Accounts/VerifiedBackup/$inet_ff_main
+			cp -r $inet_ff $macos_parser_file/Users/$inet_user_main/Library/Accounts/VerifiedBackup$inet_ff_main
 		done
 	done
 }
@@ -1146,6 +1146,95 @@ mac_installhistory () {
 		mkdir -p $macos_parser_file/Library/Receipts
 	fi
 	cp -r /Library/Receipts/InstallHistory.plist $macos_parser_file/Library/Receipts/InstallHistory.plist
+}
+
+mac_knowledgec_db () {
+	for know_db in /private/var/db/CoreDuet/Knowledge/*
+	do
+		know_db_main=$(basename $know_db)
+		if ! [ -d $macos_parser_file/private/var/db/CoreDuet/Knowledge ]
+		then
+			mkdir -p $macos_parser_file/private/var/db/CoreDuet/Knowledge
+		fi
+		cp -r $know_db $macos_parser_file/private/var/db/CoreDuet/Knowledge/$know_db_main
+	done
+	for knowdb_user in /Users/*
+	do
+		knowdb_user_main=$(basename $knowdb_user)
+		for know_db_file in /Users/$knowdb_user_main/Library/Application\ Support/Knowledge/*
+		do
+			know_db_file_main=$(basename $know_db_file)
+			if ! [ -d $macos_parser_file/Users/$knowdb_user_main/Library/Application\ Support/Knowledge ]
+			then
+				mkdir -p $macos_parser_file/Users/$knowdb_user_main/Library/Application Support/Knowledge
+			fi
+			cp -r $know_db_file $macos_parser_file/Users/$knowdb_user_main/Library/Application Support/Knowledge/$know_db_file_main
+		done
+	done
+}
+
+mac_keychain () {
+	if ! [ -d $macos_parser_file/Library/Keychains ]
+	then
+		mkdir -p $macos_parser_file/Library/Keychains
+	fi
+	cp /Library/Keychains/System.keychain $macos_parser_file/Library/Keychains/System.keychain
+	if ! [ -d $macos_parser_file/private/var/db ]
+	then
+		mkdir -p $macos_parser_file/private/var/db/SystemKey
+	fi
+	cp /private/var/db/SystemKey $macos_parser_file/private/var/db/SystemKey
+	for keychain_user in /Users/*
+	do
+		keychain_user_main=$(basename $keychain_user)
+		for keychain in /Users/$keychain_user_main/Library/Keychains/login.keychain*
+		do
+			keychain_main=$(basename $keychain)
+			if ! [ -d $macos_parser_file/Library/Keychains ]
+			then
+				mkdir -p $macos_parser_file/Library/Keychains
+			fi
+			cp -r $keychain $macos_parser_file/Library/Keychains/$keychain_main
+		done
+		for keychain_f in /Users/$keychain_user_main/Library/Keychains/login.keychain-db*
+		do
+			keychain_f_main=$(basename $keychain_f)
+			if ! [ -d $macos_parser_file/Users/$keychain_user_main/Library/Keychains ]
+			then
+				mkdir -p $macos_parser_file/Users/$keychain_user_main/Library/Keychains
+			fi
+			cp -r $keychain_f $macos_parser_file/Users/$keychain_user_main/Library/Keychains/$keychain_f_main
+		done
+		for keychain_nest in /Users/$keychain_user_main/Library/Keychains/*
+		do
+			if [ -d $keychain_nest ]
+			then
+				keychain_nest_main=$(basename $keychain_nest)
+				for keychain_nest_2 in /Users/$keychain_user_main/Library/Keychains/$keychain_nest_main/keychain-2.db*
+				do
+					keychain_nest_2_main=$(basename $keychain_nest_2)
+					if ! [ -d $macos_parser_file/Users/$keychain_user_main/Library/Keychains/$keychain_nest_main ]
+					then
+						mkdir -p $macos_parser_file/Users/$keychain_user_main/Library/Keychains/$keychain_nest_main
+					fi
+					cp -r $keychain_nest_2 $macos_parser_file/Users/$keychain_user_main/Library/Keychains/$keychain_nest_main/$keychain_nest_2_main
+				done
+				for keychain_nest_3 in /Users/$keychain_user_main/Library/Keychains/$keychain_nest_main/user.kb
+				do
+					keychain_nest_3_main=$(basename $keychain_nest_3)
+					if ! [ -d $macos_parser_file/Users/$keychain_user_main/Library/Keychains/$keychain_nest_main ]
+					then
+						mkdir -p $macos_parser_file/Users/$keychain_user_main/Library/Keychains/$keychain_nest_main 
+					fi
+					cp -r $keychain_nest_3 $macos_parser_file/Users/$keychain_user_main/Library/Keychains/$keychain_nest_main/$keychain_nest_3_main
+				done
+			fi
+		done
+	done
+}
+
+mac_mru () {
+
 }
 
 if [ $(uname) = 'Linux' ]
@@ -1206,6 +1295,9 @@ then
 		mac_inetaccounts
 		mac_interactions
 		mac_installhistory
+		mac_knowledgec_db
+		mac_keychain
+		mac_mru
     fi
 else
     echo "This is not MacOS or Linux sorry"
