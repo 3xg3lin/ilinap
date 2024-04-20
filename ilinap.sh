@@ -1083,19 +1083,69 @@ mac_imessage () {
 			fi
 			cp -r $message $macos_parser_file/Users/$mess_user_main/Library/Messages/$message_main
 		done
+		for imess in /Users/$mess_user_main/Library/Messages/Attachments/*
+		do
+			imess_main=$(basename $imess)
+			if ! [ -d $macos_parser_file/Users/$mess_user_main/Library/Messages/Attachments ]
+			then
+				mkdir -p $macos_parser_file/Users/$mess_user_main/Library/Messages/Attachments
+			fi
+			cp -r $imess $macos_parser_file/Users/$mess_user_main/Library/Messages/Attachments/$imess_main
+		done
 	done
 }
 
 mac_inetaccounts () {
-
+	for inet_user in /Users/*
+	do
+		inet_user_main=$(basename $inet_user)
+		for inet in /Users/$inet_user_main/Library/Preferences/MobileMeAccounts.plist
+		do
+			if ! [ -d $macos_parser_file/Users/$inet_user_main/Library/Preferences ]
+			then
+				mkdir -p $macos_parser_file/Users/$inet_user_main/Library/Preferences
+			fi
+			cp -r $inet $macos_parser_file/Users/$inet_user_main/Library/Preferences/MobileMeAccounts.plist
+		done
+		for inet_f in /Users/$inet_user_main/Library/Accounts/Accounts*.*
+		do
+			inet_f_main=$(basename $inet_f)
+			if ! [ -d $macos_parser_file/Users/$inet_user_main/Library/Accounts ]
+			then
+				mkdir -p $macos_parser_file/Users/$inet_user_main/Library/Accounts
+			fi
+			cp -r $inet_f $macos_parser_file/Users/$inet_user_main/Library/Accounts/$inet_f_main
+		done
+		for inet_ff in /Users/$inet_user_main/Library/Accounts/VerifiedBackup/Accounts*.*
+		do
+			inet_ff_main=$(basename $inet_ff)
+			if ! [ -d $macos_parser_file/Library/Accounts/VerifiedBackup ]
+			then
+				mkdir -p $macos_parser_file/Library/Accounts/VerifiedBackup
+			fi
+			cp -r $inet_ff $macos_parser_file/Library/Accounts/VerifiedBackup/$inet_ff_main
+		done
+	done
 }
 
 mac_interactions () {
-
+	for interact in /private/var/db/CoreDuet/People/interactionC.*
+	do
+		interact_main=$(basename $interact)
+		if ! [ -d $macos_parser_file/private/var/db/CoreDuet/People ]
+		then
+			mkdir -p $macos_parser_file/private/var/db/CoreDuet/People
+		fi
+		cp -r $interact $macos_parser_file/private/var/db/CoreDuet/People/$interact_main
+	done
 }
 
 mac_installhistory () {
-
+	if ! [ -d $macos_parser_file/Library/Receipts ]
+	then
+		mkdir -p $macos_parser_file/Library/Receipts
+	fi
+	cp -r /Library/Receipts/InstallHistory.plist $macos_parser_file/Library/Receipts/InstallHistory.plist
 }
 
 if [ $(uname) = 'Linux' ]
@@ -1134,10 +1184,6 @@ then
 		name=$(whoami)
 		hname=$(hostname)
 		macos_parser_file="$name-$hname"
-		for mac_user in /Users/*
-		do
-			mac_users+=( $mac_user )
-		done
 		mkdir $macos_parser_file
 		mac_autoruns
 		mac_ard
