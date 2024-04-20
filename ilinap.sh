@@ -981,7 +981,7 @@ mac_filesharing () {
 }
 
 mac_firefox () {
-    for fire_user in $mac_users
+    for fire_user in /Users/*
     do
 		fire_user_main=$(basename $fire_user)
 		for firefox_file in /Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles/*
@@ -1033,40 +1033,57 @@ mac_fsevents () {
 }
 
 mac_idevice () {
-	for idev in $mac_users/Library/Application Support/MobileSync/Backup/*
+	for idev_user in /Users/*
 	do
-		if [ -f $idev ]
-		then
-			if ! [ -d $macos_parser_file/$mac_users/Library/Application Support/MobileSync/Backup/ ]
+		idev_user_main=$(basename $idev_user)
+		for idev in /Users/$idev_user_main/Library/Application\ Support/MobileSync/Backup/*
+		do
+			idev_main=$(basename $idev)
+			if [ -f $idev ]
 			then
-				mkdir -p $macos_parser_file/$mac_users/Library/Application Support/MobileSync/Backup/
-			fi
-			cp -r $idev $macos_parser_file$idev
-		fi
-		if [ -d $idev ]
-		then
-			for sub_idev in $idev/*
-			do
-				if ! [ -d $macos_parser_file$idev ]
+				if ! [ -d $macos_parser_file/Users/$idev_user_main/Library/Application\ Support/MobileSync/Backup/ ]
 				then
-					mkdir -p $macos_parser_file$idev
+					mkdir -p $macos_parser_file/Users/$idev_user_main/Library/Application\ Support/MobileSync/Backup/
 				fi
-				cp -r $sub_idev $macos_parser_file$sub_idev
-			done
-		fi
-	done
-	for dev_info in $mac_users/Library/Preferences/com.apple.iPod.plist
-	do
-		if [ -d $macos_parser_file$mac_users/Library/Preferences/ ]
-		then
-			mkdir -p $macos_parser_file$mac_users/Library/Preferences/
-		fi
-		cp -r $dev_info $mac_users/Library/Preferences/com.apple.iPod.plist
+				cp -r $idev $macos_parser_file/Users/$idev_user_main/Library/Application\ Support/MobileSync/Backup/$idev_main
+			if [ -d $idev ]
+			then
+				for sub_idev in $idev/*
+				do
+					sub_idev_main=$(basename $sub_idev)
+					if ! [ -d $macos_parser_file$idev ]
+					then
+						mkdir -p $macos_parser_file/Users/$idev_user_main/Library/Application\ Support/MobileSync/Backup/$idev_main
+					fi
+					cp -r $sub_idev $macos_parser_file/Users/$idev_user_main/Library/Application\ Support/MobileSync/Backup/$idev_main/$sub_idev_main
+				done
+			fi
+		done
+		for dev_info in /Users/$idev_user_main/Library/Preferences/com.apple.iPod.plist
+		do
+			if ! [ -d $macos_parser_file/Users/$idev_user_main/Library/Preferences ]
+			then
+				mkdir -p $macos_parser_file/Users/$idev_user_main/Library/Preferences
+			fi
+			cp -r $dev_info $macos_parser_file/Users/$idev_user_main/Library/Preferences/com.apple.iPod.plist
+		done
 	done
 }
 
 mac_imessage () {
-
+	for mess_user in /Users/*
+	do
+		mess_user_main=$(basename $mess_user)
+		for message in /Users/$mess_user_main/Library/Messages/chat.db*
+		do
+			message_main=$(basename $message)
+			if ! [ -d $macos_parser_file/Users/$mess_user_main/Library/Messages ]
+			then
+				mkdir -p $macos_parser_file/Users/$mess_user_main/Library/Messages
+			fi
+			cp -r $message $macos_parser_file/Users/$mess_user_main/Library/Messages/$message_main
+		done
+	done
 }
 
 mac_inetaccounts () {
