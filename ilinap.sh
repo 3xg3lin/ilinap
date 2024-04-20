@@ -981,7 +981,7 @@ mac_filesharing () {
 }
 
 mac_firefox () {
-    for fire_user in /Users/*
+    for fire_user in $mac_users
     do
 		fire_user_main=$(basename $fire_user)
 		for firefox_file in /Users/$fire_user_main/Library/Application\ Support/Firefox/Profiles/*
@@ -1032,17 +1032,66 @@ mac_fsevents () {
 	done
 }
 
+mac_idevice () {
+	for idev in $mac_users/Library/Application Support/MobileSync/Backup/*
+	do
+		if [ -f $idev ]
+		then
+			if ! [ -d $macos_parser_file/$mac_users/Library/Application Support/MobileSync/Backup/ ]
+			then
+				mkdir -p $macos_parser_file/$mac_users/Library/Application Support/MobileSync/Backup/
+			fi
+			cp -r $idev $macos_parser_file$idev
+		fi
+		if [ -d $idev ]
+		then
+			for sub_idev in $idev/*
+			do
+				if ! [ -d $macos_parser_file$idev ]
+				then
+					mkdir -p $macos_parser_file$idev
+				fi
+				cp -r $sub_idev $macos_parser_file$sub_idev
+			done
+		fi
+	done
+	for dev_info in $mac_users/Library/Preferences/com.apple.iPod.plist
+	do
+		if [ -d $macos_parser_file$mac_users/Library/Preferences/ ]
+		then
+			mkdir -p $macos_parser_file$mac_users/Library/Preferences/
+		fi
+		cp -r $dev_info $mac_users/Library/Preferences/com.apple.iPod.plist
+	done
+}
+
+mac_imessage () {
+
+}
+
+mac_inetaccounts () {
+
+}
+
+mac_interactions () {
+
+}
+
+mac_installhistory () {
+
+}
+
 if [ $(uname) = 'Linux' ]
 then
     if [ "$EUID" -eq 0 ]
     then
-	whoami=$(whoami)
-	hostname=$(hostname)
-	linux_parser_file=( $whoami-$hostname )
+	name=$(whoami)
+	hname=$(hostname)
+	linux_parser_file="$name-$hname"
 	mkdir $linux_parser_file
 	for user in $(awk -F: '{if ($6 ~ /^\/home/ ) print $1}' /etc/passwd)
 	do
-	    users+=($user)
+	    users+=( $user )
 	done
 	touch result
 	bash_function
@@ -1065,26 +1114,35 @@ elif [ $(uname) = 'Darwin' ]
 then
     if [ "$EUID" -eq 0 ]
     then
-	whoami=$(whoami)
-	hostname=$(hostname)
-	macos_parser_file=( $whoami-$hostname )
-	mkdir $macos_parser_file
-	mac_autoruns
-	mac_ard
-	mac_asl
-	mac_applist
-	mac_cmdhistory
-	mac_coreanalytics
-	mac_cfurl_cache
-	mac_activer_directory
-	mac_bluetooth
-	mac_bash_file
-	mac_dock_items
-	mac_documentrevisions
-	mac_dynamictext
-	mac_filesharing
-	mac_firefox
-	mac_fsevents
+		name=$(whoami)
+		hname=$(hostname)
+		macos_parser_file="$name-$hname"
+		for mac_user in /Users/*
+		do
+			mac_users+=( $mac_user )
+		done
+		mkdir $macos_parser_file
+		mac_autoruns
+		mac_ard
+		mac_asl
+		mac_applist
+		mac_cmdhistory
+		mac_coreanalytics
+		mac_cfurl_cache
+		mac_activer_directory
+		mac_bluetooth
+		mac_bash_file
+		mac_dock_items
+		mac_documentrevisions
+		mac_dynamictext
+		mac_filesharing
+		mac_firefox
+		mac_fsevents
+		mac_idevice
+		mac_imessage
+		mac_inetaccounts
+		mac_interactions
+		mac_installhistory
     fi
 else
     echo "This is not MacOS or Linux sorry"
