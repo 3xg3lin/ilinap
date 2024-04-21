@@ -1388,7 +1388,218 @@ mac_mru () {
 			fi
 		done
 	done
+}
 
+mac_msoffice () {
+	for off_user in /Users/*
+	do
+		off_user_main=$(basename $off_user)
+		for office in /Users/$off_user_main/Library/Preferences/com.microsoft.office.plist
+		do
+			if ! [ -d $macos_parser_file/Users/$off_user_main/Library/Preferences ]
+			then
+				mkdir -p $macos_parser_file/Users/$off_user_main/Library/Preferences 
+			fi
+			cp -r $off_user $macos_parser_file/Users/$off_user_main/Library/Preferences/com.microsoft.office.plist
+		done
+		for office_2 in /Users/$off_user_main/Library/Containers/com.microsoft.*
+		do
+			office_2_main=$(basename $office_2)
+			for office_2_nest in /Users/$off_user_main/Library/Containers/$office_2_main/Data/Library/Preferences/com.microsoft.*.plist
+			do
+				office_2_nest_main=$(basename $office_2_nest)
+				if ! [ -d $macos_parser_file/Users/$off_user_main/Library/Containers/$office_2_main/Data/Library/Preferences ]
+				then
+					mkdir -p $macos_parser_file/Users/$off_user_main/Library/Containers/$office_2_main/Data/Library/Preferences
+				fi
+				cp -r $office_2_nest $macos_parser_file/Users/$off_user_main/Library/Containers/$office_2_main/Data/Library/Preferences/$office_2_nest_main
+			done
+			for office_3 in /Users/$off_user_main/Library/Containers/$office_2_main/Data/Library/Preferences/com.microsoft.*.securebookmarks.plist
+			do
+				office_3_main=$(basename $office_3)
+				if ! [ -d $macos_parser_file/Users/$off_user_main/Library/Containers/$office_2_main/Data/Library/Preferences ]
+				then
+					mkdir -p $macos_parser_file/Users/$off_user_main/Library/Containers/$office_2_main/Data/Library/Preferences
+				fi
+				cp -r $office_3 $macos_parser_file/Users/$off_user_main/Library/Containers/$office_2_main/Data/Library/Preferences/$office_3_main
+			done
+		done
+		for office_4 in /Users/$off_user_main/Library/Group\ Containers/*.Office
+		do
+			office_4_main=$(basename $office_4)
+			for office_4_nest in /Users/$off_user_main/Library/Group\ Containers/$office_4_main/MicrosoftRegistrationDB.reg*
+			do
+				office_4_nest_main=$(basename $office_4_nest)
+				if ! [ -d $macos_parser_file/Users/$off_user_main/Library/Group\ Containers/$office_4_main ]
+				then
+					mkdir -p $macos_parser_file/Users/$off_user_main/Library/Group\ Containers/$office_4_main
+				fi
+				cp -r $office_4_nest $macos_parser_file/Users/$off_user_main/Library/Group\ Containers/$office_4_main/$office_4_nest_main
+			done
+		done
+
+
+}
+
+mac_netusage () {
+	for netusage in /private/var/networkd/netusage.sqlite*
+	do
+		netusage_main=$(basename $netusage)
+		if ! [ -d $macos_parser_file/private/var/networkd ]
+		then
+			mkdir -p $macos_parser_file/private/var/networkd
+		fi
+		cp -r $netusage $macos_parser_file/private/var/networkd/$netusage_main
+	done
+	for netuage_2 in /private/var/networkd/db/netusage.sqlite*
+	do
+		netusage_2_main=$(basename $netusage_2)
+		if ! [ -d $macos_parser_file/private/var/networkd/db ]
+		then
+			mkdir -p $macos_parser_file/private/var/networkd/db
+		fi
+		cp -r $netusage_3 $macos_parser_file/private/var/networkd/db/$netusage_2_main
+	done
+}
+
+mac_networking () {
+	if ! [ -d $macos_parser_file/private/var/db/dhcpclient ]
+	then
+		mkdir -p $macos_parser_file/private/var/db/dhcpclient
+	fi
+	cp -r /private/var/db/dhcpclient/DUID_IA.plist $macos_parser_file/private/var/db/dhcpclient/DUID_IA.plist
+	for netw in /private/var/db/dhcpclient/leases/*
+	do
+		netw_main=$(basename $netw)
+		if ! [ -d $macos_parser_file/private/var/db/dhcpclient/leases ]
+		then
+			mkdir -p $macos_parser_file/private/var/db/dhcpclient/leases
+		fi
+		cp -r $netw $macos_parser_file/private/var/db/dhcpclient/leases/$netw_main
+	done
+	if ! [ -d $macos_parser_file/private/var/run ]
+	then
+		mkdir -p $macos_parser_file/private/var/run
+	fi
+	cp -r /private/var/run/resolv.conf $macos_parser_file/private/var/run/resolv.conf
+	if ! [ -d $macos_parser_file/private/etc ]
+	then
+		mkdir -p /private/etc
+	fi
+	cp -r /private/etc/hosts $macos_parser_file/private/etc/hosts
+	if ! [ -d $macos_parser_file/Library/Preferences/SystemConfiguration ]
+	then
+		mkdir -p $macos_parser_file/Library/Preferences/SystemConfiguration
+	fi
+	plutil -p /Library/Preferences/SystemConfiguration/NetworkInterfaces.plist > $macos_parser_file/Library/Preferences/SystemConfiguration/NetworkInterfaces.plist
+	if ! [ -d $macos_parser_file/Library/Preferences/SystemConfiguration ]
+	then
+		mkdir -p $macos_parser_file/Library/Preferences/SystemConfiguration 
+	fi
+	plutil -p /Library/Preferences/SystemConfiguration/preferences.plist > $macos_parser_file/Library/Preferences/SystemConfiguration/preferences.plist
+	if ! [ -d $macos_parser_file/Library/Preferences/SystemConfiguration ]
+	then
+		mkdir -p /Library/Preferences/SystemConfiguration
+	fi
+	plutil -p /Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist > $macos_parser_file/Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist
+}
+
+mac_notes () {
+	for note_user in /Users/*
+	do
+		note_user_main=$(basename $note_user)
+		for note in /Users/$note_user_main/Library/Containers/com.apple.Notes/Data/Library/Notes/*
+		do
+			note_main=$(basename $note)
+			if ! [ -d $macos_parser_file/Users/$note_user_main/Library/Containers/com.apple.Notes/Data/Library/Notes ]
+			then
+				mkdir -p $macos_parser_file/Users/$note_user_main/Library/Containers/com.apple.Notes/Data/Library/Notes
+			fi
+			cp -r $note $macos_parser_file/Users/$note_user_main/Library/Containers/com.apple.Notes/Data/Library/Notes/$note_main
+		done
+		for note_2 in /Users/$note_user_main/Library/Group\ Containers/group.com.apple.notes/NoteStore.sqlite*
+		do
+			note_2_main=$(basename $note_2)
+			if ! [ -d $macos_parser_file/Users/$note_user_main/Library/Group\ Containers/group.com.apple.notes ]
+			then
+				mkdir -p $macos_parser_file/Users/$note_user_main/Library/Group\ Containers/group.com.apple.notes 
+			fi
+		done
+}
+
+mac_notifications () {
+	for notify_user in /Users/*
+	do
+		notify_user_main=$(basename $notify_user)
+		for notification in /Users/$notify_user_main/Library/Application\ Support/NotificationCenter/*.db*
+		do
+			notification_main=$(basename $notification)
+			if ! [ -d $macos_parser_file/Users/$notify_user_main/Library/Application\ Support/NotificationCenter ]
+			then
+				mkdir -p $macos_parser_file/Users/$notify_user_main/Library/Application\ Support/NotificationCenter
+			fi
+			cp -r $notification $macos_parser_file/Users/$notify_user_main/Library/Application\ Support/NotificationCenter/$notification_main
+		done
+	done
+	for notification_2 in  /private/var/folders/*
+	do
+		notification_2_main=$(basename $notification_2)
+		for notification_2_nest in /private/var/folder/$notification_2_main/*
+		do
+			notification_2_nest_main=$(basename $notification_2_nest)
+			for notification_2_nest_nest in /private/var/folder/$notification_2_main/$notification_2_nest_main/0/com.apple.notificationcenter/db/db*
+			do
+				notification_2_nest_nest_main=$(basename $notification_2_nest_nest)
+				if ! [ -d $macos_parser_file/private/var/folder/$notification_2_main/$notification_2_nest_main/0/com.apple.notificationcenter/db ]
+				then
+					mkdir -p $macos_parser_file/private/var/folder/$notification_2_main/$notification_2_nest_main/0/com.apple.notificationcenter/db
+				fi
+				cp -r $notification_2_nest_nest $macos_parser_file/private/var/folder/$notification_2_main/$notification_2_nest_main/0/com.apple.notificationcenter/db/$notification_2_nest_nest_main
+			done
+			for notification_3 in /private/var/folder/$notification_2_main/$notification_2_nest_main/0/com.apple.notificationcenter/db2/db*
+			do
+				notification_3_main=$(basename $notification_3)
+				if ! [ -d $macos_parser_file/private/var/folder/$notification_2_main/$notification_2_nest_main/0/com.apple.notificationcenter/db2 ]
+				then
+					mkdir -p $macos_parser_file/private/var/folder/$notification_2_main/$notification_2_nest_main/0/com.apple.notificationcenter/db2
+				fi
+				cp -r $notification_3 $macos_parser_file/private/var/folder/$notification_2_main/$notification_2_nest_main/0/com.apple.notificationcenter/db2/$notification_3_main
+			done
+		done
+	done
+}
+
+mac_powerlog () {
+	for powerl in /private/var/db/powerlog/Library/BatteryLife/*
+	do
+		powerl_main=$(basename $powerl)
+		if ! [ -d $macos_parser_file/private/var/db/powerlog/Library/BatteryLife ]
+		then
+			mkdir -p $macos_parser_file/private/var/db/powerlog/Library/BatteryLife
+		fi
+		cp -r $powerl $macos_parser_file/private/var/db/powerlog/Library/BatteryLife/$powerl_main
+	done
+	for powerl_2 in  /private/var/db/powerlog/Library/BatteryLife/Archives/*
+	do
+		powerl_2_main=$(basename $powerl_2)
+		if ! [ -d $macos_parser_file/private/var/db/powerlog/Library/BatteryLife/Archives ]
+		then
+			mkdir -p $macos_parser_file/private/var/db/powerlog/Library/BatteryLife/Archives
+		fi
+		cp -r $powerl_2 $macos_parser_file/private/var/db/powerlog/Library/BatteryLife/Archives/$powerl_2_main
+	done
+}
+
+mac_printjobs () {
+	for pjobs in /private/var/spool/cups/*
+	do
+		pjobs_main=$(basename $pjobs)
+		if ! [ -d $macos_parser_file/private/var/spool/cups ]
+		then
+			mkdir -p $macos_parser_file/private/var/spool/cups
+		fi
+		cp -r $pjobs $macos_parser_file/private/var/spool/cups/$pjobs_main
+	done
 }
 
 if [ $(uname) = 'Linux' ]
@@ -1452,6 +1663,13 @@ then
 		mac_knowledgec_db
 		mac_keychain
 		mac_mru
+		mac_msofficce
+		mac_netusage
+		mac_networking 
+		mac_notes
+		mac_notifications
+		mac_powerlog
+		mac_printjobs
     fi
 else
     echo "This is not MacOS or Linux sorry"
