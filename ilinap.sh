@@ -1602,6 +1602,38 @@ mac_printjobs () {
 	done
 }
 
+mac_quarantine () {
+	for quarantine_user in /Users/*
+	do
+		quarantine_user_main=$(basename $quarantine_user)
+		for quarantine in /Users/$quarantine_user_main/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
+		do
+			if ! [ -d $macos_parser_file/Users/$quarantine_user_main/Library/Preferences ]
+			then
+				mkdir -p $macos_parser_file/Users/$quarantine_user_main/Library/Preferences
+			fi
+			cp -r $quarantine $macos_parser_file/Users/$quarantine_user_main/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
+		done
+	done
+	for pquarantine	in /private/var/*
+	do
+		pquarantine_main=$(basename $pquarantine)
+		for pquarantine_2 in /private/var/$pquarantine_main/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
+		do
+			if ! [ -d $macos_parser_file/private/var/$pquarantine_main/Library/Preferences ]
+			then
+				mkdir -p $macos_parser_file/private/var/$pquarantine_main/Library/Preferences
+			fi
+			cp -r $pquarantine_2 $macos_parser_file/private/var/$pquarantine_main/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2
+		done
+	done
+	if ! [ -d $macos_parser_file/private/var/db ]
+	then
+		mkdir -p  $macos_parser_file/private/var/db
+	fi
+	cp -r /private/var/db/.LastGKReject $macos_parser_file/private/var/db/.LastGKReject
+}
+
 if [ $(uname) = 'Linux' ]
 then
     if [ "$EUID" -eq 0 ]
@@ -1670,6 +1702,7 @@ then
 		mac_notifications
 		mac_powerlog
 		mac_printjobs
+		mac_quarantine
     fi
 else
     echo "This is not MacOS or Linux sorry"
