@@ -1677,6 +1677,103 @@ mac_quicklook () {
 			done
 }
 
+mac_safari () {
+	for safariuser  in /Users/*
+	do
+		safariuser_main=$(basename $safariuser)
+		for safarifile in /Users/$safariuser_main/Library/Preferences/com.apple.Safari.plist
+		do
+			if ! [ -d $macos_parser_file/Users/$safariuser_main/Library/Preferences ]
+			then
+				mkdir -p $macos_parser_file/Users/$safariuser_main/Library/Preferences
+			fi
+			plutil -p $safarifile > $macos_parser_file/Users/$safariuser_main/Library/Preferences/com.apple.Safari.plist
+		done
+		for safarifile_2 in /Users/$safariuser_main/Library/Containers/com.apple.Safari/Data/Library/Preferences/com.apple.Safari.plist
+		do
+			if ! [ -d $macos_parser_file/Users/$safariuser_main/Library/Containers/com.apple.Safari/Data/Library/Preferences ]
+			then
+				mkdir -p $macos_parser_file/Users/$safariuser_main/Library/Containers/com.apple.Safari/Data/Library/Preferences
+			fi
+			plutil -p $safarifile_2 > $macos_parser_file/Users/$safariuser_main/Library/Containers/com.apple.Safari/Data/Library/Preferences/com.apple.Safari.plist
+		done
+		for safarifile_3 in  /Users/$safariuser/Library/Safari/*
+		do
+			safarifile_3_main=$(basename $safarifile_3)
+			if ! [ -d $macos_parser_file/Users/$safariuser/Library/Safari ]
+			then
+				mkdir -p $macos_parser_file/Users/$safariuser/Library/Safari 
+			fi
+			cp -r $safarifile_3 $macos_parser_file/Users/$safariuser/Library/Safari/$safarifile_3_main
+		done
+		for safarifile_4 in /Users/$safariuser_main/Library/Safari/Extensions/Extensions.plist
+		do
+			if ! [ -d $macos_parser_file/Users/$safariuser_main/Library/Safari/Extensions ]
+			then
+				mkdir -p $macos_parser_file/Users/$safariuser_main/Library/Safari/Extensions
+			fi
+			plutil -p $safarifile_4 > $macos_parser_file/Users/$safariuser_main/Library/Safari/Extensions/Extensions.plist
+		done
+		for safarifile_5 in /Users/$safariuser_main/Library/Containers/com.apple.Safari/Data/Library/Safari/AppExtensions/Extensions.plist
+		do
+			if ! [ -d $macos_parser_file/Users/$safariuser_main/Library/Containers/com.apple.Safari/Data/Library/Safari/AppExtensions ]
+			then
+				mkdir -p $macos_parser_file/Users/$safariuser_main/Library/Containers/com.apple.Safari/Data/Library/Safari/AppExtensions
+			fi
+			plutil -p $safarifile_5 > $macos_parser_file/Users/$safariuser_main/Library/Containers/com.apple.Safari/Data/Library/Safari/AppExtensions/Extensions.plist
+		done
+		for safarifile_6 in /Users/$safariuser_main/Library/Containers/com.apple.Safari/Data/Library/Safari/WebExtensions/Extensions.plist
+		do
+			if ! [ -d $macos_parser_file/Users/$safariuser_main/Library/Containers/com.apple.Safari/Data/Library/Safari/WebExtensions ]
+			then
+				mkdir -p $macos_parser_file/Users/$safariuser_main/Library/Containers/com.apple.Safari/Data/Library/Safari/WebExtensions
+			fi
+			plutil -p $safarifile_6 > $macos_parser_file/Users/$safariuser_main/Library/Containers/com.apple.Safari/Data/Library/Safari/WebExtensions/Extensions.plist
+		done
+		for safarifile_7 in /Users/$safariuser_main/Library/Containers/com.apple.Safari/Data/Library/Safari/SafariTabs.db*
+		do
+			safarifile_7_main=$(basename $safarifile_7)
+			if ! [ -d $macos_parser_file/Users/$safariuser_main/Library/Containers/com.apple.Safari/Data/Library/Safari ]
+			then
+				mkdir -p $macos_parser_file/Users/$safariuser_main/Library/Containers/com.apple.Safari/Data/Library/Safari
+			fi
+			cp -r $safarifile_7 $macos_parser_file/Users/$safariuser_main/Library/Containers/com.apple.Safari/Data/Library/Safari/$safarifile_7_main
+		done
+		for safarifile_8 in /Users/$safariuser_main/Library/Containers/com.apple.Safari/Data/Library/Caches/com.apple.Safari/TabSnapshots/*
+		do
+			safarifile_8_main=$(basename $safarifile_8)
+			if ! [ -d $macos_parser_file/Users/$safariuser_main/Library/Containers/com.apple.Safari/Data/Library/Caches/com.apple.Safari/TabSnapshots ]
+			then
+				mkdir -p $macos_parser_file/Users/$safariuser_main/Library/Containers/com.apple.Safari/Data/Library/Caches/com.apple.Safari/TabSnapshots
+			fi
+			cp -r $safarifile_8 $macos_parser_file/Users/$safariuser_main/Library/Containers/com.apple.Safari/Data/Library/Caches/com.apple.Safari/TabSnapshots/$safarifile_8_main
+		done
+		for safarifile_9 in /Users/$safariuser_main/Library/Containers/com.apple.Safari/Data/Library/Safari/Profiles/*
+		do
+			safarifile_9_main=$(basename $safarifile_9)
+			if [ -d $safarifile_9 ]
+			then
+				###
+			fi
+		done
+}
+
+mac_savedstate () {
+
+}
+
+mac_screensharing () {
+
+}
+
+mac_screentime () {
+
+}
+
+mac_spotlight () {
+
+}
+
 if [ $(uname) = 'Linux' ]
 then
     if [ "$EUID" -eq 0 ]
@@ -1747,6 +1844,11 @@ then
 		mac_printjobs
 		mac_quarantine
 		mac_quicklook
+		mac_safari
+		mac_savedstate
+		mac_screensharing
+		mac_screentime
+		mac_spotlight
     fi
 else
     echo "This is not MacOS or Linux sorry"
