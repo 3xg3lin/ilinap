@@ -1634,6 +1634,49 @@ mac_quarantine () {
 	cp -r /private/var/db/.LastGKReject $macos_parser_file/private/var/db/.LastGKReject
 }
 
+mac_quicklook () {
+	for pquick in /private/var/folders/*
+	do
+		pquick_main=$(basename $pquick)
+		for pquick_nest in /private/var/folders/$pquick_main/*
+		do
+			pquick_nest_main=$(basename $pquick_nest)
+			for pquick_nest_nest in /private/var/folders/$pquick_main/$pquick_nest_main/C/com.apple.QuickLook.thumbnailcache/index.sqlite*
+			do
+				pquick_nest_nest_main=$(basename $pquick_nest_nest)
+				if ! [ -d $macos_parser_file/private/var/folders/$pquick_main/$pquick_nest_main/C/com.apple.QuickLook.thumbnailcache ]
+				then
+					mkdir -p $macos_parser_file/private/var/folders/$pquick_main/$pquick_nest_main/C/com.apple.QuickLook.thumbnailcache
+				fi
+				cp -r $pquick_nest_nest  $macos_parser_file/private/var/folders/$pquick_main/$pquick_nest_main/C/com.apple.QuickLook.thumbnailcache/$pquick_nest_nest_main
+			done
+			for pquick_2 in /private/var/folders/$pquick_main/$pquick_nest_main/C/com.apple.QuickLook.thumbnailcache/thumbnails.data
+			do
+				if ! [ -d $macos_parser_file/private/var/folders/$pquick_main/$pquick_nest_main/C/com.apple.QuickLook.thumbnailcache ]
+				then
+					mkdir -p $macos_parser_file/private/var/folders/$pquick_main/$pquick_nest_main/C/com.apple.QuickLook.thumbnailcache
+				fi
+				cp -r $pquick_2 $macos_parser_file/private/var/folders/$pquick_main/$pquick_nest_main/C/com.apple.QuickLook.thumbnailcache/thumbnails.data
+			done
+			for pquick_3 in /private/var/folders/$pquick_main/$pquick_nest_main/C/com.apple.quicklook.ThumbnailsAgent/com.apple.QuickLook.thumbnailcache/index.sqlite*
+			do
+				pquick_3_main=$(basename $pquick_3)
+				if ! [ -d $macos_parser_file/private/var/folders/$pquick_main/$pquick_nest_main/C/com.apple.quicklook.ThumbnailsAgent/com.apple.QuickLook.thumbnailcache ]
+				then
+					mkdir -p $macos_parser_file/private/var/folders/$pquick_main/$pquick_nest_main/C/com.apple.quicklook.ThumbnailsAgent/com.apple.QuickLook.thumbnailcache
+				fi
+				cp -r $pquick_3 $macos_parser_file/private/var/folders/$pquick_main/$pquick_nest_main/C/com.apple.quicklook.ThumbnailsAgent/com.apple.QuickLook.thumbnailcache/$pquick_3_main
+			done
+			for pquick_4 in /private/var/folders/$pquick_main/$pquick_nest_main/C/com.apple.quicklook.ThumbnailsAgent/com.apple.QuickLook.thumbnailcache/thumbnails.data
+			do
+				if ! [ -d $macos_parser_file/private/var/folders/$pquick_main/$pquick_nest_main/C/com.apple.quicklook.ThumbnailsAgent/com.apple.QuickLook.thumbnailcache ]
+				then
+					mkdir -p $macos_parser_file/private/var/folders/$pquick_main/$pquick_nest_main/C/com.apple.quicklook.ThumbnailsAgent/com.apple.QuickLook.thumbnailcache
+				fi
+				cp -r $pquick_4 $macos_parser_file/private/var/folders/$pquick_main/$pquick_nest_main/C/com.apple.quicklook.ThumbnailsAgent/com.apple.QuickLook.thumbnailcache/thumbnails.data
+			done
+}
+
 if [ $(uname) = 'Linux' ]
 then
     if [ "$EUID" -eq 0 ]
@@ -1703,6 +1746,7 @@ then
 		mac_powerlog
 		mac_printjobs
 		mac_quarantine
+		mac_quicklook
     fi
 else
     echo "This is not MacOS or Linux sorry"
