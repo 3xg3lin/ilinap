@@ -1835,11 +1835,93 @@ mac_screensharing () {
 }
 
 mac_screentime () {
-
+	for pscreentime in  /private/var/folders/*
+	do
+		pscreentime_main=$(basename $pscreentime)
+		if [ -d $pscreentime ]
+		then
+			for pscreentime_nest in /private/var/folders/$pscreentime_main/*
+			do
+				pscreentime_nest_main=$(basename $pscreentime_nest)
+				if [ -d $pscreentime_nest ]
+				then
+					for pscreentime_nest_2 in /private/var/folders/$pscreentime_main/$pscreentime_nest_main/0/com.apple.ScreenTimeAgent/Store/*
+					do
+						pscreentime_nest_2_main=$(basename $pscreentime_nest_2)
+						if ! [ -d $macos_parser_file/private/var/folders/$pscreentime_main/$pscreentime_nest_main/0/com.apple.ScreenTimeAgent/Store ]
+						then
+							mkdir -p $macos_parser_file/private/var/folders/$pscreentime_main/$pscreentime_nest_main/0/com.apple.ScreenTimeAgent/Store
+						fi
+						cp -r $pscreentime_nest_2 $macos_parser_file/private/var/folders/$pscreentime_main/$pscreentime_nest_main/0/com.apple.ScreenTimeAgent/Store/$pscreentime_nest_2_main
+					done
+				fi
+			done
+		fi
+	done
 }
 
 mac_spotlight () {
-
+	for spotlightuser in /Users/*
+	do
+		spotlightuser_main=$(basename $spotlightuser)
+		for spotlightfile in /Users/$spotlightuser_main/Library/Application\ Support/com.apple.spotlight.Shortcuts
+		do
+			if ! [ -d $macos_parser_file/Users/$spotlightuser_main/Library/Application\ Support ]
+			then
+				mkdir -p  $macos_parser_file/Users/$spotlightuser_main/Library/Application\ Support
+			fi
+			cp -r $spotlightfile $macos_parser_file/Users/$spotlightuser_main/Library/Application\ Support/com.apple.spotlight.Shortcuts
+		done
+		for spotlightfile_2 in /Users/$spotlightuser_main/Library/Application Support/com.apple.spotlight/com.apple.spotlight.Shortcuts
+		do
+			if ! [ -d $macos_parser_file/Users/$spotlightuser_main/Library/Application Support/com.apple.spotlight ]
+			then
+				mkdir -p $macos_parser_file/Users/$spotlightuser_main/Library/Application Support/com.apple.spotlight
+			fi
+			cp -r $spotlightfile_2 $macos_parser_file/Users/$spotlightuser_main/Library/Application Support/com.apple.spotlight/com.apple.spotlight.Shortcuts
+		done
+		for spotlightfile_3 in /Users/$spotlightuser_main/Library/Application Support/com.apple.spotlight/com.apple.spotlight.Shortcuts.v3
+		do
+			if ! [ -d $macos_parser_file/Users/$spotlightuser_main/Library/Application Support/com.apple.spotlight ]
+			then
+				mkdir -p $macos_parser_file/Users/$spotlightuser_main/Library/Application Support/com.apple.spotlight
+			fi
+			cp -r $spotlightfile_3 $macos_parser_file/Users/$spotlightuser_main/Library/Application Support/com.apple.spotlight/com.apple.spotlight.Shortcuts.v3
+		done
+		for spotlightfile_4 in /Users/$spotlightuser_main/Library/Preferences/com.apple.spotlight.plist
+		do
+			if ! [ -d $macos_parser_file/Users/$spotlightuser_main/Library/Preferences ]
+			then
+				mkdir -p $macos_parser_file/Users/$spotlightuser_main/Library/Preferences
+			fi
+			cp -r $spotlightfile_4 $macos_parser_file/Users/$spotlightuser_main/Library/Preferences/com.apple.spotlight.plist
+		done
+		for spotlightfile_5 in /Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/index.spotlightV3/store.db
+		do
+			if ! [ -d $macos_parser_file/Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/index.spotlightV3 ]
+			then
+				mkdir -p $macos_parser_file/Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/index.spotlightV3
+			fi
+			cp -r $spotlightfile_5 $macos_parser_file/Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/index.spotlightV3/store.db
+		done
+		for spotlightfile_6 in /Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/index.spotlightV3/.store.db
+		do
+			if ! [ -d $macos_parser_file/Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/index.spotlightV3 ]
+			then
+				mkdir -p $macos_parser_file/Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/index.spotlightV3
+			fi
+			cp -r $spotlightfile_6 $macos_parser_file/Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/index.spotlightV3/.store.db
+		done
+		for spotlightfile_7 in /Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/index.spotlightV3/dbStr-*
+		do
+			spotlightfile_7_main=$(basename $spotlightfile_7)
+			if ! [ -d $macos_parser_file/Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/index.spotlightV3 ]
+			then
+				mkdir -p $macos_parser_file/Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/index.spotlightV3
+			fi
+			cp -r $spotlightfile_7 $macos_parser_file/Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/index.spotlightV3/$spotlightfile_7_main
+		done
+		
 }
 
 if [ $(uname) = 'Linux' ]
