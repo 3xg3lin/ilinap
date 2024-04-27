@@ -1753,17 +1753,85 @@ mac_safari () {
 			safarifile_9_main=$(basename $safarifile_9)
 			if [ -d $safarifile_9 ]
 			then
-				###
+				for safarifile_9_nest in /Users/$safariuser_main/Library/Containers/com.apple.Safari/Data/Library/Safari/Profiles/$safarifile_9_main/*
+				do
+					safarifile_9_nest_main=$(basename $safarifile_9_nest)
+					if ! [ -d $macos_parser_file/Users/$safariuser_main/Library/Containers/com.apple.Safari/Data/Library/Safari/Profiles/$safarifile_9_main ]
+					then
+						mkdir -p  $macos_parser_file/Users/$safariuser_main/Library/Containers/com.apple.Safari/Data/Library/Safari/Profiles/$safarifile_9_main
+					fi
+					cp -r $safarifile_9_nest $macos_parser_file/Users/$safariuser_main/Library/Containers/com.apple.Safari/Data/Library/Safari/Profiles/$safarifile_9_main/$safarifile_9_nest_main
+				done
+			else
+				if ! [ -d $macos_parser_file/Users/$safariuser_main/Library/Containers/com.apple.Safari/Data/Library/Safari/Profiles ]
+				then
+					mkdir -p $macos_parser_file/Users/$safariuser_main/Library/Containers/com.apple.Safari/Data/Library/Safari/Profiles
+				fi
+				cp -r $safarifile_9 $macos_parser_file/Users/$safariuser_main/Library/Containers/com.apple.Safari/Data/Library/Safari/Profiles/$safarifile_9_main
 			fi
+		done
+		for safarifile_10 in /Users/$safariuser_main/Library/Cookies/*
+		do
+			safarifile_10_main=$(basename $safarifile_10)
+			if ! [ -d $macos_parser_file/Users/$safariuser_main/Library/Cookies ]
+			then
+				mkdir -p $macos_parser_file/Users/$safariuser_main/Library/Cookies
+			fi
+			cp -r $safarifile_10 $macos_parser_file/Users/$safariuser_main/Library/Cookies/$safarifile_10_main
+		done
+		for safarifile_11 in /Users/$safariuser_main/Library/Containers/com.apple.Safari/Data/Library/Cookies/*
+		do
+			safarifile_11_main=$(basename $safarifile_11)
+			if !  [ -d 	$macos_parser_file/Users/$safariuser_main/Library/Containers/com.apple.Safari/Data/Library/Cookies ]
+			then
+				mkdir -p $macos_parser_file/Users/$safariuser_main/Library/Containers/com.apple.Safari/Data/Library/Cookies
+			fi
+			cp -r $safarifile_11 $macos_parser_file/Users/$safariuser_main/Library/Containers/com.apple.Safari/Data/Library/Cookies/$safarifile_11_main
 		done
 }
 
 mac_savedstate () {
-
+	for saveduser in /Users/*
+	do
+		saveduser_main=$(basename $saveduser)
+		for savedfile in /Users/$saveduser_main/Library/Saved\ Application\ State/*
+		do
+			savedfile_main=$(basename $savedfile)
+			if [ -d $savedfile ]
+			then
+				for savedfile_nest in /Users/$saveduser_main/Library/Saved\ Application\ State/$savedfile_main/*
+				do
+					savedfile_nest_main=$(basename $savedfile_nest)
+					if ! [ -d $macos_parser_file/Users/$saveduser_main/Library/Saved\ Application\ State/$savedfile_main ]
+					then
+						mkdir -p  $macos_parser_file/Users/$saveduser_main/Library/Saved\ Application\ State/$savedfile_main
+					fi
+					cp -r $savedfile_nest $macos_parser_file/Users/$saveduser_main/Library/Saved\ Application\ State/$savedfile_main/$savedfile_nest_main
+				done
+			else
+				if ! [ -d $macos_parser_file/Users/$saveduser_main/Library/Saved\ Application\ State ]
+				then
+					mkdir -p $macos_parser_file/Users/$saveduser_main/Library/Saved\ Application\ State
+				fi
+				cp -r $savedfile $macos_parser_file/Users/$saveduser_main/Library/Saved\ Application\ State/$savedfile_main
+			fi
+		done
+	done
 }
 
 mac_screensharing () {
-
+	for screenuser in /Users/*
+	do
+		screenuser_main=$(basename $screenuser)
+		for screenfile in /Users/$screenuser_main/Library/Containers/com.apple.ScreenSharing/Data/Library/Preferences/com.apple.ScreenSharing.plist
+		do
+			if ! [ -d $macos_parser_file/Users/$screenuser_main/Library/Containers/com.apple.ScreenSharing/Data/Library/Preferences ]
+			then
+				mkdir -p $macos_parser_file/Users/$screenuser_main/Library/Containers/com.apple.ScreenSharing/Data/Library/Preferences
+			fi
+			cp -r $screenfile $macos_parser_file/Users/$screenuser_main/Library/Containers/com.apple.ScreenSharing/Data/Library/Preferences/com.apple.ScreenSharing.plist
+		done
+	done
 }
 
 mac_screentime () {
