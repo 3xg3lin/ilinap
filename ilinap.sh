@@ -1921,7 +1921,31 @@ mac_spotlight () {
 			fi
 			cp -r $spotlightfile_7 $macos_parser_file/Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/index.spotlightV3/$spotlightfile_7_main
 		done
-		
+		for spotlightfile_8 in /Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/NSFileProtectionComplete/index.spotlightV3/store.db
+		do
+			if ! [ -d $macos_parser_file/Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/NSFileProtectionComplete/index.spotlightV3 ]
+			then
+				mkdir -p $macos_parser_file/Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/NSFileProtectionComplete/index.spotlightV3 
+			fi
+			cp -r $spotlightfile_8 $macos_parser_file/Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/NSFileProtectionComplete/index.spotlightV3/store.db
+		done
+		for spotlightfile_9 in /Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/NSFileProtectionComplete/index.spotlightV3/.store.db
+		do
+			if ! [ -d $macos_parser_file/Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/NSFileProtectionComplete/index.spotlightV3 ]
+			then
+				mkdir -p $macos_parser_file/Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/NSFileProtectionComplete/index.spotlightV3
+			fi
+			cp -r $spotlightfile_9 $macos_parser_file/Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/NSFileProtectionComplete/index.spotlightV3/.store.db
+		done
+		for spotlightfile_10 in /Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/NSFileProtectionComplete/index.spotlightV3/dbStr-*
+		do
+			spotlightfile_10_main=$(basename $spotlightfile_10)
+			if ! [ -d $macos_parser_file/Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/NSFileProtectionComplete/index.spotlightV3 ]
+			then
+				mkdir -p $macos_parser_file/Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/NSFileProtectionComplete/index.spotlightV3
+			fi
+			cp -r $spotlightfile_10 $macos_parser_file/Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/NSFileProtectionComplete/index.spotlightV3/$spotlightfile_10_main
+		done
 }
 
 if [ $(uname) = 'Linux' ]
