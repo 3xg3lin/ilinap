@@ -1946,6 +1946,324 @@ mac_spotlight () {
 			fi
 			cp -r $spotlightfile_10 $macos_parser_file/Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/NSFileProtectionComplete/index.spotlightV3/$spotlightfile_10_main
 		done
+		for spotlightfile_11 in /Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/NSFileProtectionCompleteUnlessOpen/index.spotlightV3/store.db
+		do
+			if ! [ -d $macos_parser_file/Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/NSFileProtectionCompleteUnlessOpen/index.spotlightV3 ]
+			then
+				mkdir -p $macos_parser_file/Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/NSFileProtectionCompleteUnlessOpen/index.spotlightV3
+			fi
+			cp -r #spotlightfile_11 $macos_parser_file/Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/NSFileProtectionCompleteUnlessOpen/index.spotlightV3/store.db
+		done
+		for spotlightfile_12 in /Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/NSFileProtectionCompleteUnlessOpen/index.spotlightV3/.store.db
+		do
+			if ! [ -d $macos_parser_file/Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/NSFileProtectionCompleteUnlessOpen/index.spotlightV3 ]
+			then
+				mkdir -p $macos_parser_file/Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/NSFileProtectionCompleteUnlessOpen/index.spotlightV3
+			fi
+			cp -r $spotlightfile_12 $macos_parser_file/Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/NSFileProtectionCompleteUnlessOpen/index.spotlightV3/.store.db
+		done
+		for spotlightfile_13 in /Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/NSFileProtectionCompleteUnlessOpen/index.spotlightV3/dbStr-*
+		do
+			spotlightfile_13_main=$(basename $spotlightfile_13)
+			if ! [ -d $macos_parser_file/Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/NSFileProtectionCompleteUnlessOpen/index.spotlightV3 ]
+			then
+				mkdir -p $macos_parser_file/Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/NSFileProtectionCompleteUnlessOpen/index.spotlightV3
+			fi
+			cp -r $spotlightfile_13 $macos_parser_file/Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/NSFileProtectionCompleteUnlessOpen/index.spotlightV3/$spotlightfile_13_main
+		done
+		for spotlightfile_14 in /Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/NSFileProtectionCompleteUntilFirstUserAuthentication/index.spotlightV3/store.db
+		do
+			if ! [ -d $macos_parser_file/Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/NSFileProtectionCompleteUntilFirstUserAuthentication/index.spotlightV3 ]
+			then
+				mkdir -p $macos_parser_file/Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/NSFileProtectionCompleteUntilFirstUserAuthentication/index.spotlightV3
+			fi
+			cp -r $spotlightfile_14 $macos_parser_file/Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/NSFileProtectionCompleteUntilFirstUserAuthentication/index.spotlightV3/store.db
+		done
+		for spotlightfile_15 in /Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/NSFileProtectionCompleteUntilFirstUserAuthentication/index.spotlightV3/.store.db
+		do
+			if ! [ -d $macos_parser_file/Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/NSFileProtectionCompleteUntilFirstUserAuthentication/index.spotlightV3 ]
+			then
+				mkdir -p $macos_parser_file/Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/NSFileProtectionCompleteUntilFirstUserAuthentication/index.spotlightV3
+			fi
+			cp -r $spotlightfile_15 $macos_parser_file/Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/NSFileProtectionCompleteUntilFirstUserAuthentication/index.spotlightV3/.store.db
+		done
+		for spotlightfile_16 in /Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/NSFileProtectionCompleteUntilFirstUserAuthentication/index.spotlightV3/dbStr-*
+		do
+			spotlightfile_16_main=$(basename $spotlightfile_16)
+			if ! [ -d $macos_parser_file/Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/NSFileProtectionCompleteUntilFirstUserAuthentication/index.spotlightV3 ]
+			then
+				mkdir -p $macos_parser_file/Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/NSFileProtectionCompleteUntilFirstUserAuthentication/index.spotlightV3
+			fi
+			cp -r $spotlightfile_16 $macos_parser_file/Users/$spotlightuser_main/Library/Metadata/CoreSpotlight/NSFileProtectionCompleteUntilFirstUserAuthentication/index.spotlightV3/$spotlightfile_16_main
+		done
+		for spotlightfile_17 in /Users/$spotlightuser_main/Library/Caches/com.apple.helpd/NSFileProtectionComplete/index.spotlightV3/store.db
+		do
+			if ! [ -d $macos_parser_file/Users/$spotlightuser_main/Library/Caches/com.apple.helpd/NSFileProtectionComplete/index.spotlightV3 ]
+			then
+				mkdir -p $macos_parser_file/Users/$spotlightuser_main/Library/Caches/com.apple.helpd/NSFileProtectionComplete/index.spotlightV3
+			fi
+			cp -r $spotlightfile_17 $macos_parser_file/Users/$spotlightuser_main/Library/Caches/com.apple.helpd/NSFileProtectionComplete/index.spotlightV3/store.db
+		done
+		for spotlightfile_18 in /Users/$spotlightuser_main/Library/Caches/com.apple.helpd/NSFileProtectionComplete/index.spotlightV3/.store.db
+		do
+			if ! [ -d $macos_parser_file/Users/$spotlightuser_main/Library/Caches/com.apple.helpd/NSFileProtectionComplete/index.spotlightV3 ]
+			then
+				mkdir -p $macos_parser_file/Users/$spotlightuser_main/Library/Caches/com.apple.helpd/NSFileProtectionComplete/index.spotlightV3
+			fi
+			cp -r $spotightfile_18 $macos_parser_file/Users/$spotlightuser_main/Library/Caches/com.apple.helpd/NSFileProtectionComplete/index.spotlightV3/.store.db
+		done
+		for spotlightfile_19 in /Users/$spotlightuser_main/Library/Caches/com.apple.helpd/NSFileProtectionComplete/index.spotlightV3/dbStr-*
+		do
+			spotlightfile_19_main=$(basename $spotlightfile_19)
+			if ! [ -d $macos_parser_file/Users/$spotlightuser_main/Library/Caches/com.apple.helpd/NSFileProtectionComplete/index.spotlightV3 ]
+			then
+				mkdir -p $macos_parser_file/Users/$spotlightuser_main/Library/Caches/com.apple.helpd/NSFileProtectionComplete/index.spotlightV3
+			fi
+			cp -r $spotlightfile_19 $macos_parser_file/Users/$spotlightuser_main/Library/Caches/com.apple.helpd/NSFileProtectionComplete/index.spotlightV3/$spotlightfile_19_main
+		done
+		for spotlightfile_20 in /Users/$spotlightuser_main/Library/Caches/com.apple.helpd/NSFileProtectionCompleteUnlessOpen/index.spotlightV3/store.db
+		do
+			if ! [ -d $macos_parser_file/Users/$spotlightuser_main/Library/Caches/com.apple.helpd/NSFileProtectionCompleteUnlessOpen/index.spotlightV3 ]
+			then
+				mkdir -p $macos_parser_file/Users/$spotlightuser_main/Library/Caches/com.apple.helpd/NSFileProtectionCompleteUnlessOpen/index.spotlightV3
+			fi
+			cp -r $spotlightfile_20 $macos_parser_file/Users/$spotlightuser_main/Library/Caches/com.apple.helpd/NSFileProtectionCompleteUnlessOpen/index.spotlightV3/store.db
+		done
+		for spotlightfile_21 in /Users/$spotlightuser_main/Library/Caches/com.apple.helpd/NSFileProtectionCompleteUnlessOpen/index.spotlightV3/.store.db
+		do
+			if ! [ -d $macos_parser_file/Users/$spotlightuser_main/Library/Caches/com.apple.helpd/NSFileProtectionCompleteUnlessOpen/index.spotlightV3 ]
+			then
+				mkdir -p $macos_parser_file/Users/$spotlightuser_main/Library/Caches/com.apple.helpd/NSFileProtectionCompleteUnlessOpen/index.spotlightV3
+			fi
+			cp -r $spotlightfile_21 $macos_parser_file/Users/$spotlightuser_main/Library/Caches/com.apple.helpd/NSFileProtectionCompleteUnlessOpen/index.spotlightV3/.store.db
+		done
+		for spotlightfile_22 in /Users/$spotlightuser_main/Library/Caches/com.apple.helpd/NSFileProtectionCompleteUnlessOpen/index.spotlightV3/dbStr-*
+		do
+			spotlightfile_22_main=$(basename $spotlightfile_22)
+			if ! [ -d $macos_parser_file/Users/$spotlightuser_main/Library/Caches/com.apple.helpd/NSFileProtectionCompleteUnlessOpen/index.spotlightV3 ]
+			then
+				mkdir -p $macos_parser_file/Users/$spotlightuser_main/Library/Caches/com.apple.helpd/NSFileProtectionCompleteUnlessOpen/index.spotlightV3
+			fi
+			cp -r $spotlightfile_22 $macos_parser_file/Users/$spotlightuser_main/Library/Caches/com.apple.helpd/NSFileProtectionCompleteUnlessOpen/index.spotlightV3/$spotlightfile_22_main
+		done
+		for spotlightfile_23 in /Users/$spotlightuser_main/Library/Caches/com.apple.helpd/NSFileProtectionCompleteUntilFirstUserAuthentication/index.spotlightV3/store.db
+		do
+			if ! [ -d $macos_parser_file/Users/$spotlightuser_main/Library/Caches/com.apple.helpd/NSFileProtectionCompleteUntilFirstUserAuthentication/index.spotlightV3 ]
+			then
+				mkdir -p $macos_parser_file/Users/$spotlightuser_main/Library/Caches/com.apple.helpd/NSFileProtectionCompleteUntilFirstUserAuthentication/index.spotlightV3 
+			fi
+			cp -r $spotlightfile_23 $macos_parser_file/Users/$spotlightuser_main/Library/Caches/com.apple.helpd/NSFileProtectionCompleteUntilFirstUserAuthentication/index.spotlightV3/store.db
+		done
+		for spotlightfile_24 in /Users/$spotlightuser_main/Library/Caches/com.apple.helpd/NSFileProtectionCompleteUntilFirstUserAuthentication/index.spotlightV3/.store.db
+		do
+			if ! [ -d $macos_parser_file/Users/$spotlightuser_main/Library/Caches/com.apple.helpd/NSFileProtectionCompleteUntilFirstUserAuthentication/index.spotlightV3 ]
+			then
+				mkdir -p $macos_parser_file/Users/$spotlightuser_main/Library/Caches/com.apple.helpd/NSFileProtectionCompleteUntilFirstUserAuthentication/index.spotlightV3
+			fi
+			cp -r $spotlightfile_24 $macos_parser_file/Users/$spotlightuser_main/Library/Caches/com.apple.helpd/NSFileProtectionCompleteUntilFirstUserAuthentication/index.spotlightV3/.store.db
+		done
+		for spotlightfile_25 in /Users/$spotlightuser_main/Library/Caches/com.apple.helpd/NSFileProtectionCompleteUntilFirstUserAuthentication/index.spotlightV3/dbStr-*
+		do
+			spotlightfile_25_main=$(basename $spotlightfile_25)
+			if ! [ -d $macos_parser_file/Users/$spotlightuser_main/Library/Caches/com.apple.helpd/NSFileProtectionCompleteUntilFirstUserAuthentication/index.spotlightV3 ]
+			then
+				mkdir -p $macos_parser_file/Users/$spotlightuser_main/Library/Caches/com.apple.helpd/NSFileProtectionCompleteUntilFirstUserAuthentication/index.spotlightV3
+			fi
+			cp -r $spotlightfile_25 $macos_parser_file/Users/$spotlightuser_main/Library/Caches/com.apple.helpd/NSFileProtectionCompleteUntilFirstUserAuthentication/index.spotlightV3/$spotlightfile_25_main
+		done
+	done
+	for spotlightpriv in /private/var/*
+	do
+		spotlightpriv_main=$(basename $spotlightpriv)
+		for spotlightpriv_1 in /private/var/$spotlightpriv/Library/Application\ Support/com.apple.spotlight.Shortcuts
+		do
+			if ! [ -d $macos_parser_file/private/var/$spotlightpriv/Library/Application\ Support ]
+			then
+				mkdir -p $macos_parser_file/private/var/$spotlightpriv/Library/Application\ Support
+			fi
+			cp -r $spotlightpriv_1 $macos_parser_file/private/var/$spotlightpriv/Library/Application\ Support/com.apple.spotlight.Shortcuts
+		done
+		for spotlightpriv_2 in /private/var/$spotlightpriv_2/Library/Application\ Support/com.apple.spotlight/com.apple.spotlight.Shortcuts
+		do
+			if ! [ -d $macos_parser_file/private/var/$spotlightpriv_2/Library/Application\ Support/com.apple.spotlight ]
+			then
+				mkdir -p $macos_parser_file/private/var/$spotlightpriv_2/Library/Application\ Support/com.apple.spotlight
+			fi
+			cp -r $spotlightpriv_2 $macos_parser_file/private/var/$spotlightpriv_2/Library/Application\ Support/com.apple.spotlight/com.apple.spotlight.Shortcuts
+		done
+		for spotlightpriv_3 in /private/var/$spotlightpriv/Library/Application\ Support/com.apple.spotlight/com.apple.spotlight.Shortcuts.v3
+		do
+			if ! [ -d $macos_parser_file/private/var/$spotlightpriv/Library/Application\ Support/com.apple.spotlight ]
+			then
+				mkdir -p $macos_parser_file/private/var/$spotlightpriv/Library/Application\ Support/com.apple.spotlight
+			fi
+			cp -r $spotlightpriv_3 $macos_parser_file/private/var/$spotlightpriv/Library/Application\ Support/com.apple.spotlight/com.apple.spotlight.Shortcuts.v3
+		done
+	done
+	for spotlightp in /private/var/db/Spotlight-V100/BootVolume/Store-V2/*
+	do
+		spotlightp_main=$(basename $spotlightp)
+		for spotlightp_1 in /private/var/db/Spotlight-V100/BootVolume/Store-V2/$spotlightp_main/store.db
+		do
+			if ! [ -d $macos_parser_file/private/var/db/Spotlight-V100/BootVolume/Store-V2/$spotlightp_main ]
+			then
+				mkdir -p $macos_parser_file/private/var/db/Spotlight-V100/BootVolume/Store-V2/$spotlightp_main
+			fi
+			cp -r $spotlightp_1 $macos_parser_file/private/var/db/Spotlight-V100/BootVolume/Store-V2/$spotlightp_main/store.db
+		done
+		for spotlightp_2 in /private/var/db/Spotlight-V100/BootVolume/Store-V2/$spotlightp_main/.store.db
+		do
+			if ! [ -d $macos_parser_file/private/var/db/Spotlight-V100/BootVolume/Store-V2/$spotlightp_main ]
+			then
+				mkdir -p $macos_parser_file/private/var/db/Spotlight-V100/BootVolume/Store-V2/$spotlightp_main
+			fi
+			cp -r $spotlightp_2 $macos_parser_file/private/var/db/Spotlight-V100/BootVolume/Store-V2/$spotlightp_main/.store.db
+		done
+		for spotlightp_3 in /private/var/db/Spotlight-V100/BootVolume/Store-V2/$spotlightp_main/dbStr-*
+		do
+			spotlight_3_main=$(basename $spotlightp_3)
+			if ! [ -d $macos_parser_file/private/var/db/Spotlight-V100/BootVolume/Store-V2/$spotlightp_main ]
+			then
+				mkdir -p $macos_parser_file/private/var/db/Spotlight-V100/BootVolume/Store-V2/$spotlightp_main
+			fi
+			cp -r $spotlight_3 $macos_parser_file/private/var/db/Spotlight-V100/BootVolume/Store-V2/$spotlightp_main
+		done
+	done
+	for spotlightpp in /private/var/db/Spotlight-V100/Preboot/Store-V2/*
+	do
+		spotlightpp_main=$(basename $spotlightpp)
+		for spotlightpp_1 in /private/var/db/Spotlight-V100/Preboot/Store-V2/$spotlightpp_main/store.db
+		do
+			if ! [ -d $macos_parser_file/private/var/db/Spotlight-V100/Preboot/Store-V2/$spotlightpp_main ]
+			then
+				mkdir -p $macos_parser_file/private/var/db/Spotlight-V100/Preboot/Store-V2/$spotlightpp_main
+			fi
+			cp -r $spotlightpp $macos_parser_file/private/var/db/Spotlight-V100/Preboot/Store-V2/$spotlightpp_main/store.db
+		done
+		for spotlightpp_2 in /private/var/db/Spotlight-V100/Preboot/Store-V2/$spotlightpp_main/.store.db
+		do
+			if ! [ -d $macos_parser_file/private/var/db/Spotlight-V100/Preboot/Store-V2/$spotlightpp_main ]
+			then
+				mkdir -p $macos_parser_file/private/var/db/Spotlight-V100/Preboot/Store-V2/$spotlightpp_main
+			fi
+			cp -r $spotlightpp_2 $macos_parser_file/private/var/db/Spotlight-V100/Preboot/Store-V2/$spotlightpp_main/.store.db
+		done
+		for spotlightpp_3 in /private/var/db/Spotlight-V100/Preboot/Store-V2/$spotlightpp_main/dbStr-*
+		do
+			spotlightpp_3_main=$(basename $spotlightpp_3)
+			if ! [ -d $macos_parser_file/private/var/db/Spotlight-V100/Preboot/Store-V2/$spotlightpp_main ]
+			then
+				mkdir -p $macos_parser_file/private/var/db/Spotlight-V100/Preboot/Store-V2/$spotlightpp_main
+			fi
+			cp -r $spotlightpp_3 $macos_parser_file/private/var/db/Spotlight-V100/Preboot/Store-V2/$spotlightpp_main/$spotlightpp_3_main
+		done
+	done
+	for spotlightsys in /System/Volumes/Data/.Spotlight-V100/Store-V2/*
+	do
+		spotlightsys_main=$(basename $spotlightsys)
+		for spotlightsys_1 in /System/Volumes/Data/.Spotlight-V100/Store-V2/$spotlightsys/store.db
+		do
+			if ! [ -d $macos_parser_file/System/Volumes/Data/.Spotlight-V100/Store-V2/$spotlightsys ]
+			then
+				mkdir -p $macos_parser_file/System/Volumes/Data/.Spotlight-V100/Store-V2/$spotlightsys
+			fi
+			cp -r $spotlightsys_1 $macos_parser_file/System/Volumes/Data/.Spotlight-V100/Store-V2/$spotlightsys/store.db
+		done
+		for spotlightsys_2 in /System/Volumes/Data/.Spotlight-V100/Store-V2/$spotlightsys_main/.store.db
+		do
+			if ! [ -d $macos_parser_file/System/Volumes/Data/.Spotlight-V100/Store-V2/$spotlightsys_main ]
+			then
+				mkdir -p $macos_parser_file/System/Volumes/Data/.Spotlight-V100/Store-V2/$spotlightsys_main
+			fi
+			cp -r $spotlightsys_2 $macos_parser_file/System/Volumes/Data/.Spotlight-V100/Store-V2/$spotlightsys_main/.store.db
+		done
+		for spotlightsys_3 in /System/Volumes/Data/.Spotlight-V100/Store-V2/$spotlightsys_main/dbStr-*
+		do
+			spotlightsys_3_main=$(basename $spotlightsys_3)
+			if ! [ -d $macos_parser_file/System/Volumes/Data/.Spotlight-V100/Store-V2/$spotlightsys_main ]
+			then
+				mkdir -p $macos_parser_file/System/Volumes/Data/.Spotlight-V100/Store-V2/$spotlightsys_main
+			fi
+			cp -r $spotlightsys_3 $macos_parser_file/System/Volumes/Data/.Spotlight-V100/Store-V2/$spotlightsys_main/$spotlightsys_3_main
+		done
+	done
+	for spotlightns in /System/Volumes/Data/private/var/db/Spotlight-V100/BootVolume/Store-V2/*
+	do
+		spotlightns_main=$(basename $spotlightns)
+		for spotlightns_1 in /System/Volumes/Data/private/var/db/Spotlight-V100/BootVolume/Store-V2/$spotlightns_main/store.db
+		do
+			if ! [ -d $macos_parser_file/System/Volumes/Data/private/var/db/Spotlight-V100/BootVolume/Store-V2/$spotlightns_main ]
+			then
+				mkdir -p $macos_parser_file/System/Volumes/Data/private/var/db/Spotlight-V100/BootVolume/Store-V2/$spotlightns_main 
+			fi
+			cp -r $spotlightns $macos_parser_file/System/Volumes/Data/private/var/db/Spotlight-V100/BootVolume/Store-V2/$spotlightns_main/store.db
+		done
+		for spotlightns_2 in /System/Volumes/Data/private/var/db/Spotlight-V100/BootVolume/Store-V2/$spotlightns_main/.store.db
+		do
+			if ! [ -d $macos_parser_file/System/Volumes/Data/private/var/db/Spotlight-V100/BootVolume/Store-V2/$spotlightns_main ]
+			then
+				mkdir -p $macos_parser_file/System/Volumes/Data/private/var/db/Spotlight-V100/BootVolume/Store-V2/$spotlightns_main
+			fi
+			cp -r $spotlightns_2 $macos_parser_file/System/Volumes/Data/private/var/db/Spotlight-V100/BootVolume/Store-V2/$spotlightns_main/.store.db
+		done
+		for spotlightns_3 in /System/Volumes/Data/private/var/db/Spotlight-V100/BootVolume/Store-V2/$spotlightns_main/dbStr-*
+		do	
+			spotlightns_3_main=$(basename $spotlightns_3)
+			if ! [ -d $macos_parser_file/System/Volumes/Data/private/var/db/Spotlight-V100/BootVolume/Store-V2/$spotlightns_main ]
+			then
+				mkdir -p $macos_parser_file/System/Volumes/Data/private/var/db/Spotlight-V100/BootVolume/Store-V2/$spotlightns_main
+			fi
+			cp -r $spotlightns_3 $macos_parser_file/System/Volumes/Data/private/var/db/Spotlight-V100/BootVolume/Store-V2/$spotlightns_main/$spotlightns_3_main
+		done
+	done
+	for spotlightnow in  /.Spotlight-V100/Store-V2/*
+	do
+		spotlightnow_main=$(basename $spotlightnow)
+		for spotlightnow_1 in /.Spotlight-V100/Store-V2/$spotlightnow_main/store.db
+		do
+			if ! [ -d $macos_parser_file/.Spotlight-V100/Store-V2/$spotlightnow_main ]
+			then
+				mkdir -p $macos_parser_file/.Spotlight-V100/Store-V2/$spotlightnow_main
+			fi
+			cp -r $spotlightnow_1 $macos_parser_file/.Spotlight-V100/Store-V2/$spotlightnow_main/store.db
+		done
+		for spotlightnow_2 in /.Spotlight-V100/Store-V2/$spotlightnow_main/.store.db
+		do
+			if ! [ -d $macos_parser_file/.Spotlight-V100/Store-V2/$spotlightnow_main ]
+			then
+				mkdir -p $macos_parser_file/.Spotlight-V100/Store-V2/$spotlightnow_main
+			fi
+			cp -r $spotlightnow_2 $macos_parser_file/.Spotlight-V100/Store-V2/$spotlightnow_main/store.db
+		done
+		for spotlightnow_3 in /.Spotlight-V100/Store-V2/$spotlightnow_main/dbStr-*
+		do
+			spotlightnow_3_main=$(basename $spotlightnow_3)
+			if ! [ -d $macos_parser_file/.Spotlight-V100/Store-V2/$spotlightnow_main ]
+			then
+				mkdir -p $macos_parser_file/.Spotlight-V100/Store-V2/$spotlightnow_main
+			fi
+			cp -r $spotlightnow_3 $macos_parser_file/.Spotlight-V100/Store-V2/$spotlightnow_main/$spotlightnow_3_main
+		done
+
+		cp -r /.Spotlight-V100/VolumeConfiguration.plist $macos_parser_file/.Spotlight-V100/VolumeConfiguration.plist
+
+		if ! [ -d $macos_parser_file/System/Volumes/Data/.Spotlight-V100 ]
+		then
+			mkdir -p $macos_parser_file/System/Volumes/Data/.Spotlight-V100
+		fi
+		cp -r /System/Volumes/Data/.Spotlight-V100/VolumeConfiguration.plist $macos_parser_file/System/Volumes/Data/.Spotlight-V100/VolumeConfiguration.plist
+}	
+
+mac_ssh () {
+
+}
+
+mac_sudo () {
+
+}
+
+mac_syslog () {
+
 }
 
 if [ $(uname) = 'Linux' ]
@@ -2023,6 +2341,9 @@ then
 		mac_screensharing
 		mac_screentime
 		mac_spotlight
+		mac_ssh
+		mac_syslog
+		mac_sudo
     fi
 else
     echo "This is not MacOS or Linux sorry"
