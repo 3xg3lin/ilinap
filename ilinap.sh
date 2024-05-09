@@ -1677,6 +1677,8 @@ mac_quicklook () {
 				fi
 				cp -r $pquick_4 $macos_parser_file/private/var/folders/$pquick_main/$pquick_nest_main/C/com.apple.quicklook.ThumbnailsAgent/com.apple.QuickLook.thumbnailcache/thumbnails.data
 			done
+		done
+	done
 }
 
 mac_safari () {
