@@ -1438,7 +1438,7 @@ mac_msoffice () {
 				cp -r $office_4_nest $macos_parser_file/Users/$off_user_main/Library/Group\ Containers/$office_4_main/$office_4_nest_main
 			done
 		done
-
+	done
 
 }
 
