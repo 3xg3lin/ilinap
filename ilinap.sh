@@ -2276,30 +2276,30 @@ if [ $(uname) = 'Linux' ]
 then
     if [ "$EUID" -eq 0 ]
     then
-	name=$(whoami)
-	hname=$(hostname)
-	linux_parser_file="$name-$hname"
-	mkdir $linux_parser_file
-	for user in $(awk -F: '{if ($6 ~ /^\/home/ ) print $1}' /etc/passwd)
-	do
-	    users+=( $user )
-	done
-	touch result
-	bash_function
-	system_service
-	os_release
-	hostname
-	location
-	ip_address
-	process
-	user_group
-	sudoers_file
-	log_files
-	viminfo_file
-	sudo_execution_history
+		name=$(whoami)
+		hname=$(hostname)
+		linux_parser_file="$name-$hname"
+		mkdir $linux_parser_file
+		for user in $(awk -F: '{if ($6 ~ /^\/home/ ) print $1}' /etc/passwd)
+		do
+		    users+=( $user )
+		done
+		touch result
+		bash_function
+		system_service
+		os_release
+		hostname
+		location
+		ip_address
+		process
+		user_group
+		sudoers_file
+		log_files
+		viminfo_file
+		sudo_execution_history
     else
-	echo Please run this script with sudo
-	exit
+		echo Please run this script with sudo
+		exit
     fi
 elif [ $(uname) = 'Darwin' ]
 then
@@ -2351,6 +2351,9 @@ then
 		mac_syslog
 		mac_sudo
     fi
+	else
+		echo "Please run this script with sudo"
+		exit
 else
     echo "This is not MacOS or Linux sorry"
 fi
