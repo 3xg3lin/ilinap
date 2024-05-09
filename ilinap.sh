@@ -1792,6 +1792,7 @@ mac_safari () {
 			fi
 			cp -r $safarifile_11 $macos_parser_file/Users/$safariuser_main/Library/Containers/com.apple.Safari/Data/Library/Cookies/$safarifile_11_main
 		done
+	done
 }
 
 mac_savedstate () {
