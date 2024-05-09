@@ -2261,15 +2261,15 @@ mac_spotlight () {
 }	
 
 mac_ssh () {
-	# test
+	sleep 1
 }
 
 mac_sudo () {
-	#test
+	sleep 1
 }
 
 mac_syslog () {
-	#test
+	sleep 1
 }
 
 if [ $(uname) = 'Linux' ]
