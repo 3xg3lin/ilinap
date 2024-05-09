@@ -1526,6 +1526,7 @@ mac_notes () {
 				mkdir -p $macos_parser_file/Users/$note_user_main/Library/Group\ Containers/group.com.apple.notes 
 			fi
 		done
+	done
 }
 
 mac_notifications () {
