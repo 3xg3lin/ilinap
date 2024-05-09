@@ -2350,10 +2350,10 @@ then
 		mac_ssh
 		mac_syslog
 		mac_sudo
-    fi
 	else
 		echo "Please run this script with sudo"
 		exit
+	fi
 else
     echo "This is not MacOS or Linux sorry"
 fi
