@@ -1046,6 +1046,7 @@ mac_idevice () {
 					mkdir -p $macos_parser_file/Users/$idev_user_main/Library/Application\ Support/MobileSync/Backup/
 				fi
 				cp -r $idev $macos_parser_file/Users/$idev_user_main/Library/Application\ Support/MobileSync/Backup/$idev_main
+			fi
 			if [ -d $idev ]
 			then
 				for sub_idev in $idev/*
