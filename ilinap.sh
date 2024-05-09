@@ -2257,6 +2257,7 @@ mac_spotlight () {
 			mkdir -p $macos_parser_file/System/Volumes/Data/.Spotlight-V100
 		fi
 		cp -r /System/Volumes/Data/.Spotlight-V100/VolumeConfiguration.plist $macos_parser_file/System/Volumes/Data/.Spotlight-V100/VolumeConfiguration.plist
+	done
 }	
 
 mac_ssh () {
