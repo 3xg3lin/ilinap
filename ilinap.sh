@@ -2261,15 +2261,64 @@ mac_spotlight () {
 }	
 
 mac_ssh () {
-	sleep 1
+	for ssh_user in /Users/*
+	do
+		ssh_user_main=$(basename $ssh_user)
+		for ssh_file in /Users/$ssh_user_main/.ssh/*
+		do
+			ssh_file_main=$(basename $ssh_file)
+			if ! [ -d $macos_parser_file/Users/$ssh_user_main/.ssh/ ]
+			then
+				mkdir $macos_parser_file/Users/$ssh_user_main/.ssh/
+			fi
+			cp -r $ssh_file $macos_parser_file/Users/$ssh_user_main/.ssh/$ssh_file_main
+		done
+	done
+	for pssh in /private/var/*
+	do
+		pssh_main=$(basename $pssh)
+		if [ -d $pssh ]
+		then
+			for pssh_nest in /private/var/$pssh_main/.ssh/*
+			do
+				pssh_nest_main=$(basename $pssh_nest)
+				if ! [ -d $macos_parser_file/private/var/$pssh_main/.ssh ]
+				then
+					mkdir -p $macos_parser_file/private/var/$pssh_main/.ssh
+				fi
+				cp -r $pssh_nest $macos_parser_file/private/var/$pssh_main/.ssh/$pssh_nest_main
+			done
+		fi
+	done
+	if ! [ -d $macos_parser_file/private/etc/ssh ]
+	then
+		mkdir -p $macos_parser_file/private/etc/ssh
+	fi
+	cp /private/etc/ssh/sshrc $macos_parser_file/private/etc/ssh/sshrc
 }
 
 mac_sudo () {
-	sleep 1
+	for sudo_file in /private/var/db/sudo/ts/*
+	do
+		sudo_file_main=$(basename $sudo_file)
+		if ! [ -d $macos_parser_file/private/var/db/sudo/ts ]
+		then
+			mkdir -p $macos_parser_file/private/var/db/sudo/ts
+		fi
+		cp -r $sudo_file $macos_parser_file/private/var/db/sudo/ts/$sudo_file_main
+	done
 }
 
 mac_syslog () {
-	sleep 1
+	for syslog_file in /private/var/log/system.log*
+	do
+		syslog_file_main=$(basename $syslog_file)
+		if ! [ -d $macos_parser_file/private/var/log/ ]
+		then
+			mkdir -p $macos_parser_file/private/var/log/
+		fi
+		cp -r $syslog_file $macos_parser_file/private/var/log/$syslog_file_main
+	done
 }
 
 if [ $(uname) = 'Linux' ]
