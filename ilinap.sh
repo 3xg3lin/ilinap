@@ -680,9 +680,9 @@ mac_autoruns () {
 		uu_login_main=$(basename $uu_login_main)
 		for u_loginitems in /Users/$uu_login_main/Library/Preferences/com.apple.loginitems.plist
 		do
-			if ! [ -d /Users/$uu_login_main/Library/Preferences ]
+			if ! [ -d $macos_parser_file/Users/$uu_login_main/Library/Preferences ]
 			then
-				mkdir -p /Users/$uu_login_main/Library/Preferences
+				mkdir -p $macos_parser_file/Users/$uu_login_main/Library/Preferences
 			fi
 			if [ -n $u_loginitems ]      #; user login items
 			then
