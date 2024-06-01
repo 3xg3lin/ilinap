@@ -680,9 +680,9 @@ mac_autoruns () {
 		uu_login_main=$(basename $uu_login_main)
 		for u_loginitems in /Users/$uu_login_main/Library/Preferences/com.apple.loginitems.plist
 		do
-			if ! [ -d $macos_parser_file/Users/$uu_login_main/Library/Preferences ]
+			if ! [ -d /Users/$uu_login_main/Library/Preferences ]
 			then
-				mkdir -p $macos_parser_file/Users/$uu_login_main/Library/Preferences
+				mkdir -p /Users/$uu_login_main/Library/Preferences
 			fi
 			if [ -n $u_loginitems ]      #; user login items
 			then
@@ -2321,6 +2321,290 @@ mac_syslog () {
 	done
 }
 
+mac_systeminfo () {
+	if ! [ -d $macos_parser_file/Library/Preferences ]
+	then
+		mkdir -p $macos_parser_file/Library/Preferences
+	fi
+	cp -r /Library/Preferences/.GlobalPreferences.plist $macos_parser_file/Library/Preferences/.GlobalPreferences.plist
+	if ! [ -d $macos_parser_file/Library/Preferences/SystemConfiguration ]
+	then
+		mkdir -p $macos_parser_file/Library/Preferences/SystemConfiguration
+	fi
+	cp -r /Library/Preferences/SystemConfiguration/preferences.plist $macos_parser_file/Library/Preferences/SystemConfiguration/preferences.plist
+	if ! [ -d $macos_parser_file/System/Library/CoreServices/SystemVersion.plist ]
+	then
+		mkdir -p $macos_parser_file/System/Library/CoreServices/SystemVersion.plist
+	fi
+	cp -r /System/Library/CoreServices/SystemVersion.plist $macos_parser_file/System/Library/CoreServices/SystemVersion.plist
+	for ssinfo in /private/var/folders/zz/zyxvpxvq6csfxvn_n00000sm00006d/C/*
+	do
+		ssinfo_main=$(basename $ssinfo)
+		if ! [ -d $macos_parser_file/private/var/folders/zz/zyxvpxvq6csfxvn_n00000sm00006d/C ]
+		then
+			mkdir -p $macos_parser_file/private/var/folders/zz/zyxvpxvq6csfxvn_n00000sm00006d/C
+		fi
+		cp -r $ssinfo $macos_parser_file/private/var/folders/zz/zyxvpxvq6csfxvn_n00000sm00006d/C/$ssinfo_main
+	done
+}
+
+mac_systempolicyconfiguration () {
+	for systemp in /private/var/db/SystemPolicyConfiguration/*
+	do
+		systemp_main=$(basename $systemp)
+		if ! [ -d $macos_parser_file/private/var/db/SystemPolicyConfiguration ]
+		then
+			mkdir -p $macos_parser_file/private/var/db/SystemPolicyConfiguration
+		fi
+		cp -r $systemp $macos_parser_file $macos_parser_file/private/var/db/SystemPolicyConfiguration/$systemp_main
+	done
+}
+
+mac_tcc () { 
+	for tcc in /Library/Application Support/com.apple.TCC/TCC.db*
+	do
+		tcc_main=$(basename $tcc)
+		if ! [ -d $macos_parser_file/Library/Application Support/com.apple.TCC ]
+		then
+			mkdir -p $macos_parser_file/Library/Application Support/com.apple.TCC
+		fi
+		cp -r $tcc $macos_parser_file/Library/Application Support/com.apple.TCC/$tcc_main
+	done
+}
+
+mac_trash_dsstore () {
+	for trashu in /Users/*
+	do
+		trashu_main=$(basename $trashu)
+		for trashds in /Users/$trashu_main/.Trash/.DS_Store
+		do
+			if ! [ -d $macos_parser_file/Users/$trashu_main/.Trash ]
+			then
+				mkdir -p $macos_parser_file/Users/$trashu_main/.Trash
+			fi
+			cp -r $trasds $macos_parser_file/Users/$trashu_main/.Trash/.DS_Store
+		done
+	done
+}
+
+mac_unifiedlogs () { 
+	for punified in /private/var/db/diagnostics/*
+	do
+		punified_main=$(basename $punified)
+		if [ -f $punified ]
+		then
+			if ! [ -d $macos_parser_file/private/var/db/diagnostics ]
+			then
+				mkdir -p $macos_parser_file/private/var/db/diagnostics
+			fi
+			cp -r $punified $macos_parser_file/private/var/db/diagnostics/$punified_main
+		fi
+		if [ -d $punified ]
+		then
+			for punified_nest in /private/var/db/diagnostics/$punified_main/*
+			do
+				punified_nest_main=$(basename $punified_nest)
+				if ! [ -d $macos_parser_file/private/var/db/diagnostics/$punified_main ]
+				then
+					mkdir -p $macos_parser_file/private/var/db/diagnostics/$punified_main
+				fi
+				cp -r $punified_nest $macos_parser_file/private/var/db/diagnostics/$punified_main/$punified_nest_main
+			done
+		fi
+	fi
+	for punified_2 in /private/var/db/uuidtext/*
+	do
+		punified_2_main=$(basename $punified_2)
+		if [ -f $punified_2 ]
+		then
+			if ! [ -d $macos_parser_file/private/var/db/uuidtext ]
+			then
+				mkdir -p $macos_parser_file/private/var/db/uuidtext
+			fi
+			cp -r $punified_2 $macos_parser_file/private/var/db/uuidtext/$punified_2_main
+		fi
+		if [ -d $punified_2 ]
+		then
+			for punified_2_nest in /private/var/db/uuidtext/$punified_2_main/*
+			do
+				punified_2_nest_main=$(basename $punified_2_nest)
+				if ! [ -d $macos_parser_file/private/var/db/uuidtext/$punified_2_main ]
+				then
+					mkdir -p $macos_parser_file/private/var/db/uuidtext/$punified_2_main
+				fi
+				cp -r $punified_2_nest $macos_parser_file/private/var/db/uuidtext/$punified_2_main/$punified_2_nest_main
+			done
+		fi
+	done		
+}
+
+mac_users () { 
+	for macuser in /Users/*
+	do
+		macuser_main=$(basename $macuser)
+		if ! [ -d $macos_parser_file/Users ]
+		then
+			mkdir -p $macos_parser_file/Users
+		fi
+		cp -r $macuser $macos_parser_file/Users/$macuser_main
+	done
+	for macuser_2 in /private/var/*
+	do
+		macuser_2_main=$(basename $macuser_2)
+		if ! [ -d $macuser/private/var ]
+		then
+			mkdir -p $macos_parser_file/private/var
+		fi
+		cp -r $macuser_2 $macos_parser_file/private/var/$macuser_2_main
+	done
+	for macuser_3 in /private/var/db/dslocal/nodes/Default/users/*
+	do
+		macuser_3_main=$(basename $macuser_3)
+		if ! [ -d $macos_parser_file/private/var/db/dslocal/nodes/Default/users ]
+		then
+			mkdir -p $macos_parser_file
+		fi
+		cp -r $macuser_3 $macos_parser_file/private/var/db/dslocal/nodes/Default/users/$macuser_3_main
+	done
+	if  [ -f /private/var/db/dslocal/nodes/Default/groups/admin.plist ]
+	then
+		if ! [ -d $macos_parser_file/private/var/db/dslocal/nodes/Default/groups ]
+		then
+			mkdir -p $macos_parser_file/private/var/db/dslocal/nodes/Default/groups
+		fi
+		plutil -p /private/var/db/dslocal/nodes/Default/groups/admin.plist > $macos_parser_file/private/var/db/dslocal/nodes/Default/groups/admin.plist
+	fi
+	if  [ -f /Library/Preferences/com.apple.preferences.accounts.plist ]
+	then
+		if ! [ -d $macos_parser_file/Library/Preferences ]
+		then
+			mkdir -p $macos_parser_file/Library/Preferences
+		fi
+		plutil -p /Library/Preferences/com.apple.preferences.accounts.plist > $macos_parser_file/Library/Preferences/com.apple.preferences.accounts.plist
+	fi
+	if [ -f /Library/Preferences/com.apple.loginwindow.plist ]
+	then
+		if ! [ -d $macos_parser_file/Library/Preferences ]
+		then
+			mkdir -p $macos_parser_file//Library/Preferences
+		fi
+		plutil -p /Library/Preferences/com.apple.loginwindow.plist > $macos_parser_file/Library/Preferences/com.apple.loginwindow.plist
+	fi
+	if [ -f /private/etc/kcpassword ]
+	then
+		if ! [ -d $macos_parser_file/private/etc ]
+		then
+			mkdir -p $macos_parser_file/private/etc/
+		fi
+		cp -r /private/etc/kcpassword $macos_parser_file/private/etc/kcpassword
+	fi
+
+}
+
+mac_utmpx () {
+	if [ -f /private/var/run/utmpx ]
+	then
+		if ! [ -d $macos_parser_file/private/var/run ]
+		then
+			mkdir -p $macos_parser_file/private/var/run
+		fi
+		cp -r /private/var/run/utmpx $macos_parser_file/private/var/run/utmpx
+	fi
+}
+
+mac_xprotectbehaviorservice () {
+	for xprotect in /private/var/protected/xprotect/XPdb*
+	do
+		xprotect_main=$(basename $xprotect)
+		if ! [ -d $macos_parser_file/private/var/protected/xprotect ]
+		then
+			mkdir -p  $macos_parser_file/private/var/protected/xprotect
+		fi
+		cp -r $xprotect $macos_parser_file/private/var/protected/xprotect/$xprotect_main
+	done
+}
+
+mac_xprotectdiag () {
+	for xprouser in /Users/*
+	do
+		xprouser_main=$(basename $xprouser)
+		for xprodiag in /Users/$xprouser_main/Library/Logs/DiagnosticReports/XProtect_*.diag
+		do
+			xprodiag_main=$(basename $xprodiag)
+			if ! [ -d $macos_parser_file/Users/$xprouser_main/Library/Logs/DiagnosticReports ]
+			then
+				mkdir -p $macos_parser_file/Users/$xprouser_main/Library/Logs/DiagnosticReports
+			fi
+			cp -r $xprodiag $macos_parser_file/Users/$xprouser_main/Library/Logs/DiagnosticReports/$xprodiag_main
+		done
+	done
+}
+
+mac_zsh () {
+	for zshuser in  /Users/*
+	do
+		zshuser_main=$(basename $zshuser)
+		for zshfile in  /Users/$zshuser_main/.zsh_history
+		do
+			if ! [ -d $macos_parser_file/Users/$zshuser_main ]
+			then	
+				mkdir -p $macos_parser_file/Users/$zshuser_main
+			fi
+			cp -r $zshfile $macos_parser_file/Users/$zshuser_main/.zsh_history
+		done
+		for zshfile_2 in /Users/$zshuser_main/.zsh_sessions/*
+		do
+			zshfile_2_main=$(basename $zshfile_2)
+			if ! [ -d $macos_parser_file/Users/$zshuser_main/.zsh_sessions ]
+			then
+				mkdir -p $macos_parser_file/Users/$zshuser_main/.zsh_sessions
+			fi
+			cp -r $zshfile_2 $macos_parser_file/Users/$zshuser_main/.zsh_sessions/$zshfile_2_main
+		done
+		for zshfile_3 in /Users/$zshuser_main/.zshenv
+		do
+			if ! [ -d $macos_parser_file/Users/$zshuser_main ]
+			then
+				mkdir -p $macos_parser_file/Users/$zshuser_main
+			fi
+			cp -r $zshfile_3 $macos_parser_file/Users/$zshuser_main/.zshenv
+		done
+		for zshfile_4 in /Users/$zshuser_main/.zprofle
+		do
+			if ! [ -d $macos_parser_file/Users/$zshuser_main ]
+			then
+				mkdir -p $macos_parser_file/Users/$zshuser_main
+			fi
+			cp -r $zshfile_4 $macos_parser_file/Users/$zshuser_main/.zprofle
+		done
+		for zshfile_5 in /Users/$zshuser_main/.zshrc
+		do
+			if ! [ -d $macos_parser_file/Users/$zshuser_main ]
+			then
+				mkdir -p $macos_parser_file/Users/$zshuser_main
+			fi
+			cp -r $zshfile_5 $macos_parser_file/Users/$zshuser_main/.zshrc
+		done
+		for zshfile_6 in /Users/$zshuser_main/.zlogin
+		do
+			if ! [ -d $macos_parser_file/Users/$zshuser_main ]
+			then
+				mkdir -p $macos_parser_file/Users/$zshuser_main
+			fi
+			cp -r $zshfile_6 $macos_parser_file/Users/$zshuser_main/.zlogin
+		done
+		for zshfile_7 in /Users/$zshuser_main/.zlogout
+		do
+			if ! [ -d $macos_parser_file/Users/$zshuser_main/.zlogout ]
+			then
+				mkdir -p $macos_parser_file/Users/$zshuser_main/.zlogout
+			fi
+			cp -r $zshfile_7 $macos_parser_file/Users/$zshuser_main/.zlogout
+		done
+	done
+	
+}
+
 if [ $(uname) = 'Linux' ]
 then
     if [ "$EUID" -eq 0 ]
@@ -2399,6 +2683,16 @@ then
 		mac_ssh
 		mac_syslog
 		mac_sudo
+		mac_systeminfo
+		mac_systempolicyconfiguration
+		mac_tcc
+		mac_trash_dsstore
+		mac_unifiedlogs
+		mac_users
+		mac_utmpx
+		mac_xprotectbehaviorservice
+		mac_xprotectdiag
+		mac_zsh
 	else
 		echo "Please run this script with sudo"
 		exit
