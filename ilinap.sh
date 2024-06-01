@@ -2602,7 +2602,31 @@ mac_zsh () {
 			cp -r $zshfile_7 $macos_parser_file/Users/$zshuser_main/.zlogout
 		done
 	done
-	
+	if ! [ -d $macos_parser_file/private/etc ]
+	then
+		mkdir -p $macos_parser_file/private/etc
+	fi
+	cp -r /private/etc/zshenv $macos_parser_file/private/etc/zshenv
+	if ! [ -d $macos_parser_file/private/etc ]
+	then
+		mkdir -p $macos_parser_file/private/etc
+	fi
+	cp -r /private/etc/zprofile $macos_parser_file/private/etc/zprofile
+	if ! [ -d $macos_parser_file/private/etc ]
+	then
+		mkdir -p $macos_parser_file/private/etc
+	fi
+	cp -r /private/etc/zshrc $macos_parser_file/private/etc/zshrc
+	if ! [ -d $macos_parser_file/private/etc ]
+	then
+		mdir -p $macos_parser_file/private/etc
+	fi
+	cp -r /private/etc/zlogin $macos_parser_file/private/etc/zlogin
+	if ! [ -d $macos_parser_file/private/etc ]
+	then
+		mkdir -p $macos_parser_file/private/etc
+	fi
+	cp -r /private/etc/zlogout $macos_parser_file/private/etc/zlogout
 }
 
 if [ $(uname) = 'Linux' ]
