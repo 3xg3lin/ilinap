@@ -2643,7 +2643,6 @@ then
 		do
 		    users+=( $user )
 		done
-		touch result
 		bash_function
 		system_service
 		os_release
