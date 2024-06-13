@@ -93,6 +93,7 @@ location () {            # Localtime and timezone
 
 ip_address () {         # Ip addres and network output
     ip a > $linux_parser_file/ip_a_command
+    ip route > $linux_parser_file/ip_r_command
     if [ -d /etc/network/interfaces.d/ ]
     then
 		if ! [ -d $linux_parser_file/etc/network ]
@@ -102,7 +103,11 @@ ip_address () {         # Ip addres and network output
 		for networkd_file in /etc/network/interfaces.d/*
 		do
 	    	new_networkd_file=$(basename $networkd_file)
-	    	cp -r $networkd_file > $linux_parser_file/etc/network/$new_networkd_file
+	    	if ! [ -d $linux_parser_file/etc/network/interfaces.d ]
+	    	then
+				mkdir -p $linux_parser_file/etc/network/interfaces.d
+			fi
+	    	cp -r $networkd_file > $linux_parser_file/etc/network/interfaces.d/$new_networkd_file
 		done
     fi
     if ! $(command -v netstat &>/dev/null)
@@ -116,6 +121,7 @@ ip_address () {         # Ip addres and network output
 
 process () {           # Process output
     ps aux > $linux_parser_file/ps_aux_output
+    ps -ef --forest > $linux_parser_file/ps_ef_forest_output
 }
 
 user_group () {
