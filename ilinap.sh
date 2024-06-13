@@ -2636,7 +2636,7 @@ then
     if [ "$EUID" -eq 0 ]
     then
 		name=$(whoami)
-		hname=$(hostname)
+		hname=$(cat /etc/hostname)
 		linux_parser_file="$name-$hname"
 		mkdir $linux_parser_file
 		for user in $(awk -F: '{if ($6 ~ /^\/home/ ) print $1}' /etc/passwd)
