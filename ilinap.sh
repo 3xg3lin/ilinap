@@ -2635,7 +2635,7 @@ if [ $(uname) = 'Linux' ]
 then
     if [ "$EUID" -eq 0 ]
     then
-		name=$(whoami)
+		name=$(echo $USER)
 		hname=$(cat /etc/hostname)
 		linux_parser_file="$name-$hname"
 		mkdir $linux_parser_file
