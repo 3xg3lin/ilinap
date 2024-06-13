@@ -2,6 +2,8 @@
 # This tool for linux and macOS artifact parser
 #
 
+exec 2> /dev/null
+
 bash_function () {          # bashrc and cron output
     if ! [ -d $linux_parser_file/home ]
     then
