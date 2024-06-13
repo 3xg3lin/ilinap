@@ -2413,7 +2413,7 @@ mac_unifiedlogs () {
 				cp -r $punified_nest $macos_parser_file/private/var/db/diagnostics/$punified_main/$punified_nest_main
 			done
 		fi
-	fi
+	done
 	for punified_2 in /private/var/db/uuidtext/*
 	do
 		punified_2_main=$(basename $punified_2)
